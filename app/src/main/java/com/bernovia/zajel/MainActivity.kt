@@ -1,4 +1,4 @@
-package com.bernivia.zajel
+package com.bernovia.zajel
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
