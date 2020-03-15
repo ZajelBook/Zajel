@@ -9,6 +9,8 @@ import com.bernovia.zajel.auth.logIn.data.LoginRepository
 import com.bernovia.zajel.auth.logIn.ui.LoginViewModel
 import com.bernovia.zajel.auth.signup.data.SignUpRepository
 import com.bernovia.zajel.auth.signup.ui.SignUpViewModel
+import com.bernovia.zajel.editProfile.data.EditProfileRepository
+import com.bernovia.zajel.editProfile.ui.EditProfileViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -42,6 +44,9 @@ val repositoryModule by lazy {
         single {
             SignUpRepository(get(named("interceptor")))
         }
+        single {
+            EditProfileRepository(get(named("interceptor_with_token")))
+        }
 
     }
 }
@@ -66,6 +71,10 @@ val viewModelModule by lazy {
         viewModel {
             SignUpViewModel(get())
         }
+        viewModel {
+            EditProfileViewModel(get())
+        }
+
     }
 }
 
@@ -89,18 +98,11 @@ val serviceModuleV1 by lazy {
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
             val okHttpClient = OkHttpClient.Builder()
-            okHttpClient.connectTimeout(40, TimeUnit.SECONDS)
-                .readTimeout(40, TimeUnit.SECONDS)
-                .writeTimeout(40, TimeUnit.SECONDS)
+            okHttpClient.connectTimeout(40, TimeUnit.SECONDS).readTimeout(40, TimeUnit.SECONDS).writeTimeout(40, TimeUnit.SECONDS)
             okHttpClient.interceptors().add(AuthInterceptor())
             okHttpClient.addInterceptor(logging)  // <-- this is the important line!
 
-            Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
-                .client(okHttpClient.build())
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
+            Retrofit.Builder().baseUrl(BuildConfig.BASE_URL).client(okHttpClient.build()).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
         }
     }
 

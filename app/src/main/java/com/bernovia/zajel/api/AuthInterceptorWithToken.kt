@@ -34,7 +34,7 @@ class AuthInterceptorWithToken : Interceptor {
             .addHeader("Uid", validateString(preferenceManager.uid))
             .addHeader("Token-Type", validateString(preferenceManager.tokenType))
             .addHeader("User-Agent", UAString)
-            .addHeader("app-version", StringsUtil.validateString(pInfo))
+            .addHeader("app-version", validateString(pInfo))
             .build()
 
 
