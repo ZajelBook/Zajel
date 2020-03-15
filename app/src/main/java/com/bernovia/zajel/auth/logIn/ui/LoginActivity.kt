@@ -71,6 +71,7 @@ class LoginActivity : AppCompatActivity(), TextWatcherAdapter.TextWatcherListene
             loginViewModel.getDataFromRetrofit(LoginRequestBody(binding.emailEditText.text.toString(), binding.passwordEditText.text.toString())).observe(this, Observer {
                 if (it.isSuccessful) {
                     val headers: Headers = it.headers()
+                    preferenceManager.userId=it.body()?.data?.id!!
                     setHeaders(headers, preferenceManager)
                     start<MainActivity>(this)
                     finish()

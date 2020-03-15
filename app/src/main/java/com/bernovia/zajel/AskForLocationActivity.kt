@@ -30,7 +30,7 @@ class AskForLocationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ask_for_location)
-
+        editProfileViewModel.setUserId(preferenceManager.userId)
         preferenceManager = PreferenceManager.instance
         setUpAllowLocation()
 

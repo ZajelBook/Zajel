@@ -16,22 +16,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AskForLocationActivity"></activity>
-        <activity android:name=".auth.logIn.ui.LoginActivity" />
+        <activity android:name=".AskForLocationActivity"
+            android:screenOrientation="locked"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".auth.logIn.ui.LoginActivity"
+            android:screenOrientation="locked"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".auth.signup.ui.SignUpActivity"
             android:screenOrientation="locked"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="locked"
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="locked"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".MyFirebaseMessagingService"

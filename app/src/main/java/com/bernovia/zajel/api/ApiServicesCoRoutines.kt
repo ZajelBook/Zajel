@@ -21,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 import java.util.concurrent.TimeUnit
 
 interface ApiServicesCoRoutines {
@@ -30,7 +31,7 @@ interface ApiServicesCoRoutines {
 
     @POST(API_AUTH_SIGN_UP) fun signUp(@Body signUpRequestBody: SignUpRequestBody): Deferred<Response<AuthResponseBody<AuthResponseData>>>
 
-    @PUT(API_EDIT_USER_PROFILE) fun editUserProfile(@Body editProfileRequestBody: EditProfileRequestBody): Deferred<Response<UpdateValuesResponseBody>>
+    @PUT(API_EDIT_USER_PROFILE) fun editUserProfile(@Path("user_id")userId:Int, @Body editProfileRequestBody: EditProfileRequestBody): Deferred<Response<UpdateValuesResponseBody>>
 
 
     companion object {

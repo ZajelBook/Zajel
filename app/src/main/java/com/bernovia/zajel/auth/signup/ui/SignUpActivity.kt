@@ -111,6 +111,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener, TextWatcherAda
 
                 if (it.isSuccessful) {
                     val headers: Headers = it.headers()
+                    preferenceManager.userId = it.body()?.data?.id!!
                     setHeaders(headers, preferenceManager)
                     start<MainActivity>(this)
                     finish()

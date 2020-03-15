@@ -11,7 +11,7 @@ data class AuthResponseData(
     @SerializedName("first_name")
     val firstName: String?,
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
     @SerializedName("last_name")
     val lastName: String?,
     @SerializedName("latitude")

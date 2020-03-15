@@ -22,6 +22,9 @@ class PreferenceManager private constructor(context: Context) {
     var tokenType: String?
         get() = mPref.getString(TOKEN_TYPE, "")
         set(value) = mPref.edit().putString(TOKEN_TYPE, value).apply()
+    var userId: Int
+        get() = mPref.getInt(USER_ID,0)
+        set(value) = mPref.edit().putInt(USER_ID, value).apply()
 
 
     init {
@@ -41,6 +44,7 @@ class PreferenceManager private constructor(context: Context) {
         private const val EXPIRY = "expiry"
         private const val UID = "uid"
         private const val TOKEN_TYPE = "token_type"
+        private const val USER_ID = "user_id"
 
 
         private var sInstance: PreferenceManager? = null

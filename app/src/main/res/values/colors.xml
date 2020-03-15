@@ -8,4 +8,5 @@
     <color name="sub_text_color">#676767</color>
     <color name="sub_text_color_with_opacity">#80676767</color>
     <color name="white">#ffffff</color>
+    <color name="divider">#e3e3e3</color>
 </resources>
