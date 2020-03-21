@@ -26,10 +26,11 @@ class BooksListViewModel(
         return Transformations.switchMap(listing) { it.getBoundaryCallback() }
     }
 
+    fun getBookById(bookId: Int): LiveData<Book> {
+        return searchRepository.getBookById(bookId)
+    }
 
-    /**
-     * Cleared all references and petitions boundary callback
-     */
+
     override fun onCleared() {
         boundaryCallback.value?.cleared()
     }

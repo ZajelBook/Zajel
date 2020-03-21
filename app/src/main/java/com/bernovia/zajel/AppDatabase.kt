@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.bernovia.zajel.bookList.data.BookDao
 import com.bernovia.zajel.bookList.models.Book
 
-@Database(entities = [Book::class], version = 1, exportSchema = false)
+@Database(entities = [Book::class], version = 2, exportSchema = false)
 
 abstract class AppDatabase : RoomDatabase() {
 

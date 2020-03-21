@@ -4,9 +4,21 @@ import android.content.Context
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions.bitmapTransform
+import jp.wasabeef.glide.transformations.BlurTransformation
 
 
 object ImageUtil {
+
+    fun renderBlurImage(photoUrl: String, context: Context, radius: Int, imageView: ImageView, placeholder: Int) {
+        if (photoUrl == "") {
+            Glide.with(context).load(placeholder).apply(bitmapTransform(BlurTransformation(radius, 1))).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView)
+        } else {
+            Glide.with(context).load(photoUrl).placeholder(placeholder).error(placeholder).apply(bitmapTransform(BlurTransformation(radius,
+                    1))).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView)
+        }
+
+    }
 
 
     fun renderImageWithCenterInside(photoUrl: String?, imageView: ImageView, placeholder: Int, context: Context) {

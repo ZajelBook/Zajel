@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bernovia.zajel.R
 import com.bernovia.zajel.bookList.models.Book
 import com.bernovia.zajel.databinding.ItemBookBinding
+import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.ImageUtil
 
 
@@ -23,9 +24,16 @@ class BooksListViewHolder(var itemBinding: ItemBookBinding, private var fragment
     }
 
     fun bindTo(data: Book?) {
-        if (data!=null){
+        if (data != null) {
             ImageUtil.renderImageWithNoPlaceHolder(data.image, itemBinding.myImageView, itemBinding.root.context)
+
+
+            itemBinding.root.setOnClickListener {
+                FragmentSwitcher.addFragment(fragmentManager,R.id.added_FrameLayout,BookDetailsFragment.newInstance(data.id),FragmentSwitcher.AnimationType.PUSH)
+            }
         }
+
+
     }
 
 }

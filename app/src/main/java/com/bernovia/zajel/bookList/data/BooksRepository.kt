@@ -19,6 +19,7 @@ interface BooksRepository {
     }
 
     fun getListable(): Listing<Book>
+    fun getBookById(bookId: Int): LiveData<Book>
 
     open class BooksRepositoryImpl(
         private val service: ApiServicesRx, private val dao: BookDao) : BooksRepository {
@@ -49,6 +50,10 @@ interface BooksRepository {
 
             }
 
+        }
+
+        override fun getBookById(bookId: Int): LiveData<Book> {
+           return dao.getBookById(bookId)
         }
 
 

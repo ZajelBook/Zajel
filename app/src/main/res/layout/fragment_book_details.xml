@@ -1,14 +1,350 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".bookList.ui.BookDetailsFragment">
+    tools:ignore="ContentDescription,MissingConstraints">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+        <variable
+            name="bookDetails"
+            type="com.bernovia.zajel.bookList.models.Book" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/white">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.4" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_wishlist_botton_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.38" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_wishlist_botton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.8" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.55" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.6" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.65" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_vertical_image_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_vertical_page_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_vertical_page_end_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+
+        <RelativeLayout
+            android:id="@+id/big_image_RelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/background_ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/triangle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-20dp"
+            android:background="@drawable/right_arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+        <ImageView
+            android:id="@+id/book_ImageView"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            app:layout_constraintBottom_toBottomOf="@+id/big_image_RelativeLayout"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertical_image_margin" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/add_to_wishlist_ImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle"
+            android:padding="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/guideline_wishlist_botton_horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/guideline_wishlist_botton"
+            app:layout_constraintStart_toStartOf="@id/guideline_wishlist_botton"
+            app:layout_constraintTop_toTopOf="@+id/guideline_wishlist_botton_horizontal"
+            app:srcCompat="@drawable/remove_from_wishlist" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/name_LinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            app:layout_constraintBottom_toTopOf="@+id/guideline3"
+            app:layout_constraintEnd_toEndOf="@id/guideline_vertical_page_end_margin"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertical_page_margin"
+            app:layout_constraintTop_toBottomOf="@+id/guideline2">
+
+
+            <TextView
+                android:id="@+id/book_name_TextView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="5dp"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:text="@{bookDetails.title}"
+                android:textColor="@color/text_color"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/guideline_pagecount"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/page_count_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_rounded"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:padding="2dp"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:text="@{bookDetails.pageCount.toString()}"
+                android:textColor="@color/white"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline_pagecount"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_pagecount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.84" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/author_LinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/guideline4"
+            app:layout_constraintEnd_toEndOf="@id/guideline_vertical_page_end_margin"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertical_page_margin"
+            app:layout_constraintTop_toBottomOf="@+id/name_LinearLayout">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/guideline_status"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/author_name_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:gravity="center_vertical"
+                    android:text="@{bookDetails.author}"
+                    android:textColor="@color/sub_text_color"
+                    app:autoSizeMaxTextSize="100sp"
+                    app:autoSizeMinTextSize="8sp"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                android:id="@+id/status_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_rounded"
+                android:backgroundTint="#42bd41"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@{bookDetails.status}"
+                android:textColor="@color/white"
+                android:visibility="visible"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline_status" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.8" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/genre_ConstraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/guideline5"
+            app:layout_constraintEnd_toEndOf="@id/guideline_vertical_page_end_margin"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertical_page_margin"
+            app:layout_constraintTop_toBottomOf="@+id/author_LinearLayout">
+
+            <TextView
+                android:id="@+id/genre_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:fontFamily="@font/proxima_nova_semi_bold"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="@{bookDetails.genre}"
+                android:textColor="@color/sub_text_color"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/second_separator"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:fontFamily="@font/proxima_nova_semi_bold"
+                android:gravity="center_vertical"
+                android:text=" | "
+                android:textColor="@color/colorAccent"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/genre_TextView"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/language_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:fontFamily="@font/proxima_nova_semi_bold"
+                android:gravity="center_vertical"
+                android:text="@{bookDetails.language}"
+                android:textColor="@color/sub_text_color"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/second_separator"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/description_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:lineSpacingExtra="8dp"
+            android:scrollbars="vertical"
+            android:text="@{bookDetails.description}"
+            android:textColor="@color/sub_text_color"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertical_page_margin"
+            app:layout_constraintTop_toBottomOf="@+id/genre_ConstraintLayout" />
+
+
+        <Button
+            android:id="@+id/borrow_book_Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorAccent"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:text="Borrow"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

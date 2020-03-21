@@ -18,4 +18,8 @@ import com.google.gson.annotations.SerializedName
     @ColumnInfo(name = "page_count_book") @SerializedName("page_count") val pageCount: Int?,
     @ColumnInfo(name = "published_at_book") @SerializedName("published_at") val publishedAt: String?,
     @ColumnInfo(name = "status_book") @SerializedName("status") val status: String?,
-    @ColumnInfo(name = "title_book") @SerializedName("title") val title: String?)
+    @ColumnInfo(name = "title_book") @SerializedName("title") val title: String?,
+    @ColumnInfo(name = "genre_book") @SerializedName("genre") val genre: String?,
+    @ColumnInfo(name = "user_id_book") @SerializedName("user_id") val userId: String?
+
+)
