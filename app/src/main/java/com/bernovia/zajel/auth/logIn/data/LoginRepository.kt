@@ -11,7 +11,7 @@ class LoginRepository(service: ApiServicesCoRoutines) :
     BaseRepositoryWithBody<AuthResponseBody<AuthResponseData>, LoginRequestBody>(service, true) {
     override fun loadData(body: LoginRequestBody): LiveData<Any> {
         return fetchData {
-            service.login(body)
+            service.loginAsync(body)
         }
     }
 }

@@ -30,6 +30,18 @@
                 app:itemTextColor="@color/bottom_navigation_colors"
                 app:menu="@menu/bottom_navigation_menu" />
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_book_FAB"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_above="@+id/bottom_navigation"
+                android:layout_margin="16dp"
+                app:tint="@color/white"
+                app:backgroundTint="@color/colorAccent"
+                app:srcCompat="@drawable/add_book_icon"/>
+
         </RelativeLayout>
 
         <FrameLayout

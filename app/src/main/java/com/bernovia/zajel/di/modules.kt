@@ -3,6 +3,8 @@ package com.bernovia.zajel.di
 
 import com.bernovia.zajel.AppDatabase
 import com.bernovia.zajel.BuildConfig
+import com.bernovia.zajel.addBook.data.AddBookRepository
+import com.bernovia.zajel.addBook.data.AddBookViewModel
 import com.bernovia.zajel.api.ApiServicesCoRoutines
 import com.bernovia.zajel.api.ApiServicesRx
 import com.bernovia.zajel.api.AuthInterceptor
@@ -52,6 +54,9 @@ val repositoryModule by lazy {
         single {
             EditProfileRepository(get(named("interceptor_with_token")))
         }
+        single {
+            AddBookRepository(get(named("interceptor_with_token")))
+        }
 
         single<BooksRepository> {
             BooksRepository.BooksRepositoryImpl(get(), get())
@@ -85,6 +90,9 @@ val viewModelModule by lazy {
         }
         viewModel {
             BooksListViewModel(get())
+        }
+        viewModel {
+            AddBookViewModel(get())
         }
 
 

@@ -5,8 +5,10 @@ import android.view.MenuItem
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.bernovia.zajel.addBook.AddBookFragment
 import com.bernovia.zajel.bookList.ui.BookListFragment
 import com.bernovia.zajel.databinding.ActivityMainBinding
+import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.FragmentSwitcher.replaceFragmentWithNoAnimation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -17,6 +19,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        binding.addBookFAB.setOnClickListener {
+            FragmentSwitcher.addFragment(supportFragmentManager,R.id.added_FrameLayout, AddBookFragment.newInstance(), FragmentSwitcher.AnimationType.PUSH)
+
+        }
 
         replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, BookListFragment.newInstance())
 

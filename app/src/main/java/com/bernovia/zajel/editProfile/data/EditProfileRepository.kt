@@ -15,7 +15,7 @@ class EditProfileRepository(service: ApiServicesCoRoutines) : BaseRepositoryWith
 
     override fun loadData(body: EditProfileRequestBody): LiveData<Any> {
         return fetchData {
-            service.editUserProfile(userId_, body)
+            service.editUserProfileAsync(userId_, body)
         }
     }
 }

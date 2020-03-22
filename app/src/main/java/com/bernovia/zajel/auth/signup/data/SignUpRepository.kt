@@ -11,7 +11,7 @@ class SignUpRepository(service: ApiServicesCoRoutines) :
     BaseRepositoryWithBody<AuthResponseBody<AuthResponseData>, SignUpRequestBody>(service, true) {
     override fun loadData(body: SignUpRequestBody): LiveData<Any> {
         return fetchData {
-            service.signUp(body)
+            service.signUpAsync(body)
         }
     }
 }
