@@ -18,6 +18,8 @@ import com.bernovia.zajel.bookList.ui.BooksListViewModel
 import com.bernovia.zajel.editProfile.data.EditProfileRepository
 import com.bernovia.zajel.editProfile.ui.EditProfileViewModel
 import com.bernovia.zajel.helpers.apiCallsHelpers.BaseSchedulers
+import com.bernovia.zajel.splashScreen.data.MetaDataRepository
+import com.bernovia.zajel.splashScreen.ui.MetaDataViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -34,6 +36,9 @@ val cacheModule by lazy {
 
         single {
             AppDatabase.getInstance(get()).bookDao()
+        }
+        single {
+            AppDatabase.getInstance(get()).metaDataDao()
         }
 
 
@@ -62,6 +67,9 @@ val repositoryModule by lazy {
             BooksRepository.BooksRepositoryImpl(get(), get())
         }
 
+        single<MetaDataRepository> {
+            MetaDataRepository.MetaDataRepositoryImpl(get(), get())
+        }
     }
 }
 
@@ -94,7 +102,9 @@ val viewModelModule by lazy {
         viewModel {
             AddBookViewModel(get())
         }
-
+        viewModel {
+            MetaDataViewModel(get())
+        }
 
     }
 }

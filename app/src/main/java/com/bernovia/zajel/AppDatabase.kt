@@ -4,14 +4,21 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.bernovia.zajel.bookList.data.BookDao
 import com.bernovia.zajel.bookList.models.Book
+import com.bernovia.zajel.helpers.typeConverters.GenresTypeConverter
+import com.bernovia.zajel.helpers.typeConverters.StringTypeConverter
+import com.bernovia.zajel.splashScreen.data.MetaDataDao
+import com.bernovia.zajel.splashScreen.models.MetaDataResponseBody
 
-@Database(entities = [Book::class], version = 2, exportSchema = false)
+@Database(entities = [Book::class, MetaDataResponseBody::class], version = 3, exportSchema = false)
 
-abstract class AppDatabase : RoomDatabase() {
+
+@TypeConverters(StringTypeConverter::class, GenresTypeConverter::class) abstract class AppDatabase : RoomDatabase() {
 
     abstract fun bookDao(): BookDao
+    abstract fun metaDataDao(): MetaDataDao
 
 
     companion object {

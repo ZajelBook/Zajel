@@ -16,12 +16,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AskForLocationActivity"
+        <activity
+            android:name=".splashScreen.ui.SplashActivity"
             android:screenOrientation="locked"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".auth.logIn.ui.LoginActivity"
-            android:screenOrientation="locked"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBarLauncher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,19 +28,25 @@
 
         </activity>
         <activity
+            android:name=".AskForLocationActivity"
+            android:screenOrientation="locked"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".auth.logIn.ui.LoginActivity"
+            android:screenOrientation="locked"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".auth.signup.ui.SignUpActivity"
             android:screenOrientation="locked"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="locked"
-            android:theme="@style/AppTheme.NoActionBar" >
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -52,7 +56,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
 
         <service
             android:name=".MyFirebaseMessagingService"

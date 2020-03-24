@@ -1,9 +1,11 @@
 package com.bernovia.zajel.api
 
 import com.bernovia.zajel.api.APIs.API_BOOKS_LIST
+import com.bernovia.zajel.api.APIs.API_META_DATA
 import com.bernovia.zajel.bookList.models.Book
 import com.bernovia.zajel.bookList.models.BookListResponseModel
 import com.bernovia.zajel.helpers.apiCallsHelpers.BaseSchedulers
+import com.bernovia.zajel.splashScreen.models.MetaDataResponseBody
 import io.reactivex.Single
 import retrofit2.Retrofit
 import retrofit2.http.GET
@@ -11,6 +13,7 @@ import retrofit2.http.Query
 
 interface ApiServicesRx {
     fun bookList(type: Int, page: Int): Single<List<Book>>
+    fun metaData(): Single<MetaDataResponseBody>
 
 
     class Network(
@@ -22,9 +25,18 @@ interface ApiServicesRx {
             }
         }
 
+        override fun metaData(): Single<MetaDataResponseBody> {
+            return retrofit.create(NetworkCalls::class.java).getMetaData().subscribeOn(schedulers.io()).map {
+                it
+            }
+
+
+        }
+
         interface NetworkCalls {
             @GET(API_BOOKS_LIST) fun getBooksList(@Query("per_page") type: Int, @Query("page") page: Int): Single<BookListResponseModel<List<Book>>>
 
+            @GET(API_META_DATA) fun getMetaData(): Single<MetaDataResponseBody>
 
         }
 
