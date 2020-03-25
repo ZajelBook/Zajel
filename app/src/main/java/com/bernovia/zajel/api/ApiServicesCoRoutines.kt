@@ -1,9 +1,12 @@
 package com.bernovia.zajel.api
 
 
+import com.bernovia.zajel.actions.ActionsResponseBody
+import com.bernovia.zajel.actions.SendRequestRequestBody
 import com.bernovia.zajel.api.APIs.API_AUTH_SIGN_IN
 import com.bernovia.zajel.api.APIs.API_AUTH_SIGN_UP
 import com.bernovia.zajel.api.APIs.API_BOOKS_LIST
+import com.bernovia.zajel.api.APIs.API_BOOK_ACTIVITIES
 import com.bernovia.zajel.api.APIs.API_EDIT_USER_PROFILE
 import com.bernovia.zajel.auth.authResponseModels.AuthResponseBody
 import com.bernovia.zajel.auth.authResponseModels.AuthResponseData
@@ -34,6 +37,12 @@ interface ApiServicesCoRoutines {
     @PUT(API_EDIT_USER_PROFILE) fun editUserProfileAsync(@Path("user_id") userId: Int, @Body editProfileRequestBody: EditProfileRequestBody): Deferred<Response<UpdateValuesResponseBody>>
 
     @Multipart @POST(API_BOOKS_LIST) fun addBookAsync(@Part image: MultipartBody.Part, @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>): Deferred<Response<UpdateValuesResponseBody>>
+
+    @POST(API_BOOK_ACTIVITIES) fun sendRequestAsync(@Body sendRequestRequestBody: SendRequestRequestBody): Deferred<Response<ActionsResponseBody>>
+
+    @PUT("$API_BOOK_ACTIVITIES/{book_id}") fun acceptRejectRequestAsync(@Path("book_id") bookId: Int, @Query("type") type: String): Deferred<Response<ActionsResponseBody>>
+
+    @DELETE("$API_BOOK_ACTIVITIES/{book_id}") fun cancelRequestAsync(@Path("book_id") bookId: Int): Deferred<Response<ActionsResponseBody>>
 
 
     companion object {

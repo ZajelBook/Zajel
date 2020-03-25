@@ -3,6 +3,12 @@ package com.bernovia.zajel.di
 
 import com.bernovia.zajel.AppDatabase
 import com.bernovia.zajel.BuildConfig
+import com.bernovia.zajel.actions.acceptRejectRequest.AcceptRejectRequestRepository
+import com.bernovia.zajel.actions.acceptRejectRequest.AcceptRejectRequestViewModel
+import com.bernovia.zajel.actions.cancelRequest.CancelRequestRepository
+import com.bernovia.zajel.actions.cancelRequest.CancelRequestViewModel
+import com.bernovia.zajel.actions.sendRequest.SendRequestRepository
+import com.bernovia.zajel.actions.sendRequest.SendRequestViewModel
 import com.bernovia.zajel.addBook.data.AddBookRepository
 import com.bernovia.zajel.addBook.data.AddBookViewModel
 import com.bernovia.zajel.api.ApiServicesCoRoutines
@@ -68,6 +74,16 @@ val repositoryModule by lazy {
             AddBookRepository(get(named("interceptor_with_token")))
         }
 
+        single {
+            AcceptRejectRequestRepository(get(named("interceptor_with_token")))
+        }
+        single {
+            CancelRequestRepository(get(named("interceptor_with_token")))
+        }
+        single {
+            SendRequestRepository(get(named("interceptor_with_token")))
+        }
+
         single<BooksRepository> {
             BooksRepository.BooksRepositoryImpl(get(), get())
         }
@@ -116,6 +132,15 @@ val viewModelModule by lazy {
         }
         viewModel {
             BookActivitiesViewModel(get())
+        }
+        viewModel {
+            AcceptRejectRequestViewModel(get())
+        }
+        viewModel {
+            SendRequestViewModel(get())
+        }
+        viewModel {
+            CancelRequestViewModel(get())
         }
 
     }
