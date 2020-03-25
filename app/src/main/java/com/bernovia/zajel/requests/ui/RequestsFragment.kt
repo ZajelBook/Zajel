@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bernovia.zajel.R
 import com.bernovia.zajel.databinding.FragmentRequestsBinding
+import com.bernovia.zajel.requests.ui.receiveRequests.ReceivedRequestsFragment
+import com.bernovia.zajel.requests.ui.sentRequests.SentRequestsFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 /**

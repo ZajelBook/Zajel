@@ -2,11 +2,14 @@
 <resources>
     <color name="colorPrimary">#2C3646</color>
     <color name="colorPrimaryDark">#1D2429</color>
-    <color name="colorAccent">#8b0b0b</color>
+    <color name="colorAccent">#AC0A0A</color>
 
     <color name="text_color">#333333</color>
     <color name="sub_text_color">#676767</color>
     <color name="sub_text_color_with_opacity">#80676767</color>
     <color name="white">#ffffff</color>
     <color name="divider">#e3e3e3</color>
+    <color name="accept_color">#8fd152</color>
+    <color name="reject_color">#C44050</color>
+    <color name="pending_color">#E55D32</color>
 </resources>
