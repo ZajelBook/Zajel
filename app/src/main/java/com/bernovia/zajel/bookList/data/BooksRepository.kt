@@ -29,9 +29,6 @@ interface BooksRepository {
             GenericBoundaryCallback({ dao.deleteAllBooksList() }, { bookList(it) }, { insertAllBooksList(it) })
         }
 
-        fun insertAllBooksList(list: List<Book>): Completable {
-            return dao.insertAllBooksList(list.map { it })
-        }
 
 
         override fun getListable(): Listing<Book> {
@@ -50,6 +47,10 @@ interface BooksRepository {
 
             }
 
+        }
+
+        fun insertAllBooksList(list: List<Book>): Completable {
+            return dao.insertAllBooksList(list.map { it })
         }
 
         override fun getBookById(bookId: Int): LiveData<Book> {

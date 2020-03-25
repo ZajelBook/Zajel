@@ -28,16 +28,15 @@ object LocationUtil {
     }
 
 
-    fun getLocationAndSendItToServer(activity: Activity, editProfileViewModel: EditProfileViewModel) {
+    fun getLocationAndSendItToServer(activity: Activity, editProfileViewModel: EditProfileViewModel,fcmToken :String?) {
 
         val fusedLocationClient: FusedLocationProviderClient? = LocationServices.getFusedLocationProviderClient(activity)
         fusedLocationClient?.lastLocation?.addOnSuccessListener { location ->
             if (location != null) {
 
 
-                editProfileViewModel.getDataFromRetrofit(EditProfileRequestBody(location.latitude, location.longitude))
+                editProfileViewModel.getDataFromRetrofit(EditProfileRequestBody(location.latitude, location.longitude,fcmToken))
 
-                // Logic to handle location object
             } else {
                 val locationRequest: LocationRequest? = LocationRequest.create()
                 if (locationRequest != null) {
@@ -47,7 +46,7 @@ object LocationUtil {
                         override fun onLocationResult(locationResult: LocationResult) {
                             for (location in locationResult.locations) {
                                 if (location != null) {
-                                    editProfileViewModel.getDataFromRetrofit(EditProfileRequestBody(location.latitude, location.longitude))
+                                    editProfileViewModel.getDataFromRetrofit(EditProfileRequestBody(location.latitude, location.longitude,fcmToken))
 
                                 }
                             }

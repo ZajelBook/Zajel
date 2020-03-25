@@ -10,11 +10,10 @@ import io.reactivex.Single
 
 @Dao interface BookDao {
 
-    @Query("SELECT * FROM book") fun booksList(): Single<List<Book>>
 
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE) fun insertAllBooksList(list: List<Book>): Completable
 
-    @Query("SELECT * FROM book  ") fun allBooksPaginated(): DataSource.Factory<Int, Book>
+    @Query("SELECT * FROM book") fun allBooksPaginated(): DataSource.Factory<Int, Book>
 
     @Query("DELETE FROM book") fun deleteAllBooksList(): Completable
 

@@ -7,5 +7,8 @@ data class EditProfileRequestBody(
     @SerializedName("latitude")
     val latitude: Double?,
     @SerializedName("longitude")
-    val longitude: Double?
+    val longitude: Double?,
+    @SerializedName("fcm_token")
+    val fcmToken: String?
+
 )

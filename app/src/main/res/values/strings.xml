@@ -40,7 +40,6 @@
     <string name="allow_location">Allow Location</string>
     <string name="enable_location">Enable Location</string>
     <string name="home">Home</string>
-    <string name="requests">Requests</string>
     <string name="wishlist">WishList</string>
     <string name="profile">Profile</string>
     <string name="choose_file_to_upload">Choose File to Upload..</string>
@@ -57,4 +56,7 @@
     <string name="choose_from_library">Choose From Library</string>
     <string name="take_photo">Take Photo</string>
     <string name="cancel">Cancel</string>
+    <string name="requests">Requests</string>
+    <string name="sent_requests">Sent Requests</string>
+    <string name="received_requests">Received Requests</string>
 </resources>

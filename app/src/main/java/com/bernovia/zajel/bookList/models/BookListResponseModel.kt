@@ -7,5 +7,5 @@ data class BookListResponseModel<T>(
     @SerializedName("books")
     val books: T,
     @SerializedName("metadata")
-    val metadata: Metadata?
+    val metadata: MetadataList
 )

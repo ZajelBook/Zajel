@@ -18,6 +18,8 @@ import com.bernovia.zajel.bookList.ui.BooksListViewModel
 import com.bernovia.zajel.editProfile.data.EditProfileRepository
 import com.bernovia.zajel.editProfile.ui.EditProfileViewModel
 import com.bernovia.zajel.helpers.apiCallsHelpers.BaseSchedulers
+import com.bernovia.zajel.requests.data.BookActivityRepository
+import com.bernovia.zajel.requests.ui.BookActivitiesViewModel
 import com.bernovia.zajel.splashScreen.data.MetaDataRepository
 import com.bernovia.zajel.splashScreen.ui.MetaDataViewModel
 import okhttp3.OkHttpClient
@@ -39,6 +41,9 @@ val cacheModule by lazy {
         }
         single {
             AppDatabase.getInstance(get()).metaDataDao()
+        }
+        single {
+            AppDatabase.getInstance(get()).bookActivitiesDao()
         }
 
 
@@ -70,6 +75,10 @@ val repositoryModule by lazy {
         single<MetaDataRepository> {
             MetaDataRepository.MetaDataRepositoryImpl(get(), get())
         }
+        single<BookActivityRepository> {
+            BookActivityRepository.BookActivityRepositoryImpl(get(), get())
+        }
+
     }
 }
 
@@ -104,6 +113,9 @@ val viewModelModule by lazy {
         }
         viewModel {
             MetaDataViewModel(get())
+        }
+        viewModel {
+            BookActivitiesViewModel(get())
         }
 
     }

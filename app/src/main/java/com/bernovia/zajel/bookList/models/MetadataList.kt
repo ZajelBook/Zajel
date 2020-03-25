@@ -3,7 +3,7 @@ package com.bernovia.zajel.bookList.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Metadata(
+data class MetadataList(
     @SerializedName("current_page")
     val currentPage: Int?,
     @SerializedName("per_page")

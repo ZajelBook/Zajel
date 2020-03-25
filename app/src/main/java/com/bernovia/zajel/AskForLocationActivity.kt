@@ -17,6 +17,8 @@ import com.bernovia.zajel.helpers.LocationUtil.LOCATION_REQUEST
 import com.bernovia.zajel.helpers.LocationUtil.getLocationAndSendItToServer
 import com.bernovia.zajel.helpers.NavigateUtil
 import com.bernovia.zajel.helpers.PreferenceManager
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AskForLocationActivity : AppCompatActivity() {
@@ -40,8 +42,7 @@ class AskForLocationActivity : AppCompatActivity() {
             if (!LocationUtil.isLocationEnabled(this)) {
                 LocationUtil.enableLocation(this)
             } else {
-                getLocationAndSendItToServer(this, editProfileViewModel)
-                openMainActivity()
+                sendLocationAndContinue()
 
             }
         }
@@ -66,11 +67,23 @@ class AskForLocationActivity : AppCompatActivity() {
                     LocationUtil.enableLocation(this)
                 }
             } else {
-                getLocationAndSendItToServer(this, editProfileViewModel)
-                openMainActivity()
-
+                sendLocationAndContinue()
             }
         }
+
+    }
+
+    private fun sendLocationAndContinue() {
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                return@OnCompleteListener
+            }
+            // Get new Instance ID token
+            val token = task.result?.token
+            getLocationAndSendItToServer(this, editProfileViewModel, token)
+            openMainActivity()
+
+        })
 
     }
 
@@ -110,9 +123,7 @@ class AskForLocationActivity : AppCompatActivity() {
         if (requestCode == 444) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
-                    getLocationAndSendItToServer(this, editProfileViewModel)
-                    openMainActivity()
-
+                    sendLocationAndContinue()
                 }
                 Activity.RESULT_CANCELED -> {
                     setUpEnableLocation()

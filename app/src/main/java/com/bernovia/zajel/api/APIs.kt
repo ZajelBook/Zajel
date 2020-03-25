@@ -6,4 +6,5 @@ object APIs {
     const val API_EDIT_USER_PROFILE = "users/{user_id}"
     const val API_BOOKS_LIST = "books"
     const val API_META_DATA="metadata"
+    const val API_BOOK_ACTIVITIES="book_activities"
 }

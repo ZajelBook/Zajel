@@ -23,6 +23,13 @@
 
     </style>
 
+    <style name="MyCustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/sub_text_color</item>
+        <item name="fontFamily">@font/proxima_nova_bold</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
 
     <style name="button_style">
         <item name="android:textAllCaps">false</item>
@@ -53,6 +60,7 @@
         <item name="android:fontFamily">@font/proxima_nova_bold</item>
         <item name="fontFamily">@font/proxima_nova_bold</item>
     </style>
+
     <style name="page_title">
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textSize">18sp</item>
@@ -74,5 +82,12 @@
         <item name="android:fontFamily">@font/proxima_nova_regular</item>
         <item name="fontFamily">@font/proxima_nova_regular</item>
     </style>
+
+    <style name="toolbar_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/_40sdp</item>
+
+    </style>
+
 
 </resources>
