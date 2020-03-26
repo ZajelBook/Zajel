@@ -10,11 +10,11 @@ import com.bernovia.zajel.helpers.paginationUtils.GenericBoundaryCallback
 import com.bernovia.zajel.helpers.paginationUtils.Listing
 
 class BooksListViewModel(
-    private val searchRepository: BooksRepository) : ViewModel() {
+    private val booksRepository: BooksRepository) : ViewModel() {
 
 
     private val listing: LiveData<Listing<Book>> by lazy {
-        liveData(searchRepository.getListable())
+        liveData(booksRepository.getListable())
     }
 
 
@@ -27,7 +27,11 @@ class BooksListViewModel(
     }
 
     fun getBookById(bookId: Int): LiveData<Book> {
-        return searchRepository.getBookById(bookId)
+        return booksRepository.getBookById(bookId)
+    }
+
+    fun updateRequested(bookId: Int, value: Boolean) {
+        booksRepository.updateRequested(bookId, value)
     }
 
 

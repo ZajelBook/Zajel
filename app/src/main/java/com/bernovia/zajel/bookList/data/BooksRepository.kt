@@ -10,6 +10,7 @@ import com.bernovia.zajel.helpers.paginationUtils.GenericBoundaryCallback
 import com.bernovia.zajel.helpers.paginationUtils.Listing
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 interface BooksRepository {
 
@@ -19,6 +20,8 @@ interface BooksRepository {
     }
 
     fun getListable(): Listing<Book>
+    fun updateRequested(bookId: Int, value: Boolean)
+
     fun getBookById(bookId: Int): LiveData<Book>
 
     open class BooksRepositoryImpl(
@@ -28,7 +31,6 @@ interface BooksRepository {
         val bc: GenericBoundaryCallback<Book> by lazy {
             GenericBoundaryCallback({ dao.deleteAllBooksList() }, { bookList(it) }, { insertAllBooksList(it) })
         }
-
 
 
         override fun getListable(): Listing<Book> {
@@ -49,12 +51,17 @@ interface BooksRepository {
 
         }
 
+       override fun updateRequested(bookId: Int, value: Boolean) {
+            dao.updateRequested(bookId, value).subscribeOn(Schedulers.io()).subscribe()
+
+        }
+
         fun insertAllBooksList(list: List<Book>): Completable {
             return dao.insertAllBooksList(list.map { it })
         }
 
         override fun getBookById(bookId: Int): LiveData<Book> {
-           return dao.getBookById(bookId)
+            return dao.getBookById(bookId)
         }
 
 

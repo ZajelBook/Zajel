@@ -5,7 +5,6 @@ import androidx.paging.DataSource
 import androidx.room.*
 import com.bernovia.zajel.bookList.models.Book
 import io.reactivex.Completable
-import io.reactivex.Single
 
 
 @Dao interface BookDao {
@@ -20,5 +19,7 @@ import io.reactivex.Single
 
     @Query("SELECT * FROM book WHERE id_book= :bookId") fun getBookById(bookId: Int): LiveData<Book>
 
+
+    @Query("UPDATE book SET requested_book = :value WHERE id_book = :bookId") fun updateRequested(bookId: Int, value: Boolean): Completable
 
 }
