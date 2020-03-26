@@ -40,6 +40,15 @@ class BookActivitiesViewModel(
     }
 
 
+    fun updateBookActivityStatus(bookActivityId: Int, value: String) {
+        bookActivityRepository.updateBookActivityStatus(bookActivityId, value)
+    }
+
+    fun deleteBookActivity(item: BookActivity) {
+        bookActivityRepository.deleteBookActivity(item)
+    }
+
+
     override fun onCleared() {
         sentRequestsBoundaryCallback.value?.cleared()
         receivedRequestsBoundaryCallback.value?.cleared()

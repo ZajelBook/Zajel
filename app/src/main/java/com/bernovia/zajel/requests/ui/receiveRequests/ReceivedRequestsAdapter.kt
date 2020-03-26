@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bernovia.zajel.requests.models.BookActivity
 
-class ReceivedRequestsAdapter (private var fragmentManager: FragmentManager) :
+class ReceivedRequestsAdapter (private var fragmentManager: FragmentManager,private var receivedRequestsClickListener: ReceivedRequestsClickListener) :
     PagedListAdapter<BookActivity, RecyclerView.ViewHolder>(POST_COMPARATOR) {
 
 
@@ -21,7 +21,7 @@ class ReceivedRequestsAdapter (private var fragmentManager: FragmentManager) :
         holder as ReceivedRequestsViewHolder
 
         if (itemCount != 0)
-            holder.bindTo(getItem(position))
+            holder.bindTo(getItem(position),receivedRequestsClickListener)
     }
 
 
@@ -36,6 +36,11 @@ class ReceivedRequestsAdapter (private var fragmentManager: FragmentManager) :
 
         }
 
+    }
+    interface ReceivedRequestsClickListener {
+        fun acceptRequestClickListener(data: BookActivity)
+        fun rejectRequestClickListener(data: BookActivity)
+        fun messageUserClickListener()
     }
 
 }

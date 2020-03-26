@@ -20,4 +20,9 @@ import io.reactivex.Completable
     @Query("DELETE FROM book_activity where id_borrower == :userId") fun deleteAllSentRequestsList(userId: Int): Completable
 
 
+    @Query("UPDATE book_activity SET status_book_activity = :value WHERE id_book_activity = :bookActivityId") fun updateStatus(bookActivityId: Int, value: String): Completable
+
+
+    @Delete fun deleteBookActivity(item: BookActivity): Completable
+
 }

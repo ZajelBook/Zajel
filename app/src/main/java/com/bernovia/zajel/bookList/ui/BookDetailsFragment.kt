@@ -13,6 +13,7 @@ import com.bernovia.zajel.actions.cancelRequest.CancelRequestViewModel
 import com.bernovia.zajel.actions.sendRequest.SendRequestViewModel
 import com.bernovia.zajel.databinding.FragmentBookDetailsBinding
 import com.bernovia.zajel.helpers.ImageUtil
+import com.bernovia.zajel.helpers.StringsUtil.validateString
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -42,17 +43,19 @@ class BookDetailsFragment : Fragment() {
         if (arguments != null && arguments?.getInt("book_id") != null) {
             booksListViewModel.getBookById(arguments?.getInt("book_id")!!).observe(viewLifecycleOwner, Observer {
                 binding.bookDetails = it
-                ImageUtil.renderBlurImage(it.image!!, requireContext(), 50, binding.backgroundImageView, R.drawable.newsletter_placeholder)
-                ImageUtil.renderImageWithNoPlaceHolder(it.image!!, binding.bookImageView, requireContext())
+                if (it!=null && it.image!=null){
+                    ImageUtil.renderBlurImage(validateString(it.image), requireContext(), 50, binding.backgroundImageView, R.drawable.newsletter_placeholder)
+                    ImageUtil.renderImageWithNoPlaceHolder(validateString(it.image), binding.bookImageView, requireContext())
+                    if (it.requested) {
+                        binding.borrowBookButton.text = resources.getString(R.string.cancel)
 
+                    }else{
+                        binding.borrowBookButton.text = resources.getString(R.string.borrow)
 
-                if (binding.bookDetails!!.requested) {
-                    binding.borrowBookButton.text = resources.getString(R.string.cancel)
-
-                }else{
-                    binding.borrowBookButton.text = resources.getString(R.string.borrow)
+                    }
 
                 }
+
             })
         }
 

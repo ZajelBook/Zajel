@@ -12,6 +12,7 @@ import com.bernovia.zajel.helpers.paginationUtils.Listing
 import com.bernovia.zajel.requests.models.BookActivity
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 interface BookActivityRepository {
 
@@ -21,6 +22,9 @@ interface BookActivityRepository {
 
     fun getSentRequestsListable(): Listing<BookActivity?>
     fun getReceiveRequestsListable(): Listing<BookActivity?>
+
+    fun updateBookActivityStatus(bookActivityId: Int, value: String)
+    fun deleteBookActivity(item: BookActivity)
 
 
     open class BookActivityRepositoryImpl(
@@ -62,6 +66,14 @@ interface BookActivityRepository {
 
 
             }
+        }
+
+        override fun updateBookActivityStatus(bookActivityId: Int, value: String) {
+            dao.updateStatus(bookActivityId, value).subscribeOn(Schedulers.io()).subscribe()
+        }
+
+        override fun deleteBookActivity(item: BookActivity) {
+            dao.deleteBookActivity(item).subscribeOn(Schedulers.io()).subscribe()
         }
 
 

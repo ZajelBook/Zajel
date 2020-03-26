@@ -8,19 +8,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bernovia.zajel.R
+import com.bernovia.zajel.actions.acceptRejectRequest.AcceptRejectRequestViewModel
 import com.bernovia.zajel.databinding.FragmentReceivedRequestsBinding
+import com.bernovia.zajel.requests.models.BookActivity
 import com.bernovia.zajel.requests.ui.BookActivitiesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * A simple [Fragment] subclass.
  */
-class ReceivedRequestsFragment : Fragment() {
+class ReceivedRequestsFragment : Fragment(), ReceivedRequestsAdapter.ReceivedRequestsClickListener {
     lateinit var binding: FragmentReceivedRequestsBinding
 
     private val bookActivitiesViewModel: BookActivitiesViewModel by viewModel()
+    private val acceptRejectRequestViewModel: AcceptRejectRequestViewModel by viewModel()
 
     companion object {
         fun newInstance(): ReceivedRequestsFragment {
@@ -32,7 +34,7 @@ class ReceivedRequestsFragment : Fragment() {
     }
 
     private val receivedRequestsAdapter: ReceivedRequestsAdapter by lazy {
-        ReceivedRequestsAdapter(requireActivity().supportFragmentManager)
+        ReceivedRequestsAdapter(requireActivity().supportFragmentManager, this)
     }
 
 
@@ -55,5 +57,26 @@ class ReceivedRequestsFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
+    }
+
+    override fun acceptRequestClickListener(data: BookActivity) {
+        acceptRejectRequestViewModel.setType("accept")
+        acceptRejectRequestViewModel.getDataFromRetrofit(data.id).observe(viewLifecycleOwner, Observer {
+            bookActivitiesViewModel.updateBookActivityStatus(data.id,"accepted")
+
+        })
+
+    }
+
+    override fun rejectRequestClickListener(data: BookActivity) {
+        acceptRejectRequestViewModel.setType("reject")
+        acceptRejectRequestViewModel.getDataFromRetrofit(data.id).observe(viewLifecycleOwner, Observer {
+            bookActivitiesViewModel.deleteBookActivity(data)
+        })
+
+    }
+
+    override fun messageUserClickListener() {
+        TODO("Not yet implemented")
     }
 }

@@ -1,12 +1,15 @@
 package com.bernovia.zajel.requests.ui.receiveRequests
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bernovia.zajel.R
+import com.bernovia.zajel.bookList.ui.BookDetailsFragment
 import com.bernovia.zajel.databinding.ItemReceivedRequestBinding
+import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.ImageUtil
 import com.bernovia.zajel.requests.models.BookActivity
 
@@ -21,12 +24,30 @@ class ReceivedRequestsViewHolder(var itemBinding: ItemReceivedRequestBinding, pr
         }
     }
 
-    fun bindTo(data: BookActivity?) {
+    fun bindTo(data: BookActivity?, receivedRequestsClickListener: ReceivedRequestsAdapter.ReceivedRequestsClickListener) {
         if (data != null) {
-            ImageUtil.renderImageWithNoPlaceHolder(data.book?.image , itemBinding.bookImageView, itemBinding.root.context)
+            ImageUtil.renderImageWithNoPlaceHolder(data.book?.image, itemBinding.bookImageView, itemBinding.root.context)
             itemBinding.bookNameTextView.text = data.book?.title
-            itemBinding.userNameTextView.text= data.borrower?.name
+            itemBinding.userNameTextView.text = data.borrower?.name
 
+            if (data.status == "pending") {
+                itemBinding.buttonsLinearLayout.visibility = View.VISIBLE
+                itemBinding.messageButton.visibility = View.GONE
+            } else if (data.status == "accepted") {
+                itemBinding.buttonsLinearLayout.visibility = View.GONE
+                itemBinding.messageButton.visibility = View.VISIBLE
+
+            }
+            itemBinding.acceptButton.setOnClickListener { receivedRequestsClickListener.acceptRequestClickListener(data) }
+            itemBinding.rejectButton.setOnClickListener { receivedRequestsClickListener.rejectRequestClickListener(data) }
+
+            itemBinding.bookImageView.setOnClickListener {
+                if (data.book!= null){
+                    FragmentSwitcher.addFragment(fragmentManager,R.id.added_FrameLayout,
+                        BookDetailsFragment.newInstance(data.book.id),
+                        FragmentSwitcher.AnimationType.PUSH)
+                }
+            }
 
             itemBinding.root.setOnClickListener {
 
