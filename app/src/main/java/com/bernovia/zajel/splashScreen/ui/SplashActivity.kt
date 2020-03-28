@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        metaDataViewModel.insertUserProfileInLocal()
+        metaDataViewModel.insertMetaDataInLocal()
         if (preferenceManager.accessToken == "" || preferenceManager.accessToken == null) {
             NavigateUtil.start<LoginActivity>(applicationContext)
             finish()

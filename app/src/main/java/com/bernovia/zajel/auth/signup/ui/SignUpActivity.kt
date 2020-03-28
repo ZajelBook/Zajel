@@ -11,9 +11,7 @@ import com.bernovia.zajel.R
 import com.bernovia.zajel.auth.logIn.ui.LoginActivity
 import com.bernovia.zajel.auth.signup.models.SignUpRequestBody
 import com.bernovia.zajel.databinding.ActivitySignUpBinding
-import com.bernovia.zajel.helpers.DateUtil.dateListener
-import com.bernovia.zajel.helpers.DateUtil.myCalendar
-import com.bernovia.zajel.helpers.DateUtil.showDatePicker
+import com.bernovia.zajel.helpers.DateUtil.openDatePickerAndUpdateText
 import com.bernovia.zajel.helpers.NavigateUtil.start
 import com.bernovia.zajel.helpers.TextWatcherAdapter
 import com.bernovia.zajel.helpers.ValidateUtil.validateEmail
@@ -52,7 +50,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener, TextWatcherAda
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.date_EditText -> showDatePicker(this, myCalendar, dateListener(binding.dateEditText))
+            R.id.date_EditText -> openDatePickerAndUpdateText(binding.dateEditText, supportFragmentManager)
             R.id.signup_Button -> submitForm()
             R.id.sign_in_LinearLayout -> {
                 start<LoginActivity>(this)

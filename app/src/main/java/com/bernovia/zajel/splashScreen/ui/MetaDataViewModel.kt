@@ -9,11 +9,11 @@ class MetaDataViewModel(
     private val metaDataRepository: MetaDataRepository) : ViewModel() {
 
 
-    fun getUserProfile(): LiveData<MetaDataResponseBody> {
+    fun getMetaData(): LiveData<MetaDataResponseBody> {
         return metaDataRepository.getMetaDataLiveData()
     }
 
-    fun insertUserProfileInLocal() {
+    fun insertMetaDataInLocal() {
         metaDataRepository.insertMetaDataInLoca()
     }
 

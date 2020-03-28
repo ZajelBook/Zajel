@@ -5,8 +5,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <RelativeLayout
             android:id="@+id/header"
@@ -113,7 +113,8 @@
                         android:id="@+id/publish_year_EditText"
                         style="@style/edittext_style"
                         android:hint="@string/publish_year"
-                        android:inputType="date"
+                        android:inputType="number"
+                        android:maxLength="4"
 
                         />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -173,6 +174,7 @@
                         android:id="@+id/language_EditText"
                         style="@style/edittext_style"
                         android:layout_height="wrap_content"
+                        android:focusableInTouchMode="false"
                         android:hint="@string/language"
                         android:inputType="text"
 
@@ -195,6 +197,7 @@
                         android:id="@+id/genre_EditText"
                         style="@style/edittext_style"
                         android:layout_height="wrap_content"
+                        android:focusableInTouchMode="false"
                         android:hint="@string/genre"
                         android:inputType="text"
 
@@ -202,31 +205,21 @@
                         />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp" />
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/add_Button"
+                    style="@style/button_style"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:text="@string/add"
+                    app:backgroundTint="@color/colorAccent" />
 
             </LinearLayout>
 
         </ScrollView>
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/add_Button"
-            style="@style/button_style"
-            android:layout_alignParentBottom="true"
-            app:backgroundTint="@color/colorAccent"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:text="@string/add" />
 
     </RelativeLayout>
 

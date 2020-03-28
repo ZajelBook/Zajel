@@ -2,6 +2,8 @@ package com.bernovia.zajel.addBook
 
 import android.Manifest
 import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -19,10 +21,11 @@ import androidx.lifecycle.Observer
 import com.bernovia.zajel.BuildConfig
 import com.bernovia.zajel.R
 import com.bernovia.zajel.addBook.data.AddBookViewModel
-import com.bernovia.zajel.addBook.models.AddBookRequestBody
 import com.bernovia.zajel.databinding.FragmentAddBookBinding
 import com.bernovia.zajel.dialogs.ChoosePhotoDialogFragment
 import com.bernovia.zajel.dialogs.DialogUtil
+import com.bernovia.zajel.helpers.BroadcastReceiversUtil.BOTTOM_SHEET_SELECT_VALUE
+import com.bernovia.zajel.helpers.BroadcastReceiversUtil.registerTheReceiver
 import com.bernovia.zajel.helpers.ImageUtil
 import com.bernovia.zajel.helpers.ImageUtil.CAMERA_PERMISSION_REQUEST_CODE
 import com.bernovia.zajel.helpers.ImageUtil.CAMERA_REQUEST_CODE
@@ -36,10 +39,11 @@ import com.bernovia.zajel.helpers.ImageUtil.openCropActivityInFragment
 import com.bernovia.zajel.helpers.ImageUtil.showFileChooser
 import com.bernovia.zajel.helpers.TextWatcherAdapter
 import com.bernovia.zajel.helpers.ValidateUtil.validateEmptyField
+import com.bernovia.zajel.splashScreen.models.Genre
+import com.bernovia.zajel.splashScreen.ui.MetaDataViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -59,9 +63,20 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
     private var isFromCamera = false
     private var fileName: String? = null
     private var photoFile: File? = null
+    private lateinit var genres: ArrayList<Genre>
 
     private val addBookViewModel: AddBookViewModel by viewModel()
+    private val metaDataViewModel: MetaDataViewModel by viewModel()
 
+
+    private val onSelectedValue: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            when (intent.getStringExtra("title")) {
+                resources.getString(R.string.language) -> binding.languageEditText.setText(intent.getStringExtra("value"))
+                resources.getString(R.string.genre) -> binding.genreEditText.setText(intent.getStringExtra("value"))
+            }
+        }
+    }
 
     companion object {
         fun newInstance(): AddBookFragment {
@@ -81,6 +96,10 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        registerTheReceiver(onSelectedValue, BOTTOM_SHEET_SELECT_VALUE)
+
+
         binding.bookImageView.setOnClickListener { DialogUtil.showChoosePhotoDialog(requireActivity().supportFragmentManager, this) }
         binding.titleEditText.addTextChangedListener(TextWatcherAdapter(binding.titleEditText, this))
         binding.authorEditText.addTextChangedListener(TextWatcherAdapter(binding.authorEditText, this))
@@ -92,6 +111,29 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
         binding.addButton.setOnClickListener { submitForm() }
 
 
+        binding.genreEditText.setOnClickListener {
+            DialogUtil.showSingleChoiceMenuFragment(requireActivity().supportFragmentManager, resources.getString(R.string.genre), binding.genreEditText.text.toString())
+        }
+
+        binding.languageEditText.setOnClickListener {
+            DialogUtil.showSingleChoiceMenuFragment(requireActivity().supportFragmentManager, resources.getString(R.string.language), binding.languageEditText.text.toString())
+        }
+
+
+        metaDataViewModel.getMetaData().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            genres = ArrayList()
+            genres.addAll(it.genres)
+        })
+
+    }
+
+    fun getGenreIdFromText(value: String): Int? {
+        for (items in genres) {
+            if (value == items.name) {
+                return items.id
+            }
+        }
+        return null
     }
 
     override fun chooseFromLibraryOnClick() {
@@ -159,49 +201,6 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
                 Glide.with(requireContext()).load(resultUri).into(binding.bookImageView)
 
 
-//                if (context != null) if (!isFromCamera) {
-//                    try {
-//                        photoFile = getFileImageFromGallery(context, resultUri, fileName)
-//                        val photoRequesBody: RequestBody = photoFile!!.asRequestBody("image/*".toMediaTypeOrNull())
-//                        val identity: MultipartBody.Part
-//                        identity = try {
-//                            MultipartBody.Part.createFormData("image", photoFile.name, photoRequesBody)
-//                        }
-//                        catch (e: java.lang.Exception) {
-//                            MultipartBody.Part.createFormData("image", "img", photoRequesBody)
-//                        }
-//
-////                        uploadPhotoViewModel.getDataFromRetrofit(identity).observe(viewLifecycleOwner, Observer {
-////                            profileViewModel.insertUserProfileInLocal()
-////
-////                        })
-//
-//                    }
-//                    catch (e: Exception) {
-//                        e.printStackTrace()
-//                    }
-//                } else {
-//                    try {
-//                        photoFile = getFileImageFromCamera(context, resultUri)
-//                        val photoRequesBody: RequestBody = photoFile!!.asRequestBody("image/*".toMediaTypeOrNull())
-//                        val identity: MultipartBody.Part
-//                        identity = try {
-//                            MultipartBody.Part.createFormData("image", photoFile.name, photoRequesBody)
-//                        }
-//                        catch (e: java.lang.Exception) {
-//                            MultipartBody.Part.createFormData("image", "img", photoRequesBody)
-//                        }
-//
-////                        uploadPhotoViewModel.getDataFromRetrofit(identity).observe(viewLifecycleOwner, Observer {
-////                            profileViewModel.insertUserProfileInLocal()
-////
-////                        })
-//
-//                    }
-//                    catch (e: Exception) {
-//                        e.printStackTrace()
-//                    }
-//                }
             }
         }
     }
@@ -256,23 +255,23 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
             addBookViewModel.setImage(bookCover)
 
 
-           val titleRequestBody = binding.titleEditText.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val titleRequestBody = binding.titleEditText.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val authorRequestBody = binding.authorEditText.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val publishYearRequestBody = binding.publishYearEditText.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val pageCountRequestBody = binding.pageCountEditText.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val descriptionRequestBody = binding.descriptionEditText.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val languageRequestBody = binding.languageEditText.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val genreRequestBody = binding.genreEditText.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val genreRequestBody = getGenreIdFromText(binding.genreEditText.text.toString()).toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
 
             val map: HashMap<String, RequestBody> = HashMap()
-            map.put("title", titleRequestBody)
-            map.put("author", authorRequestBody)
-            map.put("description", descriptionRequestBody)
-            map.put("language", languageRequestBody)
-            map.put("page_count", pageCountRequestBody)
-            map.put("published_at", publishYearRequestBody)
-            map.put("genre_id", genreRequestBody)
+            map["title"] = titleRequestBody
+            map["author"] = authorRequestBody
+            map["description"] = descriptionRequestBody
+            map["language"] = languageRequestBody
+            map["page_count"] = pageCountRequestBody
+            map["published_at"] = publishYearRequestBody
+            map["genre_id"] = genreRequestBody
 
 
             addBookViewModel.getDataFromRetrofit(map).observe(viewLifecycleOwner, Observer {
