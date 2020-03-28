@@ -25,6 +25,8 @@ import com.bernovia.zajel.editProfile.data.EditProfileRepository
 import com.bernovia.zajel.editProfile.ui.EditProfileViewModel
 import com.bernovia.zajel.helpers.apiCallsHelpers.BaseSchedulers
 import com.bernovia.zajel.messages.data.MessagesRepository
+import com.bernovia.zajel.messages.sendMessage.SendMessageRepository
+import com.bernovia.zajel.messages.sendMessage.SendMessageViewModel
 import com.bernovia.zajel.messages.ui.MessagesListViewModel
 import com.bernovia.zajel.requests.data.BookActivityRepository
 import com.bernovia.zajel.requests.ui.BookActivitiesViewModel
@@ -87,6 +89,10 @@ val repositoryModule by lazy {
         single {
             SendRequestRepository(get(named("interceptor_with_token")))
         }
+        single {
+            SendMessageRepository(get(named("interceptor_with_token")))
+        }
+
 
         single<BooksRepository> {
             BooksRepository.BooksRepositoryImpl(get(), get())
@@ -152,6 +158,9 @@ val viewModelModule by lazy {
         }
         viewModel {
             MessagesListViewModel(get())
+        }
+        viewModel {
+            SendMessageViewModel(get())
         }
 
     }

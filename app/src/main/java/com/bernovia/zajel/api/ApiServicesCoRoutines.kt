@@ -7,6 +7,7 @@ import com.bernovia.zajel.api.APIs.API_AUTH_SIGN_IN
 import com.bernovia.zajel.api.APIs.API_AUTH_SIGN_UP
 import com.bernovia.zajel.api.APIs.API_BOOKS_LIST
 import com.bernovia.zajel.api.APIs.API_BOOK_ACTIVITIES
+import com.bernovia.zajel.api.APIs.API_CONVERSATION
 import com.bernovia.zajel.api.APIs.API_EDIT_USER_PROFILE
 import com.bernovia.zajel.auth.authResponseModels.AuthResponseBody
 import com.bernovia.zajel.auth.authResponseModels.AuthResponseData
@@ -14,6 +15,7 @@ import com.bernovia.zajel.auth.logIn.models.LoginRequestBody
 import com.bernovia.zajel.auth.signup.models.SignUpRequestBody
 import com.bernovia.zajel.editProfile.models.EditProfileRequestBody
 import com.bernovia.zajel.helpers.UpdateValuesResponseBody
+import com.bernovia.zajel.messages.sendMessage.SendMessageRequestBody
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
@@ -43,6 +45,8 @@ interface ApiServicesCoRoutines {
     @PUT("$API_BOOK_ACTIVITIES/{book_id}") fun acceptRejectRequestAsync(@Path("book_id") bookId: Int, @Query("type") type: String): Deferred<Response<ActionsResponseBody>>
 
     @DELETE("$API_BOOK_ACTIVITIES/{book_id}") fun cancelRequestAsync(@Path("book_id") bookId: Int): Deferred<Response<ActionsResponseBody>>
+
+    @POST(API_CONVERSATION) fun sendMessageAsync(@Body sendMessageRequestBody: SendMessageRequestBody, @Path("conversation_id") conversationId: Int): Deferred<Response<ActionsResponseBody>>
 
 
     companion object {
