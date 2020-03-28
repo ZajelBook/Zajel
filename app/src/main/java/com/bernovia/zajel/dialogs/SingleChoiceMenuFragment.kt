@@ -50,12 +50,22 @@ class SingleChoiceMenuFragment : BottomSheetDialogFragment(), CompoundButton.OnC
             metaDataViewModel.getMetaData().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 when (title) {
                     resources.getString(R.string.language) -> {
-                        it.languages.let { it1 -> data!!.addAll(it1) }
+                        it.languages.let { it1 ->
+                            if (it1 != null) {
+                                data!!.addAll(it1)
+                            } else {
+                                metaDataViewModel.insertMetaDataInLocal()
+                            }
+                        }
                     }
 
                     resources.getString(R.string.genre) -> {
-                        for (items in it.genres) {
-                            data!!.add(items.name)
+                        if (it.genres == null) {
+                        } else {
+                            for (items in it.genres) {
+                                data!!.add(items.name)
+                            }
+
                         }
                     }
                 }

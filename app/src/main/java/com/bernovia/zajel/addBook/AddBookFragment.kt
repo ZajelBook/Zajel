@@ -119,10 +119,14 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
             DialogUtil.showSingleChoiceMenuFragment(requireActivity().supportFragmentManager, resources.getString(R.string.language), binding.languageEditText.text.toString())
         }
 
-
         metaDataViewModel.getMetaData().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            genres = ArrayList()
-            genres.addAll(it.genres)
+            if (it.genres==null){
+                metaDataViewModel.insertMetaDataInLocal()
+            }else{
+                genres = ArrayList()
+                genres.addAll(it.genres)
+
+            }
         })
 
     }

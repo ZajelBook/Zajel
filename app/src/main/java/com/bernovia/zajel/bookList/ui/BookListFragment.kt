@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bernovia.zajel.R
 import com.bernovia.zajel.databinding.FragmentBookListBinding
+import com.bernovia.zajel.helpers.apiCallsHelpers.Status
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -40,7 +41,6 @@ class BookListFragment : Fragment() {
         booksListViewModel.refreshPage().observe(viewLifecycleOwner, Observer { it.refreshPage() })
         booksListViewModel.dataSource.observe(viewLifecycleOwner, Observer {
             bookListAdapter.submitList(it)
-
         })
 
 
@@ -49,6 +49,16 @@ class BookListFragment : Fragment() {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         }
 
+        binding.swipeContainer.setOnRefreshListener {
+            booksListViewModel.refreshPage().observe(viewLifecycleOwner, Observer { it.refreshPage() })
+        }
+
+        booksListViewModel.networkState.observe(viewLifecycleOwner, Observer {
+
+                if (it.status == Status.SUCCESS) {
+                    binding.swipeContainer.isRefreshing = false
+                }
+            })
 
 
         return binding.root

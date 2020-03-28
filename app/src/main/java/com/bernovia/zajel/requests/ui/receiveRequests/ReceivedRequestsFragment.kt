@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bernovia.zajel.R
 import com.bernovia.zajel.actions.acceptRejectRequest.AcceptRejectRequestViewModel
 import com.bernovia.zajel.databinding.FragmentReceivedRequestsBinding
+import com.bernovia.zajel.helpers.apiCallsHelpers.Status
 import com.bernovia.zajel.requests.models.BookActivity
 import com.bernovia.zajel.requests.ui.BookActivitiesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -56,6 +57,17 @@ class ReceivedRequestsFragment : Fragment(), ReceivedRequestsAdapter.ReceivedReq
             adapter = receivedRequestsAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+
+        binding.receivedRequestsSwipeRefreshLayout.setOnRefreshListener {
+            bookActivitiesViewModel.refreshPageReceivedRequests().observe(viewLifecycleOwner, Observer { it.refreshPage() })
+        }
+
+        bookActivitiesViewModel.receivedRequestsNetworkState.observe(viewLifecycleOwner, Observer {
+
+            if (it.status == Status.SUCCESS) {
+                binding.receivedRequestsSwipeRefreshLayout.isRefreshing = false
+            }
+        })
 
     }
 

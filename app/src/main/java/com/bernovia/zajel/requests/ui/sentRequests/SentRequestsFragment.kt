@@ -8,9 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bernovia.zajel.R
 import com.bernovia.zajel.databinding.FragmentSentRequestsBinding
+import com.bernovia.zajel.helpers.apiCallsHelpers.Status
 import com.bernovia.zajel.requests.ui.BookActivitiesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -30,6 +30,7 @@ class SentRequestsFragment : Fragment() {
             return fragment
         }
     }
+
     private val sentRequestsAdapter: SentRequestsAdapter by lazy {
         SentRequestsAdapter(requireActivity().supportFragmentManager)
     }
@@ -51,6 +52,15 @@ class SentRequestsFragment : Fragment() {
             adapter = sentRequestsAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+        binding.sentRequestsSwipeRefreshLayout.setOnRefreshListener {
+            bookActivitiesViewModel.refreshPageSendRequests().observe(viewLifecycleOwner, Observer { it.refreshPage() })
+        }
+
+        bookActivitiesViewModel.sentRequestsNetworkState.observe(viewLifecycleOwner, Observer {
+            if (it.status == Status.SUCCESS) {
+                binding.sentRequestsSwipeRefreshLayout.isRefreshing = false
+            }
+        })
 
     }
 

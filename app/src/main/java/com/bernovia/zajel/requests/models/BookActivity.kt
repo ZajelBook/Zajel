@@ -11,4 +11,5 @@ import com.google.gson.annotations.SerializedName
     @Embedded @SerializedName("book") val book: Book?,
     @Embedded @SerializedName("borrower") val borrower: Borrower?,
     @Embedded @SerializedName("lender") val lender: Lender?,
+    @ColumnInfo(name = "conversation_id_book_activity") @SerializedName("conversation_id") val conversationId: Int?,
     @ColumnInfo(name = "status_book_activity") @SerializedName("status") val status: String?)
