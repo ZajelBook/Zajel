@@ -20,6 +20,11 @@
             android:name=".splashScreen.ui.SplashActivity"
             android:screenOrientation="locked"
             android:theme="@style/AppTheme.NoActionBarLauncher">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -29,14 +34,7 @@
         <activity
             android:name=".auth.logIn.ui.LoginActivity"
             android:screenOrientation="locked"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".auth.signup.ui.SignUpActivity"
             android:screenOrientation="locked"

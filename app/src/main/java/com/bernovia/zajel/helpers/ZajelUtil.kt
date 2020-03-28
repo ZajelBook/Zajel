@@ -6,6 +6,9 @@ import android.view.inputmethod.InputMethodManager
 import okhttp3.Headers
 
 object ZajelUtil {
+    val preferenceManager :PreferenceManager= PreferenceManager.instance
+
+
     fun hideKeyboard(activity: Activity?) {
         if (activity != null && activity.window != null) {
             val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

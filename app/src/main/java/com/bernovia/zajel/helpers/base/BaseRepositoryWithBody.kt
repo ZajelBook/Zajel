@@ -1,10 +1,12 @@
 package com.bernovia.zajel.helpers.base
 
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bernovia.zajel.App
 import com.bernovia.zajel.api.ApiServicesCoRoutines
+import com.bernovia.zajel.helpers.NetworkUtil
 import com.bernovia.zajel.helpers.base.errorModels.ResponseErrorBody
 import com.google.gson.Gson
 import kotlinx.coroutines.*
@@ -36,6 +38,8 @@ abstract class BaseRepositoryWithBody<T, V>(
                             response.errorBody()!!.charStream(),
                             ResponseErrorBody::class.java
                         )
+
+
                         if (message != null) {
                             if (showToast)
                                 Toast.makeText(App.context, message.errors?.fullMessages?.get(0), Toast.LENGTH_SHORT)
@@ -44,8 +48,10 @@ abstract class BaseRepositoryWithBody<T, V>(
                         }
 
                     }
-                } catch (e: HttpException) {
-                } catch (e: Throwable) {
+                }catch (e: Throwable) {
+                    Log.e("tets","aaaa")
+                    NetworkUtil.handleApiError(e)
+
                 }
             }
         }

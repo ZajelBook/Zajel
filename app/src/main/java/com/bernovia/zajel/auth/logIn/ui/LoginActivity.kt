@@ -6,16 +6,16 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.bernovia.zajel.MainActivity
+import com.bernovia.zajel.AskForLocationActivity
 import com.bernovia.zajel.R
 import com.bernovia.zajel.auth.logIn.models.LoginRequestBody
 import com.bernovia.zajel.auth.signup.ui.SignUpActivity
 import com.bernovia.zajel.databinding.ActivityLoginBinding
 import com.bernovia.zajel.helpers.NavigateUtil.start
-import com.bernovia.zajel.helpers.PreferenceManager
 import com.bernovia.zajel.helpers.TextWatcherAdapter
 import com.bernovia.zajel.helpers.ValidateUtil.validateEmail
 import com.bernovia.zajel.helpers.ValidateUtil.validatePassword
+import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.bernovia.zajel.helpers.ZajelUtil.setHeaders
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
@@ -25,7 +25,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class LoginActivity : AppCompatActivity(), TextWatcherAdapter.TextWatcherListener, View.OnClickListener {
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by viewModel()
-    private val preferenceManager: PreferenceManager = PreferenceManager.instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,9 +70,9 @@ class LoginActivity : AppCompatActivity(), TextWatcherAdapter.TextWatcherListene
             loginViewModel.getDataFromRetrofit(LoginRequestBody(binding.emailEditText.text.toString(), binding.passwordEditText.text.toString())).observe(this, Observer {
                 if (it.isSuccessful) {
                     val headers: Headers = it.headers()
-                    preferenceManager.userId=it.body()?.data?.id!!
+                    preferenceManager.userId = it.body()?.data?.id!!
                     setHeaders(headers, preferenceManager)
-                    start<MainActivity>(this)
+                    start<AskForLocationActivity>(this)
                     finish()
                 }
             })

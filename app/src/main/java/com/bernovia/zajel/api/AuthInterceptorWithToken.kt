@@ -2,15 +2,13 @@ package com.bernovia.zajel.api
 
 import android.content.pm.PackageManager
 import com.bernovia.zajel.App.Companion.context
-import com.bernovia.zajel.helpers.PreferenceManager
-import com.bernovia.zajel.helpers.StringsUtil
 import com.bernovia.zajel.helpers.StringsUtil.validateString
+import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
 
 class AuthInterceptorWithToken : Interceptor {
-    val preferenceManager: PreferenceManager = PreferenceManager.instance
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {

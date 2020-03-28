@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_background_with_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/text_bold_26_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_13sdp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="@dimen/_13sdp"
+                android:gravity="center"
+                android:text="@string/session_expired" />
+
+            <TextView
+                style="@style/text_regular_16_grey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_13sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_13sdp"
+                android:gravity="center"
+                android:text="@string/your_session_has_been_expired_please_log_in_again" />
+
+
+            <Button
+                android:id="@+id/okay_Button"
+                style="@style/button_style"
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/_13sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_13sdp"
+                android:text="@string/okay" />
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_24sdp" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</layout>

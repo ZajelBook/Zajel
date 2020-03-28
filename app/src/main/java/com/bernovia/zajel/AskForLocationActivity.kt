@@ -16,7 +16,7 @@ import com.bernovia.zajel.helpers.LocationUtil
 import com.bernovia.zajel.helpers.LocationUtil.LOCATION_REQUEST
 import com.bernovia.zajel.helpers.LocationUtil.getLocationAndSendItToServer
 import com.bernovia.zajel.helpers.NavigateUtil
-import com.bernovia.zajel.helpers.PreferenceManager
+import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,25 +26,26 @@ class AskForLocationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAskForLocationBinding
     private val editProfileViewModel: EditProfileViewModel by viewModel()
 
-    private lateinit var preferenceManager: PreferenceManager
     private var loadOnce: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_ask_for_location)
         editProfileViewModel.setUserId(preferenceManager.userId)
-        preferenceManager = PreferenceManager.instance
-        setUpAllowLocation()
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
+            binding = DataBindingUtil.setContentView(this, R.layout.activity_ask_for_location)
+            setUpAllowLocation()
         } else { // Permission has already been granted
             if (!LocationUtil.isLocationEnabled(this)) {
+                binding = DataBindingUtil.setContentView(this, R.layout.activity_ask_for_location)
+                setUpAllowLocation()
                 LocationUtil.enableLocation(this)
-            } else {
-                sendLocationAndContinue()
-
             }
+//            else {
+//                sendLocationAndContinue()
+//
+//            }
         }
 
     }

@@ -5,6 +5,7 @@ import com.bernovia.zajel.api.APIs.API_BOOK_ACTIVITIES
 import com.bernovia.zajel.api.APIs.API_META_DATA
 import com.bernovia.zajel.bookList.models.Book
 import com.bernovia.zajel.bookList.models.BookListResponseModel
+import com.bernovia.zajel.helpers.NetworkUtil.handleApiError
 import com.bernovia.zajel.helpers.apiCallsHelpers.BaseSchedulers
 import com.bernovia.zajel.requests.models.BookActivity
 import com.bernovia.zajel.requests.models.RequestsResponseModel
@@ -24,13 +25,16 @@ interface ApiServicesRx {
         private val retrofit: Retrofit, private val schedulers: BaseSchedulers) : ApiServicesRx {
         override fun bookList(perPage: Int, page: Int): Single<List<Book>> {
 
-            return retrofit.create(NetworkCalls::class.java).getBooksList(perPage, page).subscribeOn(schedulers.io()).map {
+            return retrofit.create(NetworkCalls::class.java).getBooksList(perPage, page).subscribeOn(schedulers.io())
+                .doOnError { handleApiError(it) }
+                .map {
                 it.books
             }
         }
 
         override fun metaData(): Single<MetaDataResponseBody> {
-            return retrofit.create(NetworkCalls::class.java).getMetaData().subscribeOn(schedulers.io()).map {
+            return retrofit.create(NetworkCalls::class.java).getMetaData().subscribeOn(schedulers.io())
+                .doOnError { handleApiError(it) }.map {
                 it
             }
 
@@ -38,7 +42,8 @@ interface ApiServicesRx {
         }
 
         override fun requestsList(type: String, perPage: Int, page: Int): Single<List<BookActivity?>> {
-            return retrofit.create(NetworkCalls::class.java).getRequests(type, perPage, page).subscribeOn(schedulers.io()).map {
+            return retrofit.create(NetworkCalls::class.java).getRequests(type, perPage, page).subscribeOn(schedulers.io())
+                .doOnError { handleApiError(it) }.map {
                 it.bookActivities
             }
         }

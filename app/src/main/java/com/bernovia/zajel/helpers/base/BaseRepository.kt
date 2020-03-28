@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bernovia.zajel.App
 import com.bernovia.zajel.api.ApiServicesCoRoutines
+import com.bernovia.zajel.helpers.NetworkUtil
 import com.bernovia.zajel.helpers.base.errorModels.ResponseErrorBody
 import com.google.gson.Gson
 import kotlinx.coroutines.*
@@ -27,6 +28,8 @@ abstract class BaseRepository<T>(@PublishedApi internal val service: ApiServices
                         result.value = response
                     } else {
                         result.value = response
+
+
 
                         val gson = Gson()
                         val message = gson.fromJson(

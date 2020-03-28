@@ -6,7 +6,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.bernovia.zajel.MainActivity
+import com.bernovia.zajel.AskForLocationActivity
 import com.bernovia.zajel.R
 import com.bernovia.zajel.auth.logIn.ui.LoginActivity
 import com.bernovia.zajel.auth.signup.models.SignUpRequestBody
@@ -15,12 +15,12 @@ import com.bernovia.zajel.helpers.DateUtil.dateListener
 import com.bernovia.zajel.helpers.DateUtil.myCalendar
 import com.bernovia.zajel.helpers.DateUtil.showDatePicker
 import com.bernovia.zajel.helpers.NavigateUtil.start
-import com.bernovia.zajel.helpers.PreferenceManager
 import com.bernovia.zajel.helpers.TextWatcherAdapter
 import com.bernovia.zajel.helpers.ValidateUtil.validateEmail
 import com.bernovia.zajel.helpers.ValidateUtil.validateEmptyField
 import com.bernovia.zajel.helpers.ValidateUtil.validateFieldsDidnotMatch
 import com.bernovia.zajel.helpers.ValidateUtil.validatePassword
+import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.bernovia.zajel.helpers.ZajelUtil.setHeaders
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
@@ -29,7 +29,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUpActivity : AppCompatActivity(), View.OnClickListener, TextWatcherAdapter.TextWatcherListener {
     private lateinit var binding: ActivitySignUpBinding
-    private val preferenceManager: PreferenceManager = PreferenceManager.instance
     private val signUpViewModel: SignUpViewModel by viewModel()
 
 
@@ -113,7 +112,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener, TextWatcherAda
                     val headers: Headers = it.headers()
                     preferenceManager.userId = it.body()?.data?.id!!
                     setHeaders(headers, preferenceManager)
-                    start<MainActivity>(this)
+                    start<AskForLocationActivity>(this)
                     finish()
                 }
 

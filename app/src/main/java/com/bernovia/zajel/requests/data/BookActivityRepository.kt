@@ -5,7 +5,7 @@ import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.bernovia.zajel.api.ApiServicesRx
 import com.bernovia.zajel.bookList.data.BooksRepository
-import com.bernovia.zajel.helpers.PreferenceManager
+import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.bernovia.zajel.helpers.apiCallsHelpers.liveData
 import com.bernovia.zajel.helpers.paginationUtils.GenericBoundaryCallback
 import com.bernovia.zajel.helpers.paginationUtils.Listing
@@ -29,7 +29,6 @@ interface BookActivityRepository {
 
     open class BookActivityRepositoryImpl(
         private val service: ApiServicesRx, private val dao: BookActivitiesDao) : BookActivityRepository {
-        private val preferenceManager = PreferenceManager.instance
 
         val receiveRequestsBoundaryCallback: GenericBoundaryCallback<BookActivity?> by lazy {
             GenericBoundaryCallback({ dao.deleteAllReceivedRequestsList(preferenceManager.userId) }, { receivedRequests(it) }, { insertAllBookActivities(it) })
