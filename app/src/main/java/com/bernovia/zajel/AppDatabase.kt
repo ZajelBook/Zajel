@@ -9,12 +9,14 @@ import com.bernovia.zajel.bookList.data.BookDao
 import com.bernovia.zajel.bookList.models.Book
 import com.bernovia.zajel.helpers.typeConverters.GenresTypeConverter
 import com.bernovia.zajel.helpers.typeConverters.StringTypeConverter
+import com.bernovia.zajel.messages.data.MessagesDao
+import com.bernovia.zajel.messages.models.Message
 import com.bernovia.zajel.requests.data.BookActivitiesDao
 import com.bernovia.zajel.requests.models.BookActivity
 import com.bernovia.zajel.splashScreen.data.MetaDataDao
 import com.bernovia.zajel.splashScreen.models.MetaDataResponseBody
 
-@Database(entities = [Book::class, MetaDataResponseBody::class,BookActivity::class], version = 12, exportSchema = false)
+@Database(entities = [Book::class, MetaDataResponseBody::class,BookActivity::class,Message::class], version = 13, exportSchema = false)
 
 
 @TypeConverters(StringTypeConverter::class, GenresTypeConverter::class) abstract class AppDatabase : RoomDatabase() {
@@ -22,6 +24,7 @@ import com.bernovia.zajel.splashScreen.models.MetaDataResponseBody
     abstract fun bookDao(): BookDao
     abstract fun metaDataDao(): MetaDataDao
     abstract fun bookActivitiesDao(): BookActivitiesDao
+    abstract fun messagesDao(): MessagesDao
 
 
     companion object {

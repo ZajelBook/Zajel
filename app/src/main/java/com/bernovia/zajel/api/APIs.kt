@@ -7,4 +7,5 @@ object APIs {
     const val API_BOOKS_LIST = "books"
     const val API_META_DATA="metadata"
     const val API_BOOK_ACTIVITIES="book_activities"
+    const val API_CONVERSATION= "conversations/{conversation_id}/messages"
 }
