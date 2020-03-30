@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.cardview.widget.CardView
         android:id="@+id/search_item_card"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_220sdp"
@@ -34,34 +34,25 @@
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp">
 
-                <LinearLayout
-                    android:id="@+id/name_LinearLayout"
+
+                <TextView
+                    android:id="@+id/title_TextView"
+                    style="@style/text_bold_16_white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:ellipsize="end"
+                    android:maxLines="1" />
 
-                    <TextView
-                        android:id="@+id/name_TextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
 
                 <TextView
                     android:id="@+id/author_textView"
+                    style="@style/text_regular_16_white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:ellipsize="end"
                     android:lineSpacingMultiplier="1.25"
-                    android:maxLines="1"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    app:fontFamily="@font/proxima_nova_regular" />
+                    android:maxLines="1" />
             </LinearLayout>
 
         </RelativeLayout>

@@ -10,6 +10,9 @@ import com.bernovia.zajel.helpers.paginationUtils.GenericBoundaryCallback
 import com.bernovia.zajel.helpers.paginationUtils.Listing
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 
 interface BooksRepository {
@@ -24,9 +27,14 @@ interface BooksRepository {
 
     fun getBookById(bookId: Int): LiveData<Book>
 
+    fun getBookAndInsertInLocal(bookId: Int)
+    fun cleared()
+
+
     open class BooksRepositoryImpl(
         private val service: ApiServicesRx, private val dao: BookDao) : BooksRepository {
 
+        private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
         val bc: GenericBoundaryCallback<Book> by lazy {
             GenericBoundaryCallback({ dao.deleteAllBooksList() }, { bookList(it) }, { insertAllBooksList(it) })
@@ -51,7 +59,19 @@ interface BooksRepository {
 
         }
 
-       override fun updateRequested(bookId: Int, value: Boolean) {
+
+        override fun getBookAndInsertInLocal(bookId: Int) {
+            book(bookId).subscribeOn(Schedulers.io()).flatMapCompletable {
+                insertBookInLocal(it)
+            }.subscribeBy(onComplete = {}, onError = {}).addTo(compositeDisposable)
+        }
+
+        override fun cleared() {
+            compositeDisposable.clear()
+        }
+
+
+        override fun updateRequested(bookId: Int, value: Boolean) {
             dao.updateRequested(bookId, value).subscribeOn(Schedulers.io()).subscribe()
 
         }
@@ -60,8 +80,17 @@ interface BooksRepository {
             return dao.insertAllBooksList(list.map { it })
         }
 
+        fun insertBookInLocal(book: Book): Completable {
+            return dao.insertBook(book)
+        }
+
+
         override fun getBookById(bookId: Int): LiveData<Book> {
             return dao.getBookById(bookId)
+        }
+
+        fun book(bookId: Int): Single<Book> {
+            return service.book(bookId).map { it }
         }
 
 

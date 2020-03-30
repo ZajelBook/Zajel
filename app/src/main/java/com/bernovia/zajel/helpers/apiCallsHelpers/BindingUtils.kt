@@ -2,11 +2,13 @@ package com.bernovia.zajel.helpers.apiCallsHelpers
 
 import android.content.ContextWrapper
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.bernovia.zajel.R
 
 
 @BindingAdapter(value = ["isRefreshing"]) fun isSwipeLayoutRefreshing(view: SwipeRefreshLayout, value: MutableLiveData<Boolean>?) {
@@ -15,6 +17,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     if (parentActivity != null && value != null) {
         value.observe(parentActivity, Observer { view.isRefreshing = it })
     }
+
+}
+
+@BindingAdapter(value = ["setStatus"]) fun setStatusBackground(view: TextView, value: String?) {
+    view.text.toString().capitalize()
+    if (value == "available") {
+        view.backgroundTintList = view.context.resources.getColorStateList(R.color.accept_color, view.context.resources.newTheme())
+    } else {
+        view.backgroundTintList = view.context.resources.getColorStateList(R.color.reject_color, view.context.resources.newTheme())
+
+    }
+
 
 }
 

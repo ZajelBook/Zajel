@@ -1,6 +1,7 @@
 package com.bernovia.zajel.bookList.ui
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +14,15 @@ import com.bernovia.zajel.actions.cancelRequest.CancelRequestViewModel
 import com.bernovia.zajel.actions.sendRequest.SendRequestViewModel
 import com.bernovia.zajel.databinding.FragmentBookDetailsBinding
 import com.bernovia.zajel.helpers.ImageUtil
+import com.bernovia.zajel.helpers.NavigateUtil.closeFragment
 import com.bernovia.zajel.helpers.StringsUtil.validateString
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 /**
  * A simple [Fragment] subclass.
  */
-class BookDetailsFragment : Fragment() {
+class BookDetailsFragment : Fragment(),View.OnClickListener {
     lateinit var binding: FragmentBookDetailsBinding
     private val booksListViewModel: BooksListViewModel by viewModel()
     private val sendRequestViewModel: SendRequestViewModel by viewModel()
@@ -43,17 +46,19 @@ class BookDetailsFragment : Fragment() {
         if (arguments != null && arguments?.getInt("book_id") != null) {
             booksListViewModel.getBookById(arguments?.getInt("book_id")!!).observe(viewLifecycleOwner, Observer {
                 binding.bookDetails = it
-                if (it!=null && it.image!=null){
+                if (it?.image != null) {
                     ImageUtil.renderBlurImage(validateString(it.image), requireContext(), 50, binding.backgroundImageView, R.drawable.newsletter_placeholder)
                     ImageUtil.renderImageWithNoPlaceHolder(validateString(it.image), binding.bookImageView, requireContext())
                     if (it.requested) {
                         binding.borrowBookButton.text = resources.getString(R.string.cancel)
 
-                    }else{
+                    } else {
                         binding.borrowBookButton.text = resources.getString(R.string.borrow)
 
                     }
 
+                }else{
+                    booksListViewModel.getBookAndInsertInLocal(arguments?.getInt("book_id")!!)
                 }
 
             })
@@ -77,6 +82,20 @@ class BookDetailsFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.descriptionTextView.movementMethod = ScrollingMovementMethod()
+        binding.backImageButton.setOnClickListener(this)
+
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.back_ImageButton->closeFragment(requireActivity().supportFragmentManager,this)
+        }
+
     }
 
 }

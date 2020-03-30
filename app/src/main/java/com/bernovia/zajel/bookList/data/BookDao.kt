@@ -11,6 +11,8 @@ import io.reactivex.Completable
 
 
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE) fun insertAllBooksList(list: List<Book>): Completable
+    @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE) fun insertBook(book: Book): Completable
+
 
     @Query("SELECT * FROM book") fun allBooksPaginated(): DataSource.Factory<Int, Book>
 

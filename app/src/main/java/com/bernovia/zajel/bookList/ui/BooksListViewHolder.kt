@@ -27,9 +27,12 @@ class BooksListViewHolder(var itemBinding: ItemBookBinding, private var fragment
         if (data != null) {
             ImageUtil.renderImageWithNoPlaceHolder(data.image, itemBinding.myImageView, itemBinding.root.context)
 
+            itemBinding.titleTextView.text = data.title
+            itemBinding.authorTextView.text = data.author
+
 
             itemBinding.root.setOnClickListener {
-                FragmentSwitcher.addFragment(fragmentManager,R.id.added_FrameLayout,BookDetailsFragment.newInstance(data.id),FragmentSwitcher.AnimationType.PUSH)
+                FragmentSwitcher.addFragment(fragmentManager, R.id.added_FrameLayout, BookDetailsFragment.newInstance(data.id), FragmentSwitcher.AnimationType.PUSH)
             }
         }
 

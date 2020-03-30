@@ -27,6 +27,8 @@ interface ApiServicesRx {
 
     fun messagesList(perPage: Int, page: Int, conversationId: Int): Single<List<Message?>>
 
+    fun book(bookId: Int): Single<Book>
+
 
     class Network(
         private val retrofit: Retrofit, private val schedulers: BaseSchedulers) : ApiServicesRx {
@@ -58,8 +60,17 @@ interface ApiServicesRx {
 
         }
 
+        override fun book(bookId: Int): Single<Book> {
+            return retrofit.create(NetworkCalls::class.java).getBook(bookId).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
+                it
+            }
+        }
+
         interface NetworkCalls {
-            @GET(API_BOOKS_LIST) fun getBooksList(@Query("per_page") type: Int, @Query("page") page: Int): Single<BookListResponseModel<List<Book>>>
+            @GET("$API_BOOKS_LIST/{book_id}") fun getBook(@Path("book_id") bookId: Int): Single<Book>
+
+
+            @GET(API_BOOKS_LIST) fun getBooksList(@Query("per_page") perPage: Int, @Query("page") page: Int): Single<BookListResponseModel<List<Book>>>
 
             @GET(API_META_DATA) fun getMetaData(): Single<MetaDataResponseBody>
 

@@ -30,12 +30,18 @@ class BooksListViewModel(
         return booksRepository.getBookById(bookId)
     }
 
+    fun getBookAndInsertInLocal(bookId: Int) {
+        return booksRepository.getBookAndInsertInLocal(bookId)
+    }
+
+
     fun updateRequested(bookId: Int, value: Boolean) {
         booksRepository.updateRequested(bookId, value)
     }
 
 
     override fun onCleared() {
+        booksRepository.cleared()
         boundaryCallback.value?.cleared()
     }
 }
