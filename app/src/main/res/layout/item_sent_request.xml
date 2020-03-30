@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +16,7 @@
             android:layout_marginTop="15dp"
             >
 
-            <ImageView
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@id/book_ImageView"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
@@ -24,6 +25,7 @@
                 android:adjustViewBounds="true"
                 android:maxWidth="70dp"
                 android:maxHeight="70dp"
+                app:riv_corner_radius="5dip"
                 android:scaleType="fitXY" />
 
 
@@ -60,15 +62,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_rounded"
-                    android:backgroundTint="#42bd41"
-                    android:fontFamily="@font/proxima_nova_regular"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
+                    style="@style/text_regular_16_white"
                     android:text="alsdnas;asdlasdd"
-                    android:textColor="@color/white"
-                    android:visibility="visible" />
+                     />
 
 
             </LinearLayout>
@@ -86,7 +84,7 @@
         <View
             android:id="@+id/separator"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="4dp"
             android:background="@color/divider" />
 
 

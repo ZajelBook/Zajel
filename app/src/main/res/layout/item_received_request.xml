@@ -62,20 +62,13 @@
 
         </RelativeLayout>
 
-        <View
-            android:id="@+id/separator"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/details_LinearLayout"
-            android:layout_alignParentStart="true"
-            android:background="@color/divider" />
 
 
         <Button
-            android:layout_below="@+id/separator"
+            android:layout_below="@+id/details_LinearLayout"
             android:id="@+id/message_Button"
             style="@style/button_style"
-            android:layout_margin="10dp"
+            android:layout_margin="15dp"
             android:visibility="gone"
             android:text="@string/message" />
 
@@ -84,10 +77,9 @@
             android:id="@+id/buttons_LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/separator"
+            android:layout_below="@+id/details_LinearLayout"
             android:visibility="visible"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
             android:weightSum="2">
 

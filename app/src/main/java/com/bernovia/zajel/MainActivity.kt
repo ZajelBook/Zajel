@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -48,16 +49,19 @@ class MainActivity : AppCompatActivity() {
             override fun onNavigationItemSelected(@NonNull item: MenuItem): Boolean {
                 when (item.itemId) {
                     R.id.navigation_home -> {
+                        binding.addBookFAB.visibility = View.VISIBLE
                         replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, BookListFragment.newInstance())
 
                         return true
                     }
                     R.id.navigation_requests -> {
+                        binding.addBookFAB.visibility = View.GONE
                         replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, RequestsFragment.newInstance())
 
                         return true
                     }
                     R.id.navigation_profile -> {
+                        binding.addBookFAB.visibility = View.GONE
                         replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, ProfileFragment.newInstance())
 
                         return true
