@@ -25,6 +25,9 @@ object StringsUtil {
         }
 
     }
+    fun getLineCount(text: String): Int {
+        return text.split("[\n|\r]").toTypedArray().size
+    }
 
 
 }

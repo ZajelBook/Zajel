@@ -40,7 +40,7 @@ class ReceivedRequestsAdapter (private var fragmentManager: FragmentManager,priv
     interface ReceivedRequestsClickListener {
         fun acceptRequestClickListener(data: BookActivity)
         fun rejectRequestClickListener(data: BookActivity)
-        fun messageUserClickListener()
+        fun messageUserClickListener(data: BookActivity)
     }
 
 }

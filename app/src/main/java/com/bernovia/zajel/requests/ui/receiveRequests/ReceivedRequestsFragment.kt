@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bernovia.zajel.R
 import com.bernovia.zajel.actions.acceptRejectRequest.AcceptRejectRequestViewModel
 import com.bernovia.zajel.databinding.FragmentReceivedRequestsBinding
+import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.apiCallsHelpers.Status
+import com.bernovia.zajel.messages.ui.MessagesListFragment
 import com.bernovia.zajel.requests.models.BookActivity
 import com.bernovia.zajel.requests.ui.BookActivitiesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -74,7 +76,9 @@ class ReceivedRequestsFragment : Fragment(), ReceivedRequestsAdapter.ReceivedReq
     override fun acceptRequestClickListener(data: BookActivity) {
         acceptRejectRequestViewModel.setType("accept")
         acceptRejectRequestViewModel.getDataFromRetrofit(data.id).observe(viewLifecycleOwner, Observer {
-            bookActivitiesViewModel.updateBookActivityStatus(data.id,"accepted")
+//            bookActivitiesViewModel.updateBookActivityStatus(data.id,"accepted")
+            bookActivitiesViewModel.refreshPageReceivedRequests().observe(viewLifecycleOwner, Observer { it.refreshPage() })
+
 
         })
 
@@ -88,7 +92,10 @@ class ReceivedRequestsFragment : Fragment(), ReceivedRequestsAdapter.ReceivedReq
 
     }
 
-    override fun messageUserClickListener() {
-        TODO("Not yet implemented")
+    override fun messageUserClickListener(data: BookActivity) {
+        if (data.conversationId != null) {
+            FragmentSwitcher.addFragment(requireActivity().supportFragmentManager, R.id.added_FrameLayout, MessagesListFragment.newInstance(data.conversationId), FragmentSwitcher.AnimationType.PUSH)
+        }
+
     }
 }

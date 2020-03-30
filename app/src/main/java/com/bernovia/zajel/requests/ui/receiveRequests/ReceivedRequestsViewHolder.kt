@@ -40,6 +40,7 @@ class ReceivedRequestsViewHolder(var itemBinding: ItemReceivedRequestBinding, pr
             }
             itemBinding.acceptButton.setOnClickListener { receivedRequestsClickListener.acceptRequestClickListener(data) }
             itemBinding.rejectButton.setOnClickListener { receivedRequestsClickListener.rejectRequestClickListener(data) }
+            itemBinding.messageButton.setOnClickListener { receivedRequestsClickListener.messageUserClickListener(data) }
 
             itemBinding.bookImageView.setOnClickListener {
                 if (data.book!= null){

@@ -16,6 +16,7 @@ import com.bernovia.zajel.helpers.BroadcastReceiversUtil.TOKEN_MISMATCH
 import com.bernovia.zajel.helpers.BroadcastReceiversUtil.registerTheReceiver
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.FragmentSwitcher.replaceFragmentWithNoAnimation
+import com.bernovia.zajel.profile.ProfileFragment
 import com.bernovia.zajel.requests.ui.RequestsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -56,11 +57,8 @@ class MainActivity : AppCompatActivity() {
 
                         return true
                     }
-                    R.id.navigation_wishlist -> {
-
-                        return true
-                    }
                     R.id.navigation_profile -> {
+                        replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, ProfileFragment.newInstance())
 
                         return true
                     }

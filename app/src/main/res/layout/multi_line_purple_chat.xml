@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:gravity="end"
+        tools:ignore="MissingPrefix">
+
+
+        <TextView
+            android:id="@+id/date_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/small_round_background"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp"
+            android:text="5/1/2016"
+            android:textColor="#FF4A4A4A"
+            android:textSize="14sp"
+            app:fontFamily="@font/proxima_nova_regular" />
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date_TextView"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="9dp"
+            android:background="@drawable/purple_short"
+            android:maxWidth="300dp"
+            android:minWidth="140dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/message_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-2dp"
+                android:gravity="center_vertical"
+                android:maxWidth="240dp"
+                android:paddingStart="10dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="10dp"
+                android:text="Hello ! Want to be my friend ? I have a cool resume ! "
+                android:textColor="@color/text_color"
+                android:textSize="18sp"
+                app:fontFamily="@font/proxima_nova_regular" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+                <TextView
+                    android:id="@+id/time_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:paddingStart="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="8dp"
+                    android:text="XX:XX am"
+                    android:textColor="#78000000"
+                    android:textSize="16sp"
+                    app:fontFamily="@font/proxima_nova_regular" />
+
+
+                <ImageView
+                    android:id="@+id/check_ImageView"
+                    android:layout_width="11dp"
+                    android:layout_height="13dp"
+                    android:layout_gravity="start|center_vertical" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

@@ -9,10 +9,6 @@
         android:icon="@drawable/requests"
         android:title="@string/requests" />
     <item
-        android:id="@+id/navigation_wishlist"
-        android:icon="@drawable/wishlist"
-        android:title="@string/wishlist" />
-    <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/profile"
         android:title="@string/profile" />

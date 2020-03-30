@@ -16,7 +16,7 @@ import com.bernovia.zajel.requests.models.BookActivity
 import com.bernovia.zajel.splashScreen.data.MetaDataDao
 import com.bernovia.zajel.splashScreen.models.MetaDataResponseBody
 
-@Database(entities = [Book::class, MetaDataResponseBody::class,BookActivity::class,Message::class], version = 13, exportSchema = false)
+@Database(entities = [Book::class, MetaDataResponseBody::class,BookActivity::class,Message::class], version = 14, exportSchema = false)
 
 
 @TypeConverters(StringTypeConverter::class, GenresTypeConverter::class) abstract class AppDatabase : RoomDatabase() {

@@ -66,4 +66,5 @@
     <string name="session_expired">Session Expired</string>
     <string name="your_session_has_been_expired_please_log_in_again">Please login again</string>
     <string name="okay">Okay</string>
+    <string name="type_something">Type something</string>
 </resources>

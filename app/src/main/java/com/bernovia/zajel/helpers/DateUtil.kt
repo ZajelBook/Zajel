@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import org.ocpsoft.prettytime.PrettyTime
+import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,6 +48,20 @@ object DateUtil {
         datePicker.addOnPositiveButtonClickListener {
             editText.setText(getDateFromMilliSeconds(it))
 
+        }
+    }
+
+    fun convertDateToAmPm(timestamp: String?): String? {
+        return try {
+            val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            utcFormat.timeZone = TimeZone.getTimeZone("gmt")
+            val date = utcFormat.parse(timestamp)
+            val deviceFormat: DateFormat = SimpleDateFormat("h:mm a")
+            deviceFormat.timeZone = TimeZone.getDefault() //Device timezone
+            deviceFormat.format(date)
+        }
+        catch (e: Exception) {
+            timestamp
         }
     }
 

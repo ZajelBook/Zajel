@@ -12,4 +12,5 @@
     <color name="accept_color">#8fd152</color>
     <color name="reject_color">#C44050</color>
     <color name="pending_color">#E55D32</color>
+    <color name="transparent">#00000000</color>
 </resources>

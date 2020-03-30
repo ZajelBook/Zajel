@@ -52,7 +52,7 @@ interface ApiServicesRx {
         }
 
         override fun messagesList(perPage: Int, page: Int, conversationId: Int): Single<List<Message?>> {
-            return retrofit.create(NetworkCalls::class.java).getMessages(perPage, page, conversationId).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
+            return retrofit.create(NetworkCalls::class.java).getMessages(conversationId, perPage, page).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
                 it.messages
             }
 
@@ -66,7 +66,7 @@ interface ApiServicesRx {
             @GET(API_BOOK_ACTIVITIES) fun getRequests(@Query("type") type: String, @Query("per_page") perPage: Int, @Query("page") page: Int): Single<RequestsResponseModel<List<BookActivity?>>>
 
             @GET(API_CONVERSATION) fun getMessages(
-                @Query("per_page") type: Int, @Query("page") page: Int, @Path("conversation_id") conversationId: Int): Single<MessagesListResponseBody<List<Message?>>>
+                @Path("conversation_id") conversationId: Int, @Query("per_page") type: Int, @Query("page") page: Int): Single<MessagesListResponseBody<List<Message?>>>
 
 
         }
