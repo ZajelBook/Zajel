@@ -14,6 +14,14 @@
         <ImageView
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:src="@drawable/conversation_background"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:alpha=".20"
             android:layout_height="match_parent"/>
 
 
@@ -52,7 +60,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-
+                        android:text="@string/message"
                         style="@style/page_title"/>
                 </LinearLayout>
 
@@ -113,6 +121,8 @@
 
             <TextView
                 android:id="@+id/send_ImageView"
+                style="@style/text_bold_16_black"
+                android:textColor="@color/colorAccent"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_gravity="bottom"

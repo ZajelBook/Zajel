@@ -14,7 +14,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         buildConfigField "String", "BASE_URL", "\"https://zajel.mylestone.life/api/\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -143,6 +143,9 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //to make spannalble textview
+    implementation 'com.jaychang:simpletext:2.0.0'
 
     implementation 'com.github.jkwiecien:EasyImage:3.0.3' // todo use it
 }

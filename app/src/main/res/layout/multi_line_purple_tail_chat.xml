@@ -36,6 +36,7 @@
             android:minWidth="140dp"
             android:layout_below="@+id/date_TextView"
             android:layout_alignParentEnd="true"
+            android:backgroundTint="@color/colorAccent_light"
             android:background="@drawable/purple_short_tail"
             android:orientation="vertical">
 
@@ -80,6 +81,7 @@
                 <ImageView
                     android:id="@+id/check_ImageView"
                     android:layout_width="11dp"
+                    android:visibility="gone"
                     android:layout_height="13dp"
                     android:layout_gravity="start|center_vertical" />
 

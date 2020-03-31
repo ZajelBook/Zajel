@@ -23,9 +23,11 @@ class PreferenceManager private constructor(context: Context) {
         get() = mPref.getString(TOKEN_TYPE, "")
         set(value) = mPref.edit().putString(TOKEN_TYPE, value).apply()
     var userId: Int
-        get() = mPref.getInt(USER_ID,0)
+        get() = mPref.getInt(USER_ID, 0)
         set(value) = mPref.edit().putInt(USER_ID, value).apply()
-
+    var userName: String?
+        get() = mPref.getString(USER_NAME, "")
+        set(value) = mPref.edit().putString(USER_NAME, value).apply()
 
     init {
         mPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -45,6 +47,7 @@ class PreferenceManager private constructor(context: Context) {
         private const val UID = "uid"
         private const val TOKEN_TYPE = "token_type"
         private const val USER_ID = "user_id"
+        private const val USER_NAME = "user_name"
 
 
         private var sInstance: PreferenceManager? = null

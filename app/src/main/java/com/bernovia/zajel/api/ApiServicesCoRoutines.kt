@@ -9,6 +9,7 @@ import com.bernovia.zajel.api.APIs.API_BOOKS_LIST
 import com.bernovia.zajel.api.APIs.API_BOOK_ACTIVITIES
 import com.bernovia.zajel.api.APIs.API_CONVERSATION
 import com.bernovia.zajel.api.APIs.API_EDIT_USER_PROFILE
+import com.bernovia.zajel.api.APIs.API_LOGOUT
 import com.bernovia.zajel.auth.authResponseModels.AuthResponseBody
 import com.bernovia.zajel.auth.authResponseModels.AuthResponseData
 import com.bernovia.zajel.auth.logIn.models.LoginRequestBody
@@ -47,6 +48,8 @@ interface ApiServicesCoRoutines {
     @DELETE("$API_BOOK_ACTIVITIES/{book_id}") fun cancelRequestAsync(@Path("book_id") bookId: Int): Deferred<Response<ActionsResponseBody>>
 
     @POST(API_CONVERSATION) fun sendMessageAsync(@Body sendMessageRequestBody: SendMessageRequestBody, @Path("conversation_id") conversationId: Int): Deferred<Response<ActionsResponseBody>>
+
+    @POST(API_LOGOUT) fun logout(): Deferred<Response<ActionsResponseBody>>
 
 
     companion object {

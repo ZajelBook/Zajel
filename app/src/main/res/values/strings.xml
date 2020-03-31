@@ -67,4 +67,8 @@
     <string name="your_session_has_been_expired_please_log_in_again">Please login again</string>
     <string name="okay">Okay</string>
     <string name="type_something">Type something</string>
+    <string name="my_books">My Books</string>
+    <string name="logout">Logout</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="privacy_policy">Privacy Policy</string>
 </resources>

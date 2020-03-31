@@ -34,7 +34,8 @@
                 android:background="@drawable/purple_short_tail"
                 android:gravity="end"
                 android:id="@+id/conversationItem"
-                android:weightSum="100"
+            android:backgroundTint="@color/colorAccent_light"
+            android:weightSum="100"
                 android:orientation="horizontal">
 
             <TextView
@@ -74,6 +75,7 @@
                 <ImageView
                         android:id="@+id/check_ImageView"
                         android:layout_width="11dp"
+                    android:visibility="gone"
                         android:layout_height="11dp"
                         android:layout_gravity="start|center_vertical"
                        />

@@ -7,6 +7,8 @@ import com.bernovia.zajel.actions.acceptRejectRequest.AcceptRejectRequestReposit
 import com.bernovia.zajel.actions.acceptRejectRequest.AcceptRejectRequestViewModel
 import com.bernovia.zajel.actions.cancelRequest.CancelRequestRepository
 import com.bernovia.zajel.actions.cancelRequest.CancelRequestViewModel
+import com.bernovia.zajel.actions.logout.LogoutRepository
+import com.bernovia.zajel.actions.logout.LogoutViewModel
 import com.bernovia.zajel.actions.sendRequest.SendRequestRepository
 import com.bernovia.zajel.actions.sendRequest.SendRequestViewModel
 import com.bernovia.zajel.addBook.data.AddBookRepository
@@ -93,6 +95,10 @@ val repositoryModule by lazy {
             SendMessageRepository(get(named("interceptor_with_token")))
         }
 
+        single {
+            LogoutRepository(get(named("interceptor_with_token")))
+        }
+
 
         single<BooksRepository> {
             BooksRepository.BooksRepositoryImpl(get(), get())
@@ -161,6 +167,9 @@ val viewModelModule by lazy {
         }
         viewModel {
             SendMessageViewModel(get())
+        }
+        viewModel {
+            LogoutViewModel(get())
         }
 
     }

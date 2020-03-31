@@ -1,17 +1,28 @@
 package com.bernovia.zajel.profile
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.bernovia.zajel.AppDatabase
+import com.bernovia.zajel.MainActivity
 import com.bernovia.zajel.R
+import com.bernovia.zajel.actions.logout.LogoutViewModel
+import com.bernovia.zajel.databinding.FragmentProfileBinding
+import com.bernovia.zajel.helpers.NavigateUtil
+import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * A simple [Fragment] subclass.
  */
-class ProfileFragment : Fragment() {
-
+class ProfileFragment : Fragment(), View.OnClickListener {
+    lateinit var binding: FragmentProfileBinding
+    private val logoutViewModel: LogoutViewModel by viewModel()
 
     companion object {
         fun newInstance(): ProfileFragment {
@@ -25,8 +36,50 @@ class ProfileFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
+        return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.userNameTextView.text = preferenceManager.userName
+
+        var versionNumber: String? = null
+        try {
+            versionNumber = "V " + requireContext().packageManager.getPackageInfo(requireContext().packageName, 0).versionName
+        }
+        catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+        binding.versionNumberTextView.text = versionNumber
+
+        binding.nameRelativeLayout.setOnClickListener(this)
+        binding.myBooksRelativeLayout.setOnClickListener(this)
+        binding.termsRelativeLayout.setOnClickListener(this)
+        binding.privacyPolicyRelativeLayout.setOnClickListener(this)
+        binding.logoutRelativeLayout.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.name_RelativeLayout -> {
+            }
+            R.id.my_books_RelativeLayout -> {
+            }
+            R.id.terms_RelativeLayout -> {
+            }
+            R.id.privacy_policy_RelativeLayout -> {
+            }
+            R.id.logout_RelativeLayout -> {
+                logoutViewModel.getDataFromRetrofit().observe(viewLifecycleOwner, Observer {
+                    preferenceManager.clear()
+                    AppDatabase.getInstance(requireContext()).clearAllTables()
+                    NavigateUtil.start<MainActivity>(requireContext())
+                    requireActivity().finish()
+
+                })
+            }
+        }
+
+    }
 }
