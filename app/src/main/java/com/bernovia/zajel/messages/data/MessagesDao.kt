@@ -10,6 +10,8 @@ import io.reactivex.Completable
 interface MessagesDao {
 
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE) fun insertAllMessages(list: List<Message?>): Completable
+    @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE) fun insertMessage(message: Message): Completable
+
 
     @Query("SELECT * FROM message WHERE conversation_id_message ==:conversationId") fun allMessagesPaginated(conversationId: Int): DataSource.Factory<Int, Message>
 

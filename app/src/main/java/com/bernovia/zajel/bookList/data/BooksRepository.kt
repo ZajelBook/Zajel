@@ -29,6 +29,7 @@ interface BooksRepository {
 
     fun getBookAndInsertInLocal(bookId: Int)
     fun cleared()
+    fun insertBookIn(book: Book)
 
 
     open class BooksRepositoryImpl(
@@ -68,6 +69,10 @@ interface BooksRepository {
 
         override fun cleared() {
             compositeDisposable.clear()
+        }
+
+        override fun insertBookIn(book: Book) {
+            dao.insertBook(book).subscribeOn(Schedulers.io()).subscribe()
         }
 
 

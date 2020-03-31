@@ -1,5 +1,6 @@
 package com.bernovia.zajel.helpers.paginationUtils
 
+import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
@@ -46,12 +47,15 @@ class GenericBoundaryCallback<T>(
     }
 
     /**
-     * BlockedMember reached to the end of the list.
+     *  reached to the end of the list.
      */
     @MainThread override fun onItemAtEndLoaded(itemAtEnd: T) {
-        helper.runIfNotRunning(PagingRequestHelper.RequestType.AFTER) {
-            getTop(offsetCount, it)
-        }
+        Log.e("asd", offsetCount.toString())
+//        helper.runIfNotRunning(PagingRequestHelper.RequestType.BEFORE) {
+            Log.e("asd","inside")
+
+        test(offsetCount)
+//        }
 
     }
 
@@ -59,6 +63,19 @@ class GenericBoundaryCallback<T>(
     override fun onItemAtFrontLoaded(itemAtFront: T) {
     }
 
+    private fun test(offset: Int) {
+        if (offset != 1) {
+            getPage(offset).subscribeOn(Schedulers.io()).flatMapCompletable {
+                insertAllItems(it)
+            }.subscribeBy(onComplete = {
+//                pagingRequest.recordSuccess()
+                offsetCount += 1
+            }, onError = {
+                networkState.postValue(NetworkState.error(it.message))
+//                pagingRequest.recordFailure(it)
+            }).addTo(compositeDisposable)
+        }
+    }
 
     private fun getTop(offset: Int, pagingRequest: PagingRequestHelper.Request.Callback) {
         if (offset != 1) {

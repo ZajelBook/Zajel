@@ -53,7 +53,7 @@ object DateUtil {
 
     fun convertDateToAmPm(timestamp: String?): String? {
         return try {
-            val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
             utcFormat.timeZone = TimeZone.getTimeZone("gmt")
             val date = utcFormat.parse(timestamp)
             val deviceFormat: DateFormat = SimpleDateFormat("h:mm a")

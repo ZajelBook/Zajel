@@ -34,6 +34,9 @@ class BooksListViewModel(
         return booksRepository.getBookAndInsertInLocal(bookId)
     }
 
+    fun insertBook(book: Book){
+        booksRepository.insertBookIn(book)
+    }
 
     fun updateRequested(bookId: Int, value: Boolean) {
         booksRepository.updateRequested(bookId, value)

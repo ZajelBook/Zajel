@@ -3,11 +3,23 @@ package com.bernovia.zajel.helpers
 import android.app.Activity
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import okhttp3.Headers
 
 object ZajelUtil {
     val preferenceManager :PreferenceManager= PreferenceManager.instance
 
+
+    fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+        observe(lifecycleOwner, object : Observer<T> {
+            override fun onChanged(t: T?) {
+                observer.onChanged(t)
+                removeObserver(this)
+            }
+        })
+    }
 
     fun hideKeyboard(activity: Activity?) {
         if (activity != null && activity.window != null) {

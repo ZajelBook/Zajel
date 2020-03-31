@@ -55,10 +55,10 @@ class BookListFragment : Fragment() {
 
         booksListViewModel.networkState.observe(viewLifecycleOwner, Observer {
 
-                if (it.status == Status.SUCCESS) {
-                    binding.swipeContainer.isRefreshing = false
-                }
-            })
+            if (it.status == Status.SUCCESS) {
+                binding.swipeContainer.isRefreshing = false
+            }
+        })
 
 
         return binding.root

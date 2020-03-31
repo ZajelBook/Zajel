@@ -31,6 +31,10 @@ class MessagesListViewModel(
         messagesRepository.setConversationId(conversationIdId)
     }
 
+    fun insertMessage(message: Message) {
+        messagesRepository.insertMessage(message)
+    }
+
 
     override fun onCleared() {
         boundaryCallback.value?.cleared()
