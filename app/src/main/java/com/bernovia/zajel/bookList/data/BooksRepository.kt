@@ -52,12 +52,12 @@ interface BooksRepository {
             return object : Listing<Book> {
 
                 override fun getBoundaryCallback(): LiveData<GenericBoundaryCallback<Book>> {
-                    return liveData(bc)
+                    return liveData(bcMyBooks)
 
                 }
 
                 override fun getDataSource(): LiveData<PagedList<Book>> {
-                    return dao.allMyBooksPaginated(preferenceManager.userId).map { it }.toLiveData(pageSize = SIZE_PAGE, boundaryCallback = bc)
+                    return dao.allMyBooksPaginated(preferenceManager.userId).map { it }.toLiveData(pageSize = SIZE_PAGE, boundaryCallback = bcMyBooks)
                 }
 
             }

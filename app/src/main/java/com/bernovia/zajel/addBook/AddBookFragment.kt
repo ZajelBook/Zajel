@@ -21,6 +21,8 @@ import androidx.lifecycle.Observer
 import com.bernovia.zajel.BuildConfig
 import com.bernovia.zajel.R
 import com.bernovia.zajel.addBook.data.AddBookViewModel
+import com.bernovia.zajel.addBook.updateBook.UpdateBookViewModel
+import com.bernovia.zajel.bookList.ui.BooksListViewModel
 import com.bernovia.zajel.databinding.FragmentAddBookBinding
 import com.bernovia.zajel.dialogs.ChoosePhotoDialogFragment
 import com.bernovia.zajel.dialogs.DialogUtil
@@ -37,6 +39,7 @@ import com.bernovia.zajel.helpers.ImageUtil.getFileImageFromGallery
 import com.bernovia.zajel.helpers.ImageUtil.getFileName
 import com.bernovia.zajel.helpers.ImageUtil.openCropActivityInFragment
 import com.bernovia.zajel.helpers.ImageUtil.showFileChooser
+import com.bernovia.zajel.helpers.NavigateUtil
 import com.bernovia.zajel.helpers.TextWatcherAdapter
 import com.bernovia.zajel.helpers.ValidateUtil.validateEmptyField
 import com.bernovia.zajel.splashScreen.models.Genre
@@ -64,9 +67,12 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
     private var fileName: String? = null
     private var photoFile: File? = null
     private lateinit var genres: ArrayList<Genre>
+    private var bookId: Int = 0
 
     private val addBookViewModel: AddBookViewModel by viewModel()
     private val metaDataViewModel: MetaDataViewModel by viewModel()
+    private val booksListViewModel: BooksListViewModel by viewModel()
+    private val updateBookViewModel: UpdateBookViewModel by viewModel()
 
 
     private val onSelectedValue: BroadcastReceiver = object : BroadcastReceiver() {
@@ -79,9 +85,10 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
     }
 
     companion object {
-        fun newInstance(): AddBookFragment {
+        fun newInstance(bookId: Int): AddBookFragment {
             val args = Bundle()
             val fragment = AddBookFragment()
+            args.putInt("book_id", bookId)
             fragment.arguments = args
             return fragment
         }
@@ -94,8 +101,28 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
         return binding.root
     }
 
+    private fun setData() {
+        if (bookId != 0) {
+            booksListViewModel.getBookById(bookId).observe(viewLifecycleOwner, Observer {
+                ImageUtil.renderImage(it.image, binding.bookImageView, R.drawable.newsletter_placeholder, requireContext())
+                binding.titleEditText.setText(it.title)
+                binding.authorEditText.setText(it.author)
+                binding.publishYearEditText.setText(it.publishedAt)
+                binding.pageCountEditText.setText(it.pageCount.toString())
+                binding.descriptionEditText.setText(it.description)
+                binding.languageEditText.setText(it.language)
+                binding.genreEditText.setText(it.genre)
+            })
+            binding.addButton.text = getString(R.string.update)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (arguments != null) {
+            bookId = arguments?.getInt("book_id")!!
+            setData()
+        }
 
         registerTheReceiver(onSelectedValue, BOTTOM_SHEET_SELECT_VALUE)
 
@@ -120,9 +147,9 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
         }
 
         metaDataViewModel.getMetaData().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            if (it.genres==null){
+            if (it.genres == null) {
                 metaDataViewModel.insertMetaDataInLocal()
-            }else{
+            } else {
                 genres = ArrayList()
                 genres.addAll(it.genres)
 
@@ -131,7 +158,7 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
 
     }
 
-    fun getGenreIdFromText(value: String): Int? {
+    private fun getGenreIdFromText(value: String): Int? {
         for (items in genres) {
             if (value == items.name) {
                 return items.id
@@ -242,21 +269,36 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
         if (!validateEmptyField(binding.descriptionEditText, binding.descriptionTextInputLayout, requireActivity(), resources.getString(R.string.empty_description))) return
         if (!validateEmptyField(binding.languageEditText, binding.languageTextInputLayout, requireActivity(), resources.getString(R.string.empty_language))) return
         if (!validateEmptyField(binding.genreEditText, binding.genreTextInputLayout, requireActivity(), resources.getString(R.string.empty_genre))) return
-        if (photoFile == null) {
+        if (photoFile == null && bookId == 0) {
             Snackbar.make(binding.root, resources.getString(R.string.empty_photo), Snackbar.LENGTH_LONG).show()
         } else {
 
-            val photoRequesBody: RequestBody = photoFile!!.asRequestBody("image/*".toMediaTypeOrNull())
-            val bookCover: MultipartBody.Part
-            bookCover = try {
-                MultipartBody.Part.createFormData("image", photoFile!!.name, photoRequesBody)
-            }
-            catch (e: java.lang.Exception) {
-                MultipartBody.Part.createFormData("image", "img", photoRequesBody)
-            }
 
-
-            addBookViewModel.setImage(bookCover)
+            if (bookId != 0) {
+                if (photoFile == null) {
+                    updateBookViewModel.setBookIdAndImage(bookId, null)
+                } else {
+                    val photoRequesBody: RequestBody = photoFile!!.asRequestBody("image/*".toMediaTypeOrNull())
+                    val bookCover: MultipartBody.Part
+                    bookCover = try {
+                        MultipartBody.Part.createFormData("image", photoFile!!.name, photoRequesBody)
+                    }
+                    catch (e: java.lang.Exception) {
+                        MultipartBody.Part.createFormData("image", "img", photoRequesBody)
+                    }
+                    updateBookViewModel.setBookIdAndImage(bookId, bookCover)
+                }
+            } else {
+                val photoRequesBody: RequestBody = photoFile!!.asRequestBody("image/*".toMediaTypeOrNull())
+                val bookCover: MultipartBody.Part
+                bookCover = try {
+                    MultipartBody.Part.createFormData("image", photoFile!!.name, photoRequesBody)
+                }
+                catch (e: java.lang.Exception) {
+                    MultipartBody.Part.createFormData("image", "img", photoRequesBody)
+                }
+                addBookViewModel.setImage(bookCover)
+            }
 
 
             val titleRequestBody = binding.titleEditText.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
@@ -278,12 +320,21 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
             map["genre_id"] = genreRequestBody
 
 
-            addBookViewModel.getDataFromRetrofit(map).observe(viewLifecycleOwner, Observer {
+            if (bookId != 0) {
+                updateBookViewModel.getDataFromRetrofit(map).observe(viewLifecycleOwner, Observer {
+                    if (it.isSuccessful) {
+                        NavigateUtil.closeFragment(requireActivity().supportFragmentManager, this)
+                    }
+                })
 
-            })
-
+            } else {
+                addBookViewModel.getDataFromRetrofit(map).observe(viewLifecycleOwner, Observer {
+                    if (it.isSuccessful) {
+                        NavigateUtil.closeFragment(requireActivity().supportFragmentManager, this)
+                    }
+                })
+            }
         }
-
     }
 
     override fun onTextChanged(view: EditText?, text: String?) {
@@ -297,8 +348,6 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
             R.id.genre_EditText -> validateEmptyField(binding.genreEditText, binding.genreTextInputLayout, requireActivity(), resources.getString(R.string.empty_genre))
 
         }
-
-
     }
 
 }

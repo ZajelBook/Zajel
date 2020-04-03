@@ -57,7 +57,6 @@ interface ApiServicesRx {
             return retrofit.create(NetworkCalls::class.java).getMessages(conversationId, perPage, page).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
                 it.messages
             }
-
         }
 
         override fun book(bookId: Int): Single<Book> {
@@ -67,7 +66,7 @@ interface ApiServicesRx {
         }
 
         override fun myBookList(perPage: Int, page: Int): Single<List<Book>> {
-            return retrofit.create(NetworkCalls::class.java).getBooksList(perPage, page).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
+            return retrofit.create(NetworkCalls::class.java).getMyBooksList(perPage, page).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
                 it.books
             }
         }

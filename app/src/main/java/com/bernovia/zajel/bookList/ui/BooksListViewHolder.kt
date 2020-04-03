@@ -1,5 +1,6 @@
 package com.bernovia.zajel.bookList.ui
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -34,8 +35,11 @@ class BooksListViewHolder(var itemBinding: ItemBookBinding, private var fragment
 
 
             itemBinding.root.setOnClickListener {
-                if (data.userId== preferenceManager.userId ){
-                    FragmentSwitcher.addFragment(fragmentManager, R.id.added_FrameLayout, AddBookFragment.newInstance(), FragmentSwitcher.AnimationType.PUSH)
+                Log.e("user id", preferenceManager.userId.toString())
+                Log.e("user id from book ", data.userId.toString())
+
+                if (data.userId == preferenceManager.userId){
+                    FragmentSwitcher.addFragment(fragmentManager, R.id.added_FrameLayout, AddBookFragment.newInstance(data.id), FragmentSwitcher.AnimationType.PUSH)
 
                 }else{
                     FragmentSwitcher.addFragment(fragmentManager, R.id.added_FrameLayout, BookDetailsFragment.newInstance(data.id), FragmentSwitcher.AnimationType.PUSH)

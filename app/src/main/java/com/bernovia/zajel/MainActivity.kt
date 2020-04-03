@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         registerTheReceiver(tokenMissMatchReceiver, TOKEN_MISMATCH)
 
         binding.addBookFAB.setOnClickListener {
-            FragmentSwitcher.addFragment(supportFragmentManager, R.id.added_FrameLayout, AddBookFragment.newInstance(), FragmentSwitcher.AnimationType.PUSH)
+            FragmentSwitcher.addFragment(supportFragmentManager, R.id.added_FrameLayout, AddBookFragment.newInstance(0), FragmentSwitcher.AnimationType.PUSH)
 
         }
         replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, BookListFragment.newInstance())

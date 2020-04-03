@@ -13,6 +13,8 @@ import com.bernovia.zajel.actions.sendRequest.SendRequestRepository
 import com.bernovia.zajel.actions.sendRequest.SendRequestViewModel
 import com.bernovia.zajel.addBook.data.AddBookRepository
 import com.bernovia.zajel.addBook.data.AddBookViewModel
+import com.bernovia.zajel.addBook.updateBook.UpdateBookRepository
+import com.bernovia.zajel.addBook.updateBook.UpdateBookViewModel
 import com.bernovia.zajel.api.ApiServicesCoRoutines
 import com.bernovia.zajel.api.ApiServicesRx
 import com.bernovia.zajel.api.AuthInterceptor
@@ -81,7 +83,9 @@ val repositoryModule by lazy {
         single {
             AddBookRepository(get(named("interceptor_with_token")))
         }
-
+        single {
+            UpdateBookRepository(get(named("interceptor_with_token")))
+        }
         single {
             AcceptRejectRequestRepository(get(named("interceptor_with_token")))
         }
@@ -146,6 +150,9 @@ val viewModelModule by lazy {
         }
         viewModel {
             AddBookViewModel(get())
+        }
+        viewModel {
+            UpdateBookViewModel(get())
         }
         viewModel {
             MetaDataViewModel(get())

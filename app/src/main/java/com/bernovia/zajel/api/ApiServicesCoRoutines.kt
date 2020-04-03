@@ -41,6 +41,11 @@ interface ApiServicesCoRoutines {
 
     @Multipart @POST(API_BOOKS_LIST) fun addBookAsync(@Part image: MultipartBody.Part, @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>): Deferred<Response<UpdateValuesResponseBody>>
 
+
+    @Multipart @PUT("$API_BOOKS_LIST/{book_id}") fun updateBookAsync(
+        @Path("book_id") bookId: Int, @Part image: MultipartBody.Part?, @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>): Deferred<Response<UpdateValuesResponseBody>>
+
+
     @POST(API_BOOK_ACTIVITIES) fun sendRequestAsync(@Body sendRequestRequestBody: SendRequestRequestBody): Deferred<Response<ActionsResponseBody>>
 
     @PUT("$API_BOOK_ACTIVITIES/{book_id}") fun acceptRejectRequestAsync(@Path("book_id") bookId: Int, @Query("type") type: String): Deferred<Response<ActionsResponseBody>>

@@ -185,7 +185,7 @@
                     android:background="@drawable/bg_rounded"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:text="@{bookDetails.pageCount.toString()}" />
+                    android:text="@{bookDetails.pageCount+``}" />
 
             </RelativeLayout>
 
