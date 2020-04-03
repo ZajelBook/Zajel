@@ -6,10 +6,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bernovia.zajel.R
+import com.bernovia.zajel.addBook.AddBookFragment
 import com.bernovia.zajel.bookList.models.Book
 import com.bernovia.zajel.databinding.ItemBookBinding
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.ImageUtil
+import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 
 
 class BooksListViewHolder(var itemBinding: ItemBookBinding, private var fragmentManager: FragmentManager) : RecyclerView.ViewHolder(itemBinding.root) {
@@ -32,7 +34,14 @@ class BooksListViewHolder(var itemBinding: ItemBookBinding, private var fragment
 
 
             itemBinding.root.setOnClickListener {
-                FragmentSwitcher.addFragment(fragmentManager, R.id.added_FrameLayout, BookDetailsFragment.newInstance(data.id), FragmentSwitcher.AnimationType.PUSH)
+                if (data.userId== preferenceManager.userId ){
+                    FragmentSwitcher.addFragment(fragmentManager, R.id.added_FrameLayout, AddBookFragment.newInstance(), FragmentSwitcher.AnimationType.PUSH)
+
+                }else{
+                    FragmentSwitcher.addFragment(fragmentManager, R.id.added_FrameLayout, BookDetailsFragment.newInstance(data.id), FragmentSwitcher.AnimationType.PUSH)
+
+                }
+
             }
         }
 

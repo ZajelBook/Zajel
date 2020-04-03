@@ -31,7 +31,7 @@ import java.net.URI
 class MessagesListFragment : Fragment() {
     lateinit var binding: FragmentMessagesListBinding
     private val messagesListViewModel: MessagesListViewModel by viewModel()
-
+    lateinit var consumer: Consumer
     private val sendMessageViewModel: SendMessageViewModel by viewModel()
 
     companion object {
@@ -92,7 +92,7 @@ class MessagesListFragment : Fragment() {
         query["access-token"] = validateString(preferenceManager.accessToken)
         options.query = query
 
-        val consumer = ActionCable.createConsumer(uri, options)
+        consumer = ActionCable.createConsumer(uri, options)
 
 
         // 2. Create subscription
@@ -136,6 +136,11 @@ class MessagesListFragment : Fragment() {
             }
 
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        consumer.disconnect()
     }
 
 }

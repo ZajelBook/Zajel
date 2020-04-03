@@ -32,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/proxima_nova_bold"
                 android:gravity="center"
-                android:text="Add Book" />
+                android:text="@string/add_book" />
 
 
             <View

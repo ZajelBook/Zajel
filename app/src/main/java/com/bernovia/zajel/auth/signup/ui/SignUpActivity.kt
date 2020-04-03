@@ -8,10 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bernovia.zajel.AskForLocationActivity
 import com.bernovia.zajel.R
+import com.bernovia.zajel.WebViewFragment
 import com.bernovia.zajel.auth.logIn.ui.LoginActivity
 import com.bernovia.zajel.auth.signup.models.SignUpRequestBody
 import com.bernovia.zajel.databinding.ActivitySignUpBinding
 import com.bernovia.zajel.helpers.DateUtil.openDatePickerAndUpdateText
+import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.NavigateUtil.start
 import com.bernovia.zajel.helpers.TextWatcherAdapter
 import com.bernovia.zajel.helpers.ValidateUtil.validateEmail
@@ -22,6 +24,7 @@ import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.bernovia.zajel.helpers.ZajelUtil.setHeaders
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
+import com.jaychang.st.SimpleText
 import okhttp3.Headers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -44,6 +47,32 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener, TextWatcherAda
         binding.passwordEditText.addTextChangedListener(TextWatcherAdapter(binding.passwordEditText, this))
         binding.confirmPasswordEditText.addTextChangedListener(TextWatcherAdapter(binding.confirmPasswordEditText, this))
         binding.dateEditText.addTextChangedListener(TextWatcherAdapter(binding.dateEditText, this))
+
+        try {
+            val text = resources.getString(R.string.by_signing_up_you_agree_on_our_terms_and_conditions)
+            val termsurl = resources.getString(R.string.terms_link)
+            val privacyUrl = resources.getString(R.string.privacy_link)
+            val simpleText =
+                SimpleText.from(text).first(getString(R.string.privacy_policy)).textColor(R.color.colorPrimary).background(R.color.white).pressedTextColor(R.color.colorPrimary).bold().onClick(
+                        binding.termsTextView) { _, _, _ ->
+                        FragmentSwitcher.addFragment(supportFragmentManager,
+                            R.id.added_FrameLayout,
+                            WebViewFragment.newInstance(getString(R.string.privacy_policy), privacyUrl),
+                            FragmentSwitcher.AnimationType.PUSH)
+                    }
+
+                    .first(getString(R.string.terms)).textColor(R.color.colorPrimary).background(R.color.white).pressedTextColor(R.color.colorPrimary).bold().onClick(binding.termsTextView) { _, _, _ ->
+                        FragmentSwitcher.addFragment(supportFragmentManager,
+                            R.id.added_FrameLayout,
+                            WebViewFragment.newInstance(getString(R.string.terms_and_conditions), termsurl),
+                            FragmentSwitcher.AnimationType.PUSH)
+
+                    }
+            binding.termsTextView.text = simpleText
+        }
+        catch (e: Exception) {
+            binding.termsTextView.visibility = View.GONE
+        }
 
 
     }
@@ -109,7 +138,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener, TextWatcherAda
                 if (it.isSuccessful) {
                     val headers: Headers = it.headers()
                     preferenceManager.userId = it.body()?.data?.id!!
-                    preferenceManager.userName = it.body()?.data?.firstName +" " + it.body()?.data?.lastName
+                    preferenceManager.userName = it.body()?.data?.firstName + " " + it.body()?.data?.lastName
                     setHeaders(headers, preferenceManager)
                     start<AskForLocationActivity>(this)
                     finish()

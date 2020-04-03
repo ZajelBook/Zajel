@@ -11,8 +11,11 @@ import androidx.lifecycle.Observer
 import com.bernovia.zajel.AppDatabase
 import com.bernovia.zajel.MainActivity
 import com.bernovia.zajel.R
+import com.bernovia.zajel.WebViewFragment
 import com.bernovia.zajel.actions.logout.LogoutViewModel
+import com.bernovia.zajel.bookList.ui.MyBooksFragment
 import com.bernovia.zajel.databinding.FragmentProfileBinding
+import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.NavigateUtil
 import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -65,10 +68,22 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             R.id.name_RelativeLayout -> {
             }
             R.id.my_books_RelativeLayout -> {
+                FragmentSwitcher.addFragment(requireActivity().supportFragmentManager,
+                    R.id.added_FrameLayout,
+                    MyBooksFragment.newInstance(),
+                    FragmentSwitcher.AnimationType.PUSH)
             }
             R.id.terms_RelativeLayout -> {
+                FragmentSwitcher.addFragment(requireActivity().supportFragmentManager,
+                    R.id.added_FrameLayout,
+                    WebViewFragment.newInstance(getString(R.string.terms_and_conditions), getString(R.string.terms_link)),
+                    FragmentSwitcher.AnimationType.PUSH)
             }
             R.id.privacy_policy_RelativeLayout -> {
+                FragmentSwitcher.addFragment(requireActivity().supportFragmentManager,
+                    R.id.added_FrameLayout,
+                    WebViewFragment.newInstance(getString(R.string.privacy_policy), getString(R.string.privacy_link)),
+                    FragmentSwitcher.AnimationType.PUSH)
             }
             R.id.logout_RelativeLayout -> {
                 logoutViewModel.getDataFromRetrofit().observe(viewLifecycleOwner, Observer {

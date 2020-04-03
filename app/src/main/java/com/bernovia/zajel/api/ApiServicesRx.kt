@@ -4,6 +4,7 @@ import com.bernovia.zajel.api.APIs.API_BOOKS_LIST
 import com.bernovia.zajel.api.APIs.API_BOOK_ACTIVITIES
 import com.bernovia.zajel.api.APIs.API_CONVERSATION
 import com.bernovia.zajel.api.APIs.API_META_DATA
+import com.bernovia.zajel.api.APIs.API_MY_BOOKS
 import com.bernovia.zajel.bookList.models.Book
 import com.bernovia.zajel.bookList.models.BookListResponseModel
 import com.bernovia.zajel.helpers.NetworkUtil.handleApiError
@@ -28,6 +29,7 @@ interface ApiServicesRx {
     fun messagesList(perPage: Int, page: Int, conversationId: Int): Single<List<Message?>>
 
     fun book(bookId: Int): Single<Book>
+    fun myBookList(perPage: Int, page: Int): Single<List<Book>>
 
 
     class Network(
@@ -43,8 +45,6 @@ interface ApiServicesRx {
             return retrofit.create(NetworkCalls::class.java).getMetaData().subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
                 it
             }
-
-
         }
 
         override fun requestsList(type: String, perPage: Int, page: Int): Single<List<BookActivity?>> {
@@ -66,9 +66,16 @@ interface ApiServicesRx {
             }
         }
 
+        override fun myBookList(perPage: Int, page: Int): Single<List<Book>> {
+            return retrofit.create(NetworkCalls::class.java).getBooksList(perPage, page).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
+                it.books
+            }
+        }
+
         interface NetworkCalls {
             @GET("$API_BOOKS_LIST/{book_id}") fun getBook(@Path("book_id") bookId: Int): Single<Book>
 
+            @GET(API_MY_BOOKS) fun getMyBooksList(@Query("per_page") perPage: Int, @Query("page") page: Int): Single<BookListResponseModel<List<Book>>>
 
             @GET(API_BOOKS_LIST) fun getBooksList(@Query("per_page") perPage: Int, @Query("page") page: Int): Single<BookListResponseModel<List<Book>>>
 

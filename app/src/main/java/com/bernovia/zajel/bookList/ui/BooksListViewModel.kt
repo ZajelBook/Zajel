@@ -13,11 +13,22 @@ class BooksListViewModel(
     private val booksRepository: BooksRepository) : ViewModel() {
 
 
-    private val listing: LiveData<Listing<Book>> by lazy {
-        liveData(booksRepository.getListable())
+    // my books list
+    private val listingMyBooks: LiveData<Listing<Book>> by lazy {
+        liveData(booksRepository.getListableMyBooks())
+    }
+    val boundaryCallbackMyBooks = Transformations.switchMap(listingMyBooks) { it.getBoundaryCallback() }
+    val dataSourceMyBooks = Transformations.switchMap(listingMyBooks) { it.getDataSource() }
+    val networkStateMyBooks = Transformations.switchMap(listingMyBooks) { it.getNetworkState() }
+    fun refreshPageMyBooks(): LiveData<GenericBoundaryCallback<Book>> {
+        return Transformations.switchMap(listingMyBooks) { it.getBoundaryCallback() }
     }
 
 
+    // all books list
+    private val listing: LiveData<Listing<Book>> by lazy {
+        liveData(booksRepository.getListable())
+    }
     val boundaryCallback = Transformations.switchMap(listing) { it.getBoundaryCallback() }
     val dataSource = Transformations.switchMap(listing) { it.getDataSource() }
     val networkState = Transformations.switchMap(listing) { it.getNetworkState() }
@@ -26,6 +37,9 @@ class BooksListViewModel(
         return Transformations.switchMap(listing) { it.getBoundaryCallback() }
     }
 
+
+
+    // get books details
     fun getBookById(bookId: Int): LiveData<Book> {
         return booksRepository.getBookById(bookId)
     }
@@ -34,9 +48,6 @@ class BooksListViewModel(
         return booksRepository.getBookAndInsertInLocal(bookId)
     }
 
-    fun insertBook(book: Book){
-        booksRepository.insertBookIn(book)
-    }
 
     fun updateRequested(bookId: Int, value: Boolean) {
         booksRepository.updateRequested(bookId, value)
@@ -46,5 +57,6 @@ class BooksListViewModel(
     override fun onCleared() {
         booksRepository.cleared()
         boundaryCallback.value?.cleared()
+        boundaryCallbackMyBooks.value?.cleared()
     }
 }

@@ -5,6 +5,7 @@ import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.bernovia.zajel.api.ApiServicesRx
 import com.bernovia.zajel.bookList.models.Book
+import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.bernovia.zajel.helpers.apiCallsHelpers.liveData
 import com.bernovia.zajel.helpers.paginationUtils.GenericBoundaryCallback
 import com.bernovia.zajel.helpers.paginationUtils.Listing
@@ -23,6 +24,8 @@ interface BooksRepository {
     }
 
     fun getListable(): Listing<Book>
+    fun getListableMyBooks(): Listing<Book>
+
     fun updateRequested(bookId: Int, value: Boolean)
 
     fun getBookById(bookId: Int): LiveData<Book>
@@ -41,6 +44,25 @@ interface BooksRepository {
             GenericBoundaryCallback({ dao.deleteAllBooksList() }, { bookList(it) }, { insertAllBooksList(it) })
         }
 
+        val bcMyBooks: GenericBoundaryCallback<Book> by lazy {
+            GenericBoundaryCallback({ dao.deleteMyBooksList(preferenceManager.userId) }, { myBookList(it) }, { insertAllBooksList(it) })
+        }
+
+        override fun getListableMyBooks(): Listing<Book> {
+            return object : Listing<Book> {
+
+                override fun getBoundaryCallback(): LiveData<GenericBoundaryCallback<Book>> {
+                    return liveData(bc)
+
+                }
+
+                override fun getDataSource(): LiveData<PagedList<Book>> {
+                    return dao.allMyBooksPaginated(preferenceManager.userId).map { it }.toLiveData(pageSize = SIZE_PAGE, boundaryCallback = bc)
+                }
+
+            }
+        }
+
 
         override fun getListable(): Listing<Book> {
             return object : Listing<Book> {
@@ -55,11 +77,8 @@ interface BooksRepository {
                     return dao.allBooksPaginated().map { it }.toLiveData(pageSize = SIZE_PAGE, boundaryCallback = bc)
                 }
 
-
             }
-
         }
-
 
         override fun getBookAndInsertInLocal(bookId: Int) {
             book(bookId).subscribeOn(Schedulers.io()).flatMapCompletable {
@@ -96,6 +115,11 @@ interface BooksRepository {
 
         fun book(bookId: Int): Single<Book> {
             return service.book(bookId).map { it }
+        }
+
+
+        fun myBookList(page: Int): Single<List<Book>> {
+            return service.myBookList(SIZE_PAGE, page).map { it }
         }
 
 

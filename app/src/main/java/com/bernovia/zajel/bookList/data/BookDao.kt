@@ -18,6 +18,9 @@ import io.reactivex.Completable
 
     @Query("DELETE FROM book") fun deleteAllBooksList(): Completable
 
+    @Query("DELETE FROM book where owner_id_book =:ownerId") fun deleteMyBooksList(ownerId: Int): Completable
+    @Query("SELECT * FROM book where owner_id_book =:ownerId") fun allMyBooksPaginated(ownerId: Int): DataSource.Factory<Int, Book>
+
 
     @Query("SELECT * FROM book WHERE id_book= :bookId") fun getBookById(bookId: Int): LiveData<Book>
 

@@ -8,7 +8,7 @@ import com.bernovia.zajel.helpers.base.BaseRepository
 class LogoutRepository(service: ApiServicesCoRoutines) : BaseRepository<ActionsResponseBody>(service) {
     override fun loadData(): LiveData<Any> {
         return fetchData {
-            service.logout()
+            service.logoutAsync()
         }
     }
 }

@@ -9,5 +9,5 @@ object APIs {
     const val API_META_DATA = "metadata"
     const val API_BOOK_ACTIVITIES = "book_activities"
     const val API_CONVERSATION = "conversations/{conversation_id}/messages"
-
+    const val API_MY_BOOKS = "my_books"
 }

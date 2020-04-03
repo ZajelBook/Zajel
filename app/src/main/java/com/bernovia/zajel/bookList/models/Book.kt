@@ -20,7 +20,7 @@ import com.google.gson.annotations.SerializedName
     @ColumnInfo(name = "status_book") @SerializedName("status") val status: String?,
     @ColumnInfo(name = "title_book") @SerializedName("title") val title: String?,
     @ColumnInfo(name = "genre_book") @SerializedName("genre") val genre: String?,
-    @ColumnInfo(name = "owner_id_book") @SerializedName("owner_id") val userId: String?,
+    @ColumnInfo(name = "owner_id_book") @SerializedName("owner_id") val userId: Int,
     @ColumnInfo(name = "owner_type_book")  @SerializedName("owner_type") val ownerType: String?,
     @ColumnInfo(name = "requested_book") @SerializedName("requested") val requested: Boolean
 

@@ -51,11 +51,11 @@ class GenericBoundaryCallback<T>(
      */
     @MainThread override fun onItemAtEndLoaded(itemAtEnd: T) {
         Log.e("asd", offsetCount.toString())
-//        helper.runIfNotRunning(PagingRequestHelper.RequestType.BEFORE) {
+        helper.runIfNotRunning(PagingRequestHelper.RequestType.BEFORE) {
             Log.e("asd","inside")
 
-        test(offsetCount)
-//        }
+        getTop(offsetCount,it)
+        }
 
     }
 

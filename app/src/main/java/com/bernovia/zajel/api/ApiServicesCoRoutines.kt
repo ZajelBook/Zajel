@@ -49,7 +49,7 @@ interface ApiServicesCoRoutines {
 
     @POST(API_CONVERSATION) fun sendMessageAsync(@Body sendMessageRequestBody: SendMessageRequestBody, @Path("conversation_id") conversationId: Int): Deferred<Response<ActionsResponseBody>>
 
-    @POST(API_LOGOUT) fun logout(): Deferred<Response<ActionsResponseBody>>
+    @DELETE(API_LOGOUT) fun logoutAsync(): Deferred<Response<ActionsResponseBody>>
 
 
     companion object {

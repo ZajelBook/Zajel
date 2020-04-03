@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@id/header"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <ImageButton
+                android:id="@id/back_ImageButton"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:adjustViewBounds="true"
+                android:background="#00FFFFFF"
+                android:padding="22dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/back_arrow" />
+
+
+            <TextView
+                style="@style/page_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:gravity="center"
+                android:text="@string/my_books" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/divider" />
+
+
+        </RelativeLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@id/swipe_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/header"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="#fafafa">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@id/books_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fafafa" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    </RelativeLayout>
+
+
+</layout>
+
+
