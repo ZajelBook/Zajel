@@ -77,5 +77,10 @@
     <string name="terms">Terms</string>
     <string name="update">Update</string>
     <string name="notifications">Notifications</string>
+    <string name="done">Done</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="profile_updated_">Profile Updated Successfully</string>
+    <string name="book_added_success">Book Added Successfully</string>
+    <string name="book_updated_success">Book Updated Successfully</string>
 
 </resources>

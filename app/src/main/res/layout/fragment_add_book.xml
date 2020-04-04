@@ -10,8 +10,7 @@
 
         <RelativeLayout
             android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
+            style="@style/toolbar_style">
 
             <ImageButton
                 android:id="@+id/back_ImageButton"
@@ -21,7 +20,7 @@
                 android:layout_gravity="center_vertical"
                 android:adjustViewBounds="true"
                 android:background="#00FFFFFF"
-                android:padding="22dp"
+                android:padding="18dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/back_arrow" />
 
@@ -57,14 +56,15 @@
                 android:orientation="vertical">
 
 
-                <ImageView
+                <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/book_ImageView"
                     android:layout_width="250dp"
                     android:layout_height="300dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="15dp"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/newsletter_placeholder" />
+                    android:src="@drawable/newsletter_placeholder"
+                    app:riv_corner_radius="10dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/title_TextInputLayout"

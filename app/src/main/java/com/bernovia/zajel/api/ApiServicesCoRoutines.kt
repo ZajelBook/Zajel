@@ -15,6 +15,7 @@ import com.bernovia.zajel.auth.authResponseModels.AuthResponseData
 import com.bernovia.zajel.auth.logIn.models.LoginRequestBody
 import com.bernovia.zajel.auth.signup.models.SignUpRequestBody
 import com.bernovia.zajel.editProfile.models.EditProfileRequestBody
+import com.bernovia.zajel.editProfile.models.GetProfileResponseBody
 import com.bernovia.zajel.helpers.UpdateValuesResponseBody
 import com.bernovia.zajel.messages.sendMessage.SendMessageRequestBody
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -38,6 +39,8 @@ interface ApiServicesCoRoutines {
     @POST(API_AUTH_SIGN_UP) fun signUpAsync(@Body signUpRequestBody: SignUpRequestBody): Deferred<Response<AuthResponseBody<AuthResponseData>>>
 
     @PUT(API_EDIT_USER_PROFILE) fun editUserProfileAsync(@Path("user_id") userId: Int, @Body editProfileRequestBody: EditProfileRequestBody): Deferred<Response<UpdateValuesResponseBody>>
+
+    @GET(API_EDIT_USER_PROFILE) fun getUserProfileAsync(@Path("user_id") userId: Int): Deferred<Response<GetProfileResponseBody>>
 
     @Multipart @POST(API_BOOKS_LIST) fun addBookAsync(@Part image: MultipartBody.Part, @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>): Deferred<Response<UpdateValuesResponseBody>>
 

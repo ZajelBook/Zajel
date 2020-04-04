@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -40,6 +41,7 @@ import com.bernovia.zajel.helpers.ImageUtil.getFileName
 import com.bernovia.zajel.helpers.ImageUtil.openCropActivityInFragment
 import com.bernovia.zajel.helpers.ImageUtil.showFileChooser
 import com.bernovia.zajel.helpers.NavigateUtil
+import com.bernovia.zajel.helpers.NavigateUtil.closeFragment
 import com.bernovia.zajel.helpers.TextWatcherAdapter
 import com.bernovia.zajel.helpers.ValidateUtil.validateEmptyField
 import com.bernovia.zajel.splashScreen.models.Genre
@@ -145,6 +147,8 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
         binding.languageEditText.setOnClickListener {
             DialogUtil.showSingleChoiceMenuFragment(requireActivity().supportFragmentManager, resources.getString(R.string.language), binding.languageEditText.text.toString())
         }
+
+        binding.backImageButton.setOnClickListener { closeFragment(requireActivity().supportFragmentManager, this) }
 
         metaDataViewModel.getMetaData().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if (it.genres == null) {
@@ -323,14 +327,16 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
             if (bookId != 0) {
                 updateBookViewModel.getDataFromRetrofit(map).observe(viewLifecycleOwner, Observer {
                     if (it.isSuccessful) {
-                        NavigateUtil.closeFragment(requireActivity().supportFragmentManager, this)
+                        Toast.makeText(requireContext(),getString(R.string.book_updated_success),Toast.LENGTH_SHORT).show()
+                        closeFragment(requireActivity().supportFragmentManager, this)
                     }
                 })
 
             } else {
                 addBookViewModel.getDataFromRetrofit(map).observe(viewLifecycleOwner, Observer {
                     if (it.isSuccessful) {
-                        NavigateUtil.closeFragment(requireActivity().supportFragmentManager, this)
+                        Toast.makeText(requireContext(),getString(R.string.book_added_success),Toast.LENGTH_SHORT).show()
+                        closeFragment(requireActivity().supportFragmentManager, this)
                     }
                 })
             }

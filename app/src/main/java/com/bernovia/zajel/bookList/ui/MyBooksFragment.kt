@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bernovia.zajel.R
 import com.bernovia.zajel.databinding.FragmentMyBooksBinding
+import com.bernovia.zajel.helpers.NavigateUtil.closeFragment
 import com.bernovia.zajel.helpers.apiCallsHelpers.Status
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -63,6 +64,8 @@ class MyBooksFragment : Fragment() {
                 binding.swipeContainer.isRefreshing = false
             }
         })
+
+        binding.backImageButton.setOnClickListener { closeFragment(requireActivity().supportFragmentManager,this) }
 
 
     }

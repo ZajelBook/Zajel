@@ -8,20 +8,16 @@
 
         <RelativeLayout
             android:id="@id/header"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
+            style="@style/toolbar_style">
 
             <ImageButton
                 android:id="@id/back_ImageButton"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:adjustViewBounds="true"
                 android:background="#00FFFFFF"
-                android:padding="22dp"
-                android:scaleType="fitCenter"
+                android:padding="18dp"
                 android:src="@drawable/back_arrow" />
+
 
 
             <TextView

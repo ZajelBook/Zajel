@@ -31,18 +31,12 @@ object DateUtil {
 
     fun openDatePickerAndUpdateText(editText: EditText, fragmentManager: FragmentManager) {
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-        val calendar1 = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-
         val currentYear = calendar.get(Calendar.YEAR)
-        calendar.set(Calendar.YEAR, currentYear - 18)
+        calendar.set(Calendar.YEAR, currentYear - 70)
         val start = calendar.timeInMillis
-
-        calendar.set(Calendar.YEAR, currentYear + 62)
+        calendar.set(Calendar.YEAR, currentYear - 18)
         val end = calendar.timeInMillis
-
-        val datePicker =
-            MaterialDatePicker.Builder.datePicker().setCalendarConstraints(CalendarConstraints.Builder().setStart(start).setEnd(end).setOpenAt(calendar1.timeInMillis).build()).setSelection(calendar1.timeInMillis).build()
-
+        val datePicker = MaterialDatePicker.Builder.datePicker().setCalendarConstraints(CalendarConstraints.Builder().setStart(start).setEnd(end).setOpenAt(end).build()).setSelection(end).build()
         datePicker.show(fragmentManager, datePicker.toString())
         datePicker.addOnPositiveButtonClickListener {
             editText.setText(getDateFromMilliSeconds(it))
@@ -52,7 +46,7 @@ object DateUtil {
 
     fun convertDateToAmPm(timestamp: String?): String? {
         return try {
-            val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZZ")
+            val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm ZZZZZ")
             utcFormat.timeZone = TimeZone.getDefault()
             val date = utcFormat.parse(timestamp)
             val deviceFormat: DateFormat = SimpleDateFormat("h:mm a")

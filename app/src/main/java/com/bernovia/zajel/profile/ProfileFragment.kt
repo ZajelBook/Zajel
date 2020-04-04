@@ -15,6 +15,7 @@ import com.bernovia.zajel.WebViewFragment
 import com.bernovia.zajel.actions.logout.LogoutViewModel
 import com.bernovia.zajel.bookList.ui.MyBooksFragment
 import com.bernovia.zajel.databinding.FragmentProfileBinding
+import com.bernovia.zajel.editProfile.EditProfileFragment
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.NavigateUtil
 import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
@@ -66,6 +67,11 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.name_RelativeLayout -> {
+                FragmentSwitcher.addFragment(requireActivity().supportFragmentManager,
+                    R.id.added_FrameLayout,
+                    EditProfileFragment.newInstance(),
+                    FragmentSwitcher.AnimationType.PUSH)
+
             }
             R.id.my_books_RelativeLayout -> {
                 FragmentSwitcher.addFragment(requireActivity().supportFragmentManager,
