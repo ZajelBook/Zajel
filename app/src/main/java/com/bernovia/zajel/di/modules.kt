@@ -32,6 +32,8 @@ import com.bernovia.zajel.messages.data.MessagesRepository
 import com.bernovia.zajel.messages.sendMessage.SendMessageRepository
 import com.bernovia.zajel.messages.sendMessage.SendMessageViewModel
 import com.bernovia.zajel.messages.ui.MessagesListViewModel
+import com.bernovia.zajel.notificationsList.data.NotificationsListRepository
+import com.bernovia.zajel.notificationsList.ui.NotificationsListViewModel
 import com.bernovia.zajel.requests.data.BookActivityRepository
 import com.bernovia.zajel.requests.ui.BookActivitiesViewModel
 import com.bernovia.zajel.splashScreen.data.MetaDataRepository
@@ -61,6 +63,9 @@ val cacheModule by lazy {
         }
         single {
             AppDatabase.getInstance(get()).messagesDao()
+        }
+        single {
+            AppDatabase.getInstance(get()).notificationsDao()
         }
 
     }
@@ -117,6 +122,10 @@ val repositoryModule by lazy {
 
         single<MessagesRepository> {
             MessagesRepository.MessagesRepositoryImpl(get(), get())
+        }
+
+        single<NotificationsListRepository> {
+            NotificationsListRepository.NotificationsListRepositoryImpl(get(), get())
         }
 
     }
@@ -177,6 +186,9 @@ val viewModelModule by lazy {
         }
         viewModel {
             LogoutViewModel(get())
+        }
+        viewModel {
+            NotificationsListViewModel(get())
         }
 
     }

@@ -15,7 +15,7 @@ object DateUtil {
 
     @SuppressLint("SimpleDateFormat") fun timeAgo(timeStamp: String?): String? {
         val ago: String
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm ZZZZZ")
         sdf.timeZone = TimeZone.getDefault()
         ago = try {
             val time = sdf.parse(timeStamp).time
@@ -28,7 +28,6 @@ object DateUtil {
         }
         return ago
     }
-
 
     fun openDatePickerAndUpdateText(editText: EditText, fragmentManager: FragmentManager) {
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))

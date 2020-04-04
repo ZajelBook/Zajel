@@ -5,12 +5,15 @@ import com.bernovia.zajel.api.APIs.API_BOOK_ACTIVITIES
 import com.bernovia.zajel.api.APIs.API_CONVERSATION
 import com.bernovia.zajel.api.APIs.API_META_DATA
 import com.bernovia.zajel.api.APIs.API_MY_BOOKS
+import com.bernovia.zajel.api.APIs.API_NOTIFICATIONS
 import com.bernovia.zajel.bookList.models.Book
 import com.bernovia.zajel.bookList.models.BookListResponseModel
 import com.bernovia.zajel.helpers.NetworkUtil.handleApiError
 import com.bernovia.zajel.helpers.apiCallsHelpers.BaseSchedulers
 import com.bernovia.zajel.messages.models.Message
 import com.bernovia.zajel.messages.models.MessagesListResponseBody
+import com.bernovia.zajel.notificationsList.models.Notification
+import com.bernovia.zajel.notificationsList.models.NotificationListResponseModel
 import com.bernovia.zajel.requests.models.BookActivity
 import com.bernovia.zajel.requests.models.RequestsResponseModel
 import com.bernovia.zajel.splashScreen.models.MetaDataResponseBody
@@ -30,6 +33,9 @@ interface ApiServicesRx {
 
     fun book(bookId: Int): Single<Book>
     fun myBookList(perPage: Int, page: Int): Single<List<Book>>
+
+
+    fun notificationsList(perPage: Int, page: Int): Single<List<Notification>>
 
 
     class Network(
@@ -71,6 +77,12 @@ interface ApiServicesRx {
             }
         }
 
+        override fun notificationsList(perPage: Int, page: Int): Single<List<Notification>> {
+            return retrofit.create(NetworkCalls::class.java).getNotificationsList(perPage, page).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
+                it.notifications
+            }
+        }
+
         interface NetworkCalls {
             @GET("$API_BOOKS_LIST/{book_id}") fun getBook(@Path("book_id") bookId: Int): Single<Book>
 
@@ -84,6 +96,8 @@ interface ApiServicesRx {
 
             @GET(API_CONVERSATION) fun getMessages(
                 @Path("conversation_id") conversationId: Int, @Query("per_page") type: Int, @Query("page") page: Int): Single<MessagesListResponseBody<List<Message?>>>
+
+            @GET(API_NOTIFICATIONS) fun getNotificationsList(@Query("per_page") perPage: Int, @Query("page") page: Int): Single<NotificationListResponseModel<List<Notification>>>
 
 
         }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bernovia.zajel.R
 import com.bernovia.zajel.bookList.ui.BookDetailsFragment
 import com.bernovia.zajel.databinding.ItemReceivedRequestBinding
+import com.bernovia.zajel.helpers.DateUtil
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.ImageUtil
 import com.bernovia.zajel.requests.models.BookActivity
@@ -29,6 +30,8 @@ class ReceivedRequestsViewHolder(var itemBinding: ItemReceivedRequestBinding, pr
             ImageUtil.renderImageWithNoPlaceHolder(data.book?.image, itemBinding.bookImageView, itemBinding.root.context)
             itemBinding.bookNameTextView.text = data.book?.title
             itemBinding.userNameTextView.text = data.borrower?.name
+            itemBinding.createdAtTextView.text= DateUtil.timeAgo(data.createdAt)
+
 
             if (data.status == "pending") {
                 itemBinding.buttonsLinearLayout.visibility = View.VISIBLE

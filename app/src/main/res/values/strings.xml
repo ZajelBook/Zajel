@@ -76,5 +76,6 @@
     <string name="privacy_link">https://sugarbookapp.com/privacy-policy.html</string>
     <string name="terms">Terms</string>
     <string name="update">Update</string>
+    <string name="notifications">Notifications</string>
 
 </resources>

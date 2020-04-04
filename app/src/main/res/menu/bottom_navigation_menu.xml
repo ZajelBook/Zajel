@@ -9,6 +9,11 @@
         android:icon="@drawable/requests"
         android:title="@string/requests" />
     <item
+        android:id="@+id/navigation_notifications"
+        android:icon="@drawable/notification_icon"
+        android:title="@string/notifications" />
+
+    <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/profile"
         android:title="@string/profile" />

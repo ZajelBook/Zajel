@@ -1,4 +1,4 @@
-package com.bernovia.zajel.notificationsList
+package com.bernovia.zajel.notificationsList.models
 
 
 import com.google.gson.annotations.SerializedName

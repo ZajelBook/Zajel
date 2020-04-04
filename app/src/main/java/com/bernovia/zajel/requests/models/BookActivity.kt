@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "book_activity", indices = [Index("id_book_activity")]) data class BookActivity(
     @PrimaryKey @ColumnInfo(name = "id_book_activity") @SerializedName("id") val id: Int,
     @Embedded @SerializedName("book") val book: Book?,
+    @ColumnInfo(name = "created_at_book_activity") @SerializedName("created_at") val createdAt: String,
     @Embedded @SerializedName("borrower") val borrower: Borrower?,
     @Embedded @SerializedName("lender") val lender: Lender?,
     @ColumnInfo(name = "conversation_id_book_activity") @SerializedName("conversation_id") val conversationId: Int?,

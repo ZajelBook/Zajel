@@ -100,7 +100,7 @@ interface BooksRepository {
 
         }
 
-        fun insertAllBooksList(list: List<Book>): Completable {
+       private fun insertAllBooksList(list: List<Book>): Completable {
             return dao.insertAllBooksList(list.map { it })
         }
 
