@@ -100,6 +100,11 @@
             android:background="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@id/guideline"
             app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:id="@+id/background_ImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
 
             <ImageButton
                 android:id="@id/back_ImageButton"
@@ -112,11 +117,6 @@
                 android:tint="@color/white"
                 android:src="@drawable/back_arrow" />
 
-            <ImageView
-                android:id="@+id/background_ImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
 
         </RelativeLayout>
 

@@ -26,7 +26,6 @@ class TokenMismatchDialogFragment : DialogFragment() {
     @SuppressLint("RestrictedApi", "InflateParams")
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
-        //Set the custom view
 
         val binding = DataBindingUtil.inflate<FragmentTokenMissmatchDialogBinding>(LayoutInflater.from(context), R.layout.fragment_token_missmatch_dialog, null, false)
 
@@ -36,6 +35,10 @@ class TokenMismatchDialogFragment : DialogFragment() {
             dialog.window!!.requestFeature(Window.FEATURE_NO_TITLE)
         }
         dialog.setContentView(binding.root)
+        isCancelable = false
+
+        if (getDialog() != null) getDialog()!!.setCanceledOnTouchOutside(false)
+
 
 
 

@@ -15,7 +15,7 @@ object DateUtil {
 
     @SuppressLint("SimpleDateFormat") fun timeAgo(timeStamp: String?): String? {
         val ago: String
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm ZZZZZ")
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
         sdf.timeZone = TimeZone.getDefault()
         ago = try {
             val time = sdf.parse(timeStamp).time
@@ -23,7 +23,6 @@ object DateUtil {
             prettyTime.format(Date(time))
         }
         catch (e: ParseException) {
-            e.printStackTrace()
             ""
         }
         return ago
@@ -46,7 +45,7 @@ object DateUtil {
 
     fun convertDateToAmPm(timestamp: String?): String? {
         return try {
-            val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm ZZZZZ")
+            val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
             utcFormat.timeZone = TimeZone.getDefault()
             val date = utcFormat.parse(timestamp)
             val deviceFormat: DateFormat = SimpleDateFormat("h:mm a")

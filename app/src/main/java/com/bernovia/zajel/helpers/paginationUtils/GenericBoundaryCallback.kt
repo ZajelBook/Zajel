@@ -1,6 +1,5 @@
 package com.bernovia.zajel.helpers.paginationUtils
 
-import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
@@ -14,7 +13,8 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executors
 
 class GenericBoundaryCallback<T>(
-    private val removeAllItems: () -> Completable, private val getPage: (page: Int) -> Single<List<T>>, private val insertAllItems: (items: List<T>) -> Completable) : PagedList.BoundaryCallback<T>() {
+    private val removeAllItems: () -> Completable, private val getPage: (page: Int) -> Single<List<T>>, private val insertAllItems: (items: List<T>) -> Completable,
+    private val isMessaging: Boolean) : PagedList.BoundaryCallback<T>() {
 
     private val helper = PagingRequestHelper(Executors.newSingleThreadExecutor())
     val networkState: MutableLiveData<NetworkState> = helper.createStatusLiveData()
@@ -27,17 +27,17 @@ class GenericBoundaryCallback<T>(
         offsetCount = 1
         networkState.value = NetworkState.LOADING
         getPage(offsetCount).subscribeOn(Schedulers.io()).flatMapCompletable {
-                removeAllItems().andThen(insertAllItems(it))
-            }.subscribeBy(onComplete = {
-                offsetCount += 1
-                networkState.postValue(NetworkState.LOADED)
-            }, onError = {
+            removeAllItems().andThen(insertAllItems(it))
+        }.subscribeBy(onComplete = {
+            offsetCount += 1
+            networkState.postValue(NetworkState.LOADED)
+        }, onError = {
 
 //                            networkState.value =
 //                                    NetworkState.error(
 //                                            it.message
 //                                    )
-            }).addTo(compositeDisposable)
+        }).addTo(compositeDisposable)
     }
 
     /**
@@ -50,12 +50,14 @@ class GenericBoundaryCallback<T>(
      *  reached to the end of the list.
      */
     @MainThread override fun onItemAtEndLoaded(itemAtEnd: T) {
-        Log.e("asd", offsetCount.toString())
-        helper.runIfNotRunning(PagingRequestHelper.RequestType.BEFORE) {
-            Log.e("asd","inside")
-
-        getTop(offsetCount,it)
+        if (isMessaging) {
+            messagingCall(offsetCount)
+        } else {
+            helper.runIfNotRunning(PagingRequestHelper.RequestType.BEFORE) {
+                getTop(offsetCount, it)
+            }
         }
+
 
     }
 
@@ -63,16 +65,14 @@ class GenericBoundaryCallback<T>(
     override fun onItemAtFrontLoaded(itemAtFront: T) {
     }
 
-    private fun test(offset: Int) {
+    private fun messagingCall(offset: Int) {
         if (offset != 1) {
             getPage(offset).subscribeOn(Schedulers.io()).flatMapCompletable {
                 insertAllItems(it)
             }.subscribeBy(onComplete = {
-//                pagingRequest.recordSuccess()
                 offsetCount += 1
             }, onError = {
                 networkState.postValue(NetworkState.error(it.message))
-//                pagingRequest.recordFailure(it)
             }).addTo(compositeDisposable)
         }
     }
@@ -80,14 +80,14 @@ class GenericBoundaryCallback<T>(
     private fun getTop(offset: Int, pagingRequest: PagingRequestHelper.Request.Callback) {
         if (offset != 1) {
             getPage(offset).subscribeOn(Schedulers.io()).flatMapCompletable {
-                    insertAllItems(it)
-                }.subscribeBy(onComplete = {
-                    pagingRequest.recordSuccess()
-                    offsetCount += 1
-                }, onError = {
-                    networkState.postValue(NetworkState.error(it.message))
-                    pagingRequest.recordFailure(it)
-                }).addTo(compositeDisposable)
+                insertAllItems(it)
+            }.subscribeBy(onComplete = {
+                pagingRequest.recordSuccess()
+                offsetCount += 1
+            }, onError = {
+                networkState.postValue(NetworkState.error(it.message))
+                pagingRequest.recordFailure(it)
+            }).addTo(compositeDisposable)
         }
     }
 

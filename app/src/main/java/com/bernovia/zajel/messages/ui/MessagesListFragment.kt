@@ -2,7 +2,6 @@ package com.bernovia.zajel.messages.ui
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bernovia.zajel.R
 import com.bernovia.zajel.databinding.FragmentMessagesListBinding
+import com.bernovia.zajel.helpers.NavigateUtil.closeFragment
 import com.bernovia.zajel.helpers.StringsUtil.validateString
 import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.bernovia.zajel.messages.models.Message
@@ -61,9 +61,10 @@ class MessagesListFragment : Fragment() {
         messagesListViewModel.setConversationId(requireArguments().getInt("conversation_id"))
         messagesListViewModel.refreshPage().observe(viewLifecycleOwner, Observer { it.refreshPage() })
         sendMessageViewModel.setConversationId(requireArguments().getInt("conversation_id"))
+        binding.backImageButton.setOnClickListener { closeFragment(requireActivity().supportFragmentManager, this) }
+
 
         messagesListViewModel.dataSource.observe(viewLifecycleOwner, Observer {
-            Log.e("test", it.size.toString() + "a")
             messagesListAdapter.submitList(it)
             object : CountDownTimer(100, 100) {
 
@@ -99,35 +100,14 @@ class MessagesListFragment : Fragment() {
         val sendMessageChannel = Channel("ConversationChannel")
         sendMessageChannel.addParam("id", requireArguments().getInt("conversation_id"))
         sendMessageChannel.addParam("command", "subscribe")
-
-
-//        {"object":{"content":"hi","sender_type":"User","sender_id":2,"sender_name":"Mohamad Mokresh","created_at":"2020-03-30 15:17"}}
         val subscription = consumer.subscriptions.create(sendMessageChannel)
 
-        subscription.onConnected {
-            Log.e("connec", "con")
-            // Called when the subscription has been successfully completed
-        }.onRejected {
-            Log.e("reject", "rej")
-
-            // Called when the subscription is rejected by the server
-        }.onReceived {
+        subscription.onConnected {}.onReceived {
             val jsonObject = it.asJsonObject
             val message = Gson().fromJson(jsonObject?.getAsJsonObject("object"), Message::class.java)
             messagesListViewModel.insertMessage(message)
-
-            Log.e("onReceived", it.toString())
-            // Called when the subscription receives data from the server
-        }.onDisconnected {
-            // Called when the subscription has been closed
-        }.onFailed {
-            Log.e("onFailed", it.message)
-
-            // Called when the subscription encounters any error
         }
-
         consumer.connect()
-
         binding.sendImageView.setOnClickListener {
             if (binding.messageEditText.text.toString() != "") {
                 sendMessageViewModel.getDataFromRetrofit(SendMessageRequestBody(binding.messageEditText.text.toString())).observe(viewLifecycleOwner, Observer {

@@ -72,10 +72,13 @@
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="add_book">Add Book</string>
-    <string name="terms_link">https://sugarbookapp.com/terms-of-service.html</string>
-    <string name="privacy_link">https://sugarbookapp.com/privacy-policy.html</string>
+    <string name="terms_link">https://www.zajelbook.com/terms</string>
+    <string name="privacy_link">https://www.zajelbook.com/policy</string>
+    <string name="about_link">https://www.zajelbook.com/about</string>
     <string name="terms">Terms</string>
     <string name="update">Update</string>
+    <string name="update_book">Update Book</string>
+    <string name="about">About</string>
     <string name="notifications">Notifications</string>
     <string name="done">Done</string>
     <string name="edit_profile">Edit Profile</string>

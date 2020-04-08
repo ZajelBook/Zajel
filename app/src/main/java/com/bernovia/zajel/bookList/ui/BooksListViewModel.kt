@@ -38,7 +38,6 @@ class BooksListViewModel(
     }
 
 
-
     // get books details
     fun getBookById(bookId: Int): LiveData<Book> {
         return booksRepository.getBookById(bookId)
@@ -48,6 +47,9 @@ class BooksListViewModel(
         return booksRepository.getBookAndInsertInLocal(bookId)
     }
 
+    fun updateBook(book: Book) {
+        booksRepository.updateBook(book)
+    }
 
     fun updateRequested(bookId: Int, value: Boolean) {
         booksRepository.updateRequested(bookId, value)

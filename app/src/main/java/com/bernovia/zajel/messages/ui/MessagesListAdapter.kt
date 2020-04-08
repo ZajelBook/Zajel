@@ -36,8 +36,8 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
     private val MULTI_LINE_PURPLE = 6
     private val MULTI_LINE_PURPLE_TAIL = 7
 
-    private var day: String? = null
-    private var day1: String? = null
+    private var day: String? = "day"
+    private var day1: String? = "day 1"
     private var monthString: String? = null
 
 
@@ -127,16 +127,16 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
         val viewType = getItemViewType(position)
         val currentObject = getItem(position)
 
-        var nextObject: Message?
+        var previousObject: Message?
         try {
-            nextObject = getItem(position - 1)
+            previousObject = getItem(position - 1)
         }
         catch (e: Exception) {
-            nextObject = null
+            previousObject = null
         }
 
         if (currentObject != null) {
-            @SuppressLint("SimpleDateFormat") val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            @SuppressLint("SimpleDateFormat") val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
             try {
                 val date = format.parse(currentObject.createdAt)
                 day = DateFormat.format("dd", date) as String // 20
@@ -144,8 +144,8 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
 
 
                 val date1: Date
-                if (nextObject != null) {
-                    date1 = format.parse(nextObject.createdAt)
+                if (previousObject != null) {
+                    date1 = format.parse(previousObject.createdAt)
                     day1 = DateFormat.format("dd", date1) as String // 20
 
                 } else {
@@ -155,7 +155,6 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
 
             }
             catch (e: ParseException) {
-                e.printStackTrace()
             }
 
             when (viewType) {
@@ -166,7 +165,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
                         myViewHolderOneLineWhite.binding.messageTextView,
                         validateString(getItem(position)!!.createdAt),
                         validateString(getItem(position)!!.content))
-                    showDateBubble(myViewHolderOneLineWhite.binding.dateTextView)
+                    showDateBubble(myViewHolderOneLineWhite.binding.dateTextView, position)
 
 
                 }
@@ -181,7 +180,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
                         validateString(getItem(position)!!.content))
 
 
-                    showDateBubble(myViewHolderOneLineWhiteTail.binding.dateTextView)
+                    showDateBubble(myViewHolderOneLineWhiteTail.binding.dateTextView,position)
 
 
                 }
@@ -196,7 +195,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
                             validateString(getItem(position)!!.createdAt),
                             validateString(getItem(position)!!.content))
 
-                        showDateBubble(myViewHolderOneLinePurple.binding.dateTextView)
+                        showDateBubble(myViewHolderOneLinePurple.binding.dateTextView, position)
 
 
                     }
@@ -213,7 +212,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
                             validateString(getItem(position)!!.content))
 
 
-                        showDateBubble(myViewHolderOneLinePurpleTail.binding.dateTextView)
+                        showDateBubble(myViewHolderOneLinePurpleTail.binding.dateTextView, position)
 
 
                     }
@@ -228,7 +227,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
                             validateString(getItem(position)!!.createdAt),
                             validateString(getItem(position)!!.content))
 
-                        showDateBubble(myViewHolderMultipleLineWhite.binding.dateTextView)
+                        showDateBubble(myViewHolderMultipleLineWhite.binding.dateTextView, position)
 
 
                     }
@@ -246,7 +245,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
 
 
 
-                        showDateBubble(myViewHolderMultipleLineWhiteTail.binding.dateTextView)
+                        showDateBubble(myViewHolderMultipleLineWhiteTail.binding.dateTextView, position)
 
                     }
                 }
@@ -273,7 +272,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
                             validateString(getItem(position)!!.createdAt),
                             validateString(getItem(position)!!.content))
 
-                        showDateBubble(myViewHolderMultipleLinePurpleTail.binding.dateTextView)
+                        showDateBubble(myViewHolderMultipleLinePurpleTail.binding.dateTextView, position)
 
 
                     }
@@ -285,7 +284,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
 
     }
 
-    private fun showDateBubble(textView: TextView) {
+    private fun showDateBubble(textView: TextView, position: Int) {
         try {
             val dateText = "$day $monthString"
             textView.text = dateText
@@ -293,6 +292,9 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
                 textView.visibility = View.VISIBLE
             } else {
                 textView.visibility = View.GONE
+            }
+            if (position == 0) {
+                textView.visibility = View.VISIBLE
             }
         }
         catch (ignore: Exception) {

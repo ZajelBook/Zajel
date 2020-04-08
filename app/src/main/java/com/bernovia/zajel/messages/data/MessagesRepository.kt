@@ -32,7 +32,7 @@ interface MessagesRepository {
 
 
         val bc: GenericBoundaryCallback<Message?> by lazy {
-            GenericBoundaryCallback({ dao.deleteAllMessagesById(conversationId) }, { messagesList(it) }, { insertAllMessagesList(it) })
+            GenericBoundaryCallback({ dao.deleteAllMessagesById(conversationId) }, { messagesList(it) }, { insertAllMessagesList(it) },true)
         }
 
 

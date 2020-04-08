@@ -76,7 +76,6 @@ class ReceivedRequestsFragment : Fragment(), ReceivedRequestsAdapter.ReceivedReq
     override fun acceptRequestClickListener(data: BookActivity) {
         acceptRejectRequestViewModel.setType("accept")
         acceptRejectRequestViewModel.getDataFromRetrofit(data.id).observe(viewLifecycleOwner, Observer {
-//            bookActivitiesViewModel.updateBookActivityStatus(data.id,"accepted")
             bookActivitiesViewModel.refreshPageReceivedRequests().observe(viewLifecycleOwner, Observer { it.refreshPage() })
 
 

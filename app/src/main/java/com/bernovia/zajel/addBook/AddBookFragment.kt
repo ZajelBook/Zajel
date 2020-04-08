@@ -40,7 +40,6 @@ import com.bernovia.zajel.helpers.ImageUtil.getFileImageFromGallery
 import com.bernovia.zajel.helpers.ImageUtil.getFileName
 import com.bernovia.zajel.helpers.ImageUtil.openCropActivityInFragment
 import com.bernovia.zajel.helpers.ImageUtil.showFileChooser
-import com.bernovia.zajel.helpers.NavigateUtil
 import com.bernovia.zajel.helpers.NavigateUtil.closeFragment
 import com.bernovia.zajel.helpers.TextWatcherAdapter
 import com.bernovia.zajel.helpers.ValidateUtil.validateEmptyField
@@ -79,9 +78,11 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
 
     private val onSelectedValue: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            when (intent.getStringExtra("title")) {
-                resources.getString(R.string.language) -> binding.languageEditText.setText(intent.getStringExtra("value"))
-                resources.getString(R.string.genre) -> binding.genreEditText.setText(intent.getStringExtra("value"))
+            if (isAdded) {
+                when (intent.getStringExtra("title")) {
+                    resources.getString(R.string.language) -> binding.languageEditText.setText(intent.getStringExtra("value"))
+                    resources.getString(R.string.genre) -> binding.genreEditText.setText(intent.getStringExtra("value"))
+                }
             }
         }
     }
@@ -116,6 +117,7 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
                 binding.genreEditText.setText(it.genre)
             })
             binding.addButton.text = getString(R.string.update)
+            binding.pageTitleTextView.text = getString(R.string.update_book)
         }
     }
 
@@ -151,11 +153,11 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
         binding.backImageButton.setOnClickListener { closeFragment(requireActivity().supportFragmentManager, this) }
 
         metaDataViewModel.getMetaData().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            if (it.genres == null) {
-                metaDataViewModel.insertMetaDataInLocal()
-            } else {
+            if (it?.genres != null) {
                 genres = ArrayList()
                 genres.addAll(it.genres)
+            } else {
+                metaDataViewModel.insertMetaDataInLocal()
 
             }
         })
@@ -327,15 +329,16 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
             if (bookId != 0) {
                 updateBookViewModel.getDataFromRetrofit(map).observe(viewLifecycleOwner, Observer {
                     if (it.isSuccessful) {
-                        Toast.makeText(requireContext(),getString(R.string.book_updated_success),Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.book_updated_success), Toast.LENGTH_SHORT).show()
                         closeFragment(requireActivity().supportFragmentManager, this)
+                        booksListViewModel.updateBook(it?.body()!!)
                     }
                 })
 
             } else {
                 addBookViewModel.getDataFromRetrofit(map).observe(viewLifecycleOwner, Observer {
                     if (it.isSuccessful) {
-                        Toast.makeText(requireContext(),getString(R.string.book_added_success),Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.book_added_success), Toast.LENGTH_SHORT).show()
                         closeFragment(requireActivity().supportFragmentManager, this)
                     }
                 })

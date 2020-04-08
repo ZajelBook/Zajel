@@ -15,7 +15,6 @@ import com.bernovia.zajel.editProfile.ui.EditProfileViewModel
 import com.bernovia.zajel.helpers.LocationUtil
 import com.bernovia.zajel.helpers.LocationUtil.LOCATION_REQUEST
 import com.bernovia.zajel.helpers.LocationUtil.getLocationAndSendItToServer
-import com.bernovia.zajel.helpers.NavigateUtil
 import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
@@ -42,16 +41,18 @@ class AskForLocationActivity : AppCompatActivity() {
                 setUpAllowLocation()
                 LocationUtil.enableLocation(this)
             }
-//            else {
-//                sendLocationAndContinue()
-//
-//            }
+
         }
 
     }
 
     private fun openMainActivity() {
-        NavigateUtil.start<MainActivity>(this)
+        val i = Intent(applicationContext, MainActivity::class.java)
+        if (intent.extras != null) {
+            i.putExtra("type", intent.extras!!.getString("type"))
+            i.putExtra("conversation_id", intent.extras!!.getInt("conversation_id"))
+        }
+        startActivity(i)
         finish()
 
     }

@@ -31,11 +31,11 @@ interface BookActivityRepository {
         private val service: ApiServicesRx, private val dao: BookActivitiesDao) : BookActivityRepository {
 
         val receiveRequestsBoundaryCallback: GenericBoundaryCallback<BookActivity?> by lazy {
-            GenericBoundaryCallback({ dao.deleteAllReceivedRequestsList(preferenceManager.userId) }, { receivedRequests(it) }, { insertAllBookActivities(it) })
+            GenericBoundaryCallback({ dao.deleteAllReceivedRequestsList(preferenceManager.userId) }, { receivedRequests(it) }, { insertAllBookActivities(it) },false)
         }
 
         val sentRequestsBoundaryCallback: GenericBoundaryCallback<BookActivity?> by lazy {
-            GenericBoundaryCallback({ dao.deleteAllSentRequestsList(preferenceManager.userId) }, { sentRequests(it) }, { insertAllBookActivities(it) })
+            GenericBoundaryCallback({ dao.deleteAllSentRequestsList(preferenceManager.userId) }, { sentRequests(it) }, { insertAllBookActivities(it) },false)
         }
 
 

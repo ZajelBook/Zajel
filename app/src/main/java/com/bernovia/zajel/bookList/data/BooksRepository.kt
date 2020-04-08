@@ -32,7 +32,7 @@ interface BooksRepository {
 
     fun getBookAndInsertInLocal(bookId: Int)
     fun cleared()
-    fun insertBookIn(book: Book)
+    fun updateBook(book: Book)
 
 
     open class BooksRepositoryImpl(
@@ -41,11 +41,11 @@ interface BooksRepository {
         private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
         val bc: GenericBoundaryCallback<Book> by lazy {
-            GenericBoundaryCallback({ dao.deleteAllBooksList() }, { bookList(it) }, { insertAllBooksList(it) })
+            GenericBoundaryCallback({ dao.deleteAllBooksList() }, { bookList(it) }, { insertAllBooksList(it) }, false)
         }
 
         val bcMyBooks: GenericBoundaryCallback<Book> by lazy {
-            GenericBoundaryCallback({ dao.deleteMyBooksList(preferenceManager.userId) }, { myBookList(it) }, { insertAllBooksList(it) })
+            GenericBoundaryCallback({ dao.deleteMyBooksList(preferenceManager.userId) }, { myBookList(it) }, { insertAllBooksList(it) }, false)
         }
 
         override fun getListableMyBooks(): Listing<Book> {
@@ -90,8 +90,8 @@ interface BooksRepository {
             compositeDisposable.clear()
         }
 
-        override fun insertBookIn(book: Book) {
-            dao.insertBook(book).subscribeOn(Schedulers.io()).subscribe()
+        override fun updateBook(book: Book) {
+            dao.updateBook(book).subscribeOn(Schedulers.io()).subscribe()
         }
 
 
@@ -100,7 +100,7 @@ interface BooksRepository {
 
         }
 
-       private fun insertAllBooksList(list: List<Book>): Completable {
+        private fun insertAllBooksList(list: List<Book>): Completable {
             return dao.insertAllBooksList(list.map { it })
         }
 

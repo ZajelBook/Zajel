@@ -5,7 +5,7 @@ import com.bernovia.zajel.actions.ActionsResponseBody
 import com.bernovia.zajel.api.ApiServicesCoRoutines
 import com.bernovia.zajel.helpers.base.BaseRepositoryWithBody
 
-class SendMessageRepository(service: ApiServicesCoRoutines) : BaseRepositoryWithBody<ActionsResponseBody, SendMessageRequestBody>(service, true) {
+class SendMessageRepository(service: ApiServicesCoRoutines) : BaseRepositoryWithBody<ActionsResponseBody, SendMessageRequestBody>(service, false) {
     var conversationId: Int = 0
     override fun loadData(body: SendMessageRequestBody): LiveData<Any> {
         return fetchData {

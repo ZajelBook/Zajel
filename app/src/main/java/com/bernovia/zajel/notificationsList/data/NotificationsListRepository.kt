@@ -24,7 +24,7 @@ interface NotificationsListRepository {
 
 
         val bc: GenericBoundaryCallback<Notification> by lazy {
-            GenericBoundaryCallback({ dao.deleteAllNotificationsList() }, { notificationsList(it) }, { insertAllNotifications(it) })
+            GenericBoundaryCallback({ dao.deleteAllNotificationsList() }, { notificationsList(it) }, { insertAllNotifications(it) }, false)
         }
 
         override fun getListable(): Listing<Notification> {

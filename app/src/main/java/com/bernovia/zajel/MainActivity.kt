@@ -17,6 +17,7 @@ import com.bernovia.zajel.helpers.BroadcastReceiversUtil.TOKEN_MISMATCH
 import com.bernovia.zajel.helpers.BroadcastReceiversUtil.registerTheReceiver
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.FragmentSwitcher.replaceFragmentWithNoAnimation
+import com.bernovia.zajel.messages.ui.MessagesListFragment
 import com.bernovia.zajel.notificationsList.ui.NotificationsListFragment
 import com.bernovia.zajel.profile.ProfileFragment
 import com.bernovia.zajel.requests.ui.RequestsFragment
@@ -32,10 +33,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    companion object {
+        lateinit var bottomNavigationView: BottomNavigationView
+    }
+
+    @Suppress("SENSELESS_COMPARISON") fun checkIntent() {
+        if (intent.extras != null) {
+
+            if (intent.extras!!.getString("type") != null) {
+                if (intent.extras!!.getString("type") == "new_message") {
+                    if (intent.extras!!.getInt("conversation_id") != null) {
+                        FragmentSwitcher.addFragment(supportFragmentManager,
+                            R.id.added_FrameLayout,
+                            MessagesListFragment.newInstance(intent.extras!!.getInt("conversation_id")),
+                            FragmentSwitcher.AnimationType.PUSH)
+
+                    }
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        bottomNavigationView = binding.bottomNavigation
+        checkIntent()
 
         registerTheReceiver(tokenMissMatchReceiver, TOKEN_MISMATCH)
 
@@ -50,29 +73,34 @@ class MainActivity : AppCompatActivity() {
             override fun onNavigationItemSelected(@NonNull item: MenuItem): Boolean {
                 when (item.itemId) {
                     R.id.navigation_home -> {
-                        binding.addBookFAB.visibility = View.VISIBLE
-                        replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, BookListFragment.newInstance())
+                        if (binding.bottomNavigation.selectedItemId != item.itemId) {
+                            binding.addBookFAB.visibility = View.VISIBLE
+                            replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, BookListFragment.newInstance())
 
+                        }
                         return true
                     }
                     R.id.navigation_requests -> {
-                        binding.addBookFAB.visibility = View.GONE
-                        replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, RequestsFragment.newInstance())
-
+                        if (binding.bottomNavigation.selectedItemId != item.itemId) {
+                            binding.addBookFAB.visibility = View.GONE
+                            replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, RequestsFragment.newInstance())
+                        }
                         return true
                     }
 
                     R.id.navigation_notifications -> {
-                        binding.addBookFAB.visibility = View.GONE
-                        replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, NotificationsListFragment.newInstance())
-
+                        if (binding.bottomNavigation.selectedItemId != item.itemId) {
+                            binding.addBookFAB.visibility = View.GONE
+                            replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, NotificationsListFragment.newInstance())
+                        }
                         return true
                     }
 
                     R.id.navigation_profile -> {
-                        binding.addBookFAB.visibility = View.GONE
-                        replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, ProfileFragment.newInstance())
-
+                        if (binding.bottomNavigation.selectedItemId != item.itemId) {
+                            binding.addBookFAB.visibility = View.GONE
+                            replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, ProfileFragment.newInstance())
+                        }
                         return true
                     }
 
