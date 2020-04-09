@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        >
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@color/white">
 
 
         <ImageView
-            android:scaleType="centerCrop"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@color/divider"
-            android:layout_height="match_parent"/>
+            android:scaleType="centerCrop" />
 
         <ImageView
-            android:src="@drawable/conversation_background"
-            android:scaleType="centerCrop"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:alpha=".20"
-            android:layout_height="match_parent"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/conversation_background" />
 
 
         <LinearLayout
@@ -38,8 +37,8 @@
 
             <RelativeLayout
                 android:id="@id/header"
-                android:background="@color/white"
-                style="@style/toolbar_style">
+                style="@style/toolbar_style"
+                android:background="@color/white">
 
                 <ImageButton
                     android:id="@id/back_ImageButton"
@@ -59,11 +58,11 @@
 
                     <TextView
                         android:id="@+id/name_TextView"
+                        style="@style/page_title"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="@string/message"
-                        style="@style/page_title"/>
+                        android:text="@string/message" />
                 </LinearLayout>
 
 
@@ -71,19 +70,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/divider"/>
+                    android:background="@color/divider" />
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/messages_RecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_weight="0.6"
+                android:background="@android:color/transparent"
+                android:clipToPadding="false"
                 android:paddingTop="@dimen/_5sdp"
                 android:paddingBottom="@dimen/_10sdp"
-                android:clipToPadding="false"
-                android:layout_weight="0.6"
                 android:visibility="visible"
-                android:background="@android:color/transparent"
 
                 />
 
@@ -93,7 +92,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/divider"/>
+            android:background="@color/divider" />
 
         <LinearLayout
             android:id="@+id/message_LinearLayout"
@@ -114,27 +113,26 @@
                 android:hint="@string/type_something"
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLines="5"
-                android:paddingEnd="5dp"
                 android:paddingStart="20dp"
+                android:paddingEnd="5dp"
                 android:scrollbars="vertical"
                 android:textColorHint="#C0C6D4"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
 
             <TextView
                 android:id="@+id/send_ImageView"
                 style="@style/text_bold_16_black"
-                android:textColor="@color/colorAccent"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_gravity="bottom"
                 android:layout_weight="20"
                 android:background="@color/transparent"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:text="Send"
                 android:gravity="center"
-               />
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="Send"
+                android:textColor="@color/colorAccent" />
 
 
         </LinearLayout>

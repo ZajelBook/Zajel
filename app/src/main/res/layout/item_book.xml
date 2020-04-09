@@ -26,14 +26,15 @@
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_alignParentEnd="true"
-                android:layout_margin="@dimen/_10sdp">
+                android:layout_marginTop="@dimen/_4sdp">
 
                 <RelativeLayout
                     android:layout_width="@dimen/_18sdp"
                     android:layout_height="@dimen/_18sdp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/_4sdp"
-                    android:background="@color/white" >
+                    android:background="@color/white">
+
                     <TextView
                         android:id="@+id/distance_TextView"
                         style="@style/text_bold_16_black"

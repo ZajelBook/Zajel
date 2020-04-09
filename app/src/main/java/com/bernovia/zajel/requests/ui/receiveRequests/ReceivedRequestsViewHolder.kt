@@ -12,6 +12,8 @@ import com.bernovia.zajel.databinding.ItemReceivedRequestBinding
 import com.bernovia.zajel.helpers.DateUtil
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.ImageUtil
+import com.bernovia.zajel.helpers.ZajelUtil
+import com.bernovia.zajel.helpers.ZajelUtil.singleItemClick
 import com.bernovia.zajel.requests.models.BookActivity
 
 class ReceivedRequestsViewHolder(var itemBinding: ItemReceivedRequestBinding, private var fragmentManager: FragmentManager) : RecyclerView.ViewHolder(itemBinding.root) {
@@ -46,6 +48,8 @@ class ReceivedRequestsViewHolder(var itemBinding: ItemReceivedRequestBinding, pr
             itemBinding.messageButton.setOnClickListener { receivedRequestsClickListener.messageUserClickListener(data) }
 
             itemBinding.bookImageView.setOnClickListener {
+                if (singleItemClick()) return@setOnClickListener
+
                 if (data.book!= null){
                     FragmentSwitcher.addFragment(fragmentManager,R.id.added_FrameLayout,
                         BookDetailsFragment.newInstance(data.book.id),

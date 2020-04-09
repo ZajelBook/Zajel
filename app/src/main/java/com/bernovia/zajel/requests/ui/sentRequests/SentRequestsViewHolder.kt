@@ -9,10 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bernovia.zajel.R
 import com.bernovia.zajel.bookList.ui.BookDetailsFragment
 import com.bernovia.zajel.databinding.ItemSentRequestBinding
-import com.bernovia.zajel.helpers.DateUtil
-import com.bernovia.zajel.helpers.FragmentSwitcher
-import com.bernovia.zajel.helpers.ImageUtil
-import com.bernovia.zajel.helpers.StringsUtil
+import com.bernovia.zajel.helpers.*
+import com.bernovia.zajel.helpers.ZajelUtil.singleItemClick
 import com.bernovia.zajel.messages.ui.MessagesListFragment
 import com.bernovia.zajel.requests.models.BookActivity
 
@@ -38,16 +36,16 @@ class SentRequestsViewHolder(var itemBinding: ItemSentRequestBinding, private va
             if (data.status == "accepted") {
                 itemBinding.statusTextView.backgroundTintList = itemBinding.root.context.resources.getColorStateList(R.color.accept_color, itemBinding.root.context.resources.newTheme())
                 itemBinding.messageButton.isEnabled=true
-//                itemBinding.messageButton.alpha = 1f
 
             } else {
                 itemBinding.statusTextView.backgroundTintList = itemBinding.root.context.resources.getColorStateList(R.color.reject_color, itemBinding.root.context.resources.newTheme())
                 itemBinding.messageButton.isEnabled =false
-//                itemBinding.messageButton.alpha = 0.5f
 
             }
 
             itemBinding.bookImageView.setOnClickListener {
+                if (singleItemClick()) return@setOnClickListener
+
                 if (data.book!= null){
                     FragmentSwitcher.addFragment(fragmentManager,R.id.added_FrameLayout,
                         BookDetailsFragment.newInstance(data.book.id),
@@ -57,6 +55,8 @@ class SentRequestsViewHolder(var itemBinding: ItemSentRequestBinding, private va
 
 
             itemBinding.messageButton.setOnClickListener {
+                if (singleItemClick()) return@setOnClickListener
+
                 if (data.conversationId != null) {
                     FragmentSwitcher.addFragment(fragmentManager, R.id.added_FrameLayout, MessagesListFragment.newInstance(data.conversationId), FragmentSwitcher.AnimationType.PUSH)
                 }

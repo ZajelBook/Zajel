@@ -18,7 +18,9 @@ import com.bernovia.zajel.databinding.FragmentProfileBinding
 import com.bernovia.zajel.editProfile.EditProfileFragment
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.NavigateUtil
+import com.bernovia.zajel.helpers.ZajelUtil
 import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
+import com.bernovia.zajel.helpers.ZajelUtil.singleItemClick
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -71,31 +73,38 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.name_RelativeLayout -> {
+                if (singleItemClick()) return
+
                 FragmentSwitcher.addFragment(requireActivity().supportFragmentManager, R.id.added_FrameLayout, EditProfileFragment.newInstance(), FragmentSwitcher.AnimationType.PUSH)
 
             }
             R.id.my_books_RelativeLayout -> {
+                if (singleItemClick()) return
                 FragmentSwitcher.addFragment(requireActivity().supportFragmentManager, R.id.added_FrameLayout, MyBooksFragment.newInstance(), FragmentSwitcher.AnimationType.PUSH)
             }
             R.id.terms_RelativeLayout -> {
+                if (singleItemClick()) return
                 FragmentSwitcher.addFragment(requireActivity().supportFragmentManager,
                     R.id.added_FrameLayout,
                     WebViewFragment.newInstance(getString(R.string.terms_and_conditions), getString(R.string.terms_link)),
                     FragmentSwitcher.AnimationType.PUSH)
             }
             R.id.privacy_policy_RelativeLayout -> {
+                if (singleItemClick()) return
                 FragmentSwitcher.addFragment(requireActivity().supportFragmentManager,
                     R.id.added_FrameLayout,
                     WebViewFragment.newInstance(getString(R.string.privacy_policy), getString(R.string.privacy_link)),
                     FragmentSwitcher.AnimationType.PUSH)
             }
             R.id.about_RelativeLayout -> {
+                if (singleItemClick()) return
                 FragmentSwitcher.addFragment(requireActivity().supportFragmentManager,
                     R.id.added_FrameLayout,
                     WebViewFragment.newInstance(getString(R.string.about), getString(R.string.about_link)),
                     FragmentSwitcher.AnimationType.PUSH)
             }
             R.id.logout_RelativeLayout -> {
+                if (singleItemClick()) return
                 CoroutineScope(Dispatchers.IO).launch {
                     AppDatabase.getInstance(requireContext()).clearAllTables()
                 }

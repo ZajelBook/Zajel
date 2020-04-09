@@ -12,6 +12,18 @@ import okhttp3.Headers
 object ZajelUtil {
     val preferenceManager: PreferenceManager = PreferenceManager.instance
 
+    private const val CLICK_TIME_INTERVAL: Long = 1000
+    private var mLastClickTime = System.currentTimeMillis()
+
+    fun singleItemClick(): Boolean {
+        val now = System.currentTimeMillis()
+        if (now - mLastClickTime < CLICK_TIME_INTERVAL) {
+            return true
+        }
+        mLastClickTime = now
+        return false
+    }
+
 
     fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
         observe(lifecycleOwner, object : Observer<T> {

@@ -92,5 +92,7 @@
     <string name="you_haven_t_sent_any_request_yet">You haven\'t sent any request yet.</string>
     <string name="you_haven_t_received_any_notifications_yet">You haven\'t received any notifications yet.</string>
     <string name="you_haven_t_add_any_books_yet">You haven\'t add any books yet.</string>
+    <string name="rate_us">Rate us</string>
+    <string name="how_much_do_you_rate_zajel">How much do you rate Zajel</string>
 
 </resources>

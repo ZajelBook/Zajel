@@ -10,6 +10,7 @@ import com.bernovia.zajel.R
 import com.bernovia.zajel.databinding.ItemNotificationsBinding
 import com.bernovia.zajel.helpers.DateUtil.timeAgo
 import com.bernovia.zajel.helpers.FragmentSwitcher
+import com.bernovia.zajel.helpers.ZajelUtil.singleItemClick
 import com.bernovia.zajel.messages.ui.MessagesListFragment
 import com.bernovia.zajel.notificationsList.models.Notification
 import com.bernovia.zajel.requests.ui.RequestsFragment
@@ -32,6 +33,7 @@ class NotificationsListViewHolder(var itemBinding: ItemNotificationsBinding, pri
             itemBinding.subjectTextView.text = data.payload.subject.capitalize()
             itemBinding.createdAtTextView.text = timeAgo(data.createdAt)
             itemBinding.root.setOnClickListener {
+                if (singleItemClick()) return@setOnClickListener
 
                 when (data.payload.type) {
                     "request_accepted", "borrow_request", "request_rejected" -> {
