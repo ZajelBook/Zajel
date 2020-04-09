@@ -12,11 +12,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtil {
+    const val DATE_FORMAT= "yyyy-MM-dd'T'HH:mm:ss.SSS"
 
     @SuppressLint("SimpleDateFormat") fun timeAgo(timeStamp: String?): String? {
         val ago: String
-        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-        sdf.timeZone = TimeZone.getDefault()
+        val sdf = SimpleDateFormat(DATE_FORMAT)
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
         ago = try {
             val time = sdf.parse(timeStamp).time
             val prettyTime = PrettyTime(Locale.getDefault())
@@ -27,6 +28,23 @@ object DateUtil {
         }
         return ago
     }
+
+
+
+    fun convertDateToAmPm(timestamp: String?): String? {
+        return try {
+            val utcFormat: DateFormat = SimpleDateFormat(DATE_FORMAT)
+            utcFormat.timeZone = TimeZone.getTimeZone("UTC")
+            val date = utcFormat.parse(timestamp)
+            val deviceFormat: DateFormat = SimpleDateFormat("h:mm a")
+            deviceFormat.timeZone = TimeZone.getDefault() //Device timezone
+            deviceFormat.format(date)
+        }
+        catch (e: Exception) {
+            timestamp
+        }
+    }
+
 
     fun openDatePickerAndUpdateText(editText: EditText, fragmentManager: FragmentManager) {
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
@@ -43,19 +61,6 @@ object DateUtil {
         }
     }
 
-    fun convertDateToAmPm(timestamp: String?): String? {
-        return try {
-            val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-            utcFormat.timeZone = TimeZone.getDefault()
-            val date = utcFormat.parse(timestamp)
-            val deviceFormat: DateFormat = SimpleDateFormat("h:mm a")
-            deviceFormat.timeZone = TimeZone.getDefault() //Device timezone
-            deviceFormat.format(date)
-        }
-        catch (e: Exception) {
-            timestamp
-        }
-    }
 
     @SuppressLint("SimpleDateFormat") private fun getDateFromMilliSeconds(milliSeconds: Long): String? {
         // Create a DateFormatter object for displaying date in specified format.

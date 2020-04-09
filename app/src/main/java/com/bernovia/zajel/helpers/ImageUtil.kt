@@ -71,7 +71,7 @@ object ImageUtil {
     }
 
     fun openCropActivityInFragment(fragment: Fragment?, context: Context?, uri: Uri?) {
-        if (context != null) CropImage.activity(uri).setAllowFlipping(false).setCropShape(CropImageView.CropShape.RECTANGLE).setAspectRatio(1200, 1200).setMinCropWindowSize(1080, 1080).start(context,
+        if (context != null) CropImage.activity(uri).setAllowFlipping(false).setCropShape(CropImageView.CropShape.RECTANGLE).setAspectRatio(900, 1200).setMinCropWindowSize(900, 1200).start(context,
             fragment!!)
     }
 
@@ -103,7 +103,7 @@ object ImageUtil {
         try {
             if (context != null) {
                 inputStream = BufferedInputStream(Objects.requireNonNull(context.contentResolver.openInputStream(uri!!)))
-                val bitmap1: Bitmap? = decodeSampledBitmapFromResource(inputStream, inputStream, 1200, 1200)
+                val bitmap1: Bitmap? = decodeSampledBitmapFromResource(inputStream, inputStream, 900, 1200)
                 var bitmap: Bitmap? = null
                 try {
                     bitmap = rotateImageIfRequired(context, bitmap1, uri)
@@ -112,7 +112,7 @@ object ImageUtil {
                     e.printStackTrace()
                 }
                 val stream = ByteArrayOutputStream()
-                resize(bitmap, 1200, 1200)?.compress(Bitmap.CompressFormat.JPEG, 50, stream)
+                resize(bitmap, 900, 1200)?.compress(Bitmap.CompressFormat.JPEG, 50, stream)
                 val imageInByte = stream.toByteArray()
                 //create a file to write bitmap data
                 try {
@@ -216,7 +216,7 @@ object ImageUtil {
                 val imgFile = File(selectedFilePath)
                 val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
                 val stream = ByteArrayOutputStream()
-                resize(bitmap, 1200, 1200)?.compress(Bitmap.CompressFormat.JPEG, 50, stream)
+                resize(bitmap, 900, 1200)?.compress(Bitmap.CompressFormat.JPEG, 50, stream)
                 val imageInByte = stream.toByteArray()
                 //create a file to write bitmap data
                 try {

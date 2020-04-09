@@ -33,6 +33,7 @@ class MessagesListFragment : Fragment() {
     private val messagesListViewModel: MessagesListViewModel by viewModel()
     lateinit var consumer: Consumer
     private val sendMessageViewModel: SendMessageViewModel by viewModel()
+    var size: Int = 0
 
     companion object {
         fun newInstance(conversationId: Int): MessagesListFragment {
@@ -72,6 +73,7 @@ class MessagesListFragment : Fragment() {
                 }
 
                 override fun onFinish() {
+                    size = it.size
                     binding.messagesRecyclerView.scrollToPosition(it.size - 1)
                 }
             }.start()
@@ -116,6 +118,22 @@ class MessagesListFragment : Fragment() {
             }
 
         }
+
+        binding.messagesRecyclerView.addOnLayoutChangeListener { v, _, _, _, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            try {
+                if (bottom < oldBottom) {
+                    binding.messagesRecyclerView.postDelayed({
+                        binding.messagesRecyclerView.scrollToPosition(
+                            size - 1
+                        )
+                    }, 10)
+                }
+
+            } catch (ignore: Exception) {
+            }
+        }
+
+
     }
 
     override fun onStop() {

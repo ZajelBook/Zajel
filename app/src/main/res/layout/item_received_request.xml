@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:id="@+id/sent_request_relativeLayout"
@@ -16,7 +17,7 @@
             android:layout_marginTop="15dp"
         >
 
-            <ImageView
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@id/book_ImageView"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
@@ -25,6 +26,7 @@
                 android:adjustViewBounds="true"
                 android:maxWidth="70dp"
                 android:maxHeight="70dp"
+                app:riv_corner_radius="10dip"
                 android:scaleType="fitXY" />
 
 

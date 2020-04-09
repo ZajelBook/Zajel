@@ -28,8 +28,8 @@ class NotificationsListViewHolder(var itemBinding: ItemNotificationsBinding, pri
 
     fun bindTo(data: Notification?) {
         if (data != null) {
-            itemBinding.titleTextView.text = data.payload.title
-            itemBinding.subjectTextView.text = data.payload.subject
+            itemBinding.titleTextView.text = data.payload.title.capitalize()
+            itemBinding.subjectTextView.text = data.payload.subject.capitalize()
             itemBinding.createdAtTextView.text = timeAgo(data.createdAt)
             itemBinding.root.setOnClickListener {
 
@@ -47,7 +47,6 @@ class NotificationsListViewHolder(var itemBinding: ItemNotificationsBinding, pri
 
             }
         }
-
 
     }
 

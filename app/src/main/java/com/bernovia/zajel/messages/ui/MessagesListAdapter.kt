@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bernovia.zajel.R
 import com.bernovia.zajel.databinding.*
+import com.bernovia.zajel.helpers.DateUtil
+import com.bernovia.zajel.helpers.DateUtil.DATE_FORMAT
 import com.bernovia.zajel.helpers.DateUtil.convertDateToAmPm
 import com.bernovia.zajel.helpers.StringsUtil.getLineCount
 import com.bernovia.zajel.helpers.StringsUtil.validateString
@@ -136,7 +138,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
         }
 
         if (currentObject != null) {
-            @SuppressLint("SimpleDateFormat") val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+            @SuppressLint("SimpleDateFormat") val format = SimpleDateFormat(DATE_FORMAT)
             try {
                 val date = format.parse(currentObject.createdAt)
                 day = DateFormat.format("dd", date) as String // 20

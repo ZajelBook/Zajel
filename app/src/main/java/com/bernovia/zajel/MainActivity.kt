@@ -39,15 +39,21 @@ class MainActivity : AppCompatActivity() {
 
     @Suppress("SENSELESS_COMPARISON") fun checkIntent() {
         if (intent.extras != null) {
-
             if (intent.extras!!.getString("type") != null) {
-                if (intent.extras!!.getString("type") == "new_message") {
-                    if (intent.extras!!.getInt("conversation_id") != null) {
-                        FragmentSwitcher.addFragment(supportFragmentManager,
-                            R.id.added_FrameLayout,
-                            MessagesListFragment.newInstance(intent.extras!!.getInt("conversation_id")),
-                            FragmentSwitcher.AnimationType.PUSH)
+                when (intent.extras!!.getString("type")) {
+                    "request_accepted", "borrow_request", "request_rejected" -> {
+                        binding.addBookFAB.visibility = View.GONE
+                        replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, RequestsFragment.newInstance())
+                        binding.bottomNavigation.selectedItemId = R.id.navigation_requests
+                    }
+                    "new_message" -> {
+                        if (intent.extras!!.getString("conversation_id") != null) {
+                            FragmentSwitcher.addFragment(supportFragmentManager,
+                                R.id.added_FrameLayout,
+                                MessagesListFragment.newInstance(intent.extras!!.getString("conversation_id")!!.toInt()),
+                                FragmentSwitcher.AnimationType.PUSH)
 
+                        }
                     }
                 }
             }
@@ -58,7 +64,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         bottomNavigationView = binding.bottomNavigation
-        checkIntent()
 
         registerTheReceiver(tokenMissMatchReceiver, TOKEN_MISMATCH)
 
@@ -68,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         }
         replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout, BookListFragment.newInstance())
 
+        checkIntent()
 
         val navigationItemSelectedListener: BottomNavigationView.OnNavigationItemSelectedListener = object : BottomNavigationView.OnNavigationItemSelectedListener {
             override fun onNavigationItemSelected(@NonNull item: MenuItem): Boolean {

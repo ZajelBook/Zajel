@@ -50,7 +50,7 @@ class AskForLocationActivity : AppCompatActivity() {
         val i = Intent(applicationContext, MainActivity::class.java)
         if (intent.extras != null) {
             i.putExtra("type", intent.extras!!.getString("type"))
-            i.putExtra("conversation_id", intent.extras!!.getInt("conversation_id"))
+            i.putExtra("conversation_id", intent.extras!!.getString("conversation_id"))
         }
         startActivity(i)
         finish()
