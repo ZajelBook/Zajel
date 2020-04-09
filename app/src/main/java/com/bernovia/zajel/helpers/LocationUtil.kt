@@ -1,9 +1,6 @@
 package com.bernovia.zajel.helpers
 
-//import com.edv.std.sugarbook.APIUtils.APIManager
-//import com.edv.std.sugarbook.R
-//import com.edv.std.sugarbook.utils.StorageManager
-//import com.edv.std.sugarbook.utils.TSBUtiles
+
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -11,6 +8,9 @@ import android.content.IntentSender
 import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import com.bernovia.zajel.MainActivity
 import com.bernovia.zajel.editProfile.models.EditProfileRequestBody
 import com.bernovia.zajel.editProfile.ui.EditProfileViewModel
 import com.google.android.gms.common.api.ApiException
@@ -27,15 +27,28 @@ object LocationUtil {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
+    private fun openMainActivity(activity: Activity) {
+        val i = Intent(activity.applicationContext, MainActivity::class.java)
+        if (activity.intent.extras != null) {
+            i.putExtra("type", activity.intent.extras!!.getString("type"))
+            i.putExtra("conversation_id", activity.intent.extras!!.getString("conversation_id"))
+        }
+        activity.startActivity(i)
+        activity.finish()
 
-    fun getLocationAndSendItToServer(activity: Activity, editProfileViewModel: EditProfileViewModel,fcmToken :String?) {
+    }
+
+
+    fun getLocationAndSendItToServer(activity: Activity, editProfileViewModel: EditProfileViewModel, fcmToken: String?, lifecycleOwner: LifecycleOwner) {
 
         val fusedLocationClient: FusedLocationProviderClient? = LocationServices.getFusedLocationProviderClient(activity)
         fusedLocationClient?.lastLocation?.addOnSuccessListener { location ->
             if (location != null) {
 
 
-                editProfileViewModel.getDataFromRetrofit(EditProfileRequestBody(location.latitude, location.longitude,fcmToken))
+                editProfileViewModel.getDataFromRetrofit(EditProfileRequestBody(location.latitude, location.longitude, fcmToken)).observe(lifecycleOwner, Observer {
+                    openMainActivity(activity)
+                })
 
             } else {
                 val locationRequest: LocationRequest? = LocationRequest.create()
@@ -46,8 +59,9 @@ object LocationUtil {
                         override fun onLocationResult(locationResult: LocationResult) {
                             for (location in locationResult.locations) {
                                 if (location != null) {
-                                    editProfileViewModel.getDataFromRetrofit(EditProfileRequestBody(location.latitude, location.longitude,fcmToken))
-
+                                    editProfileViewModel.getDataFromRetrofit(EditProfileRequestBody(location.latitude, location.longitude, fcmToken)).observe(lifecycleOwner, Observer {
+                                        openMainActivity(activity)
+                                    })
                                 }
                             }
                         }

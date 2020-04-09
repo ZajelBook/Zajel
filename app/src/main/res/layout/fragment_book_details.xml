@@ -47,28 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.42" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.57" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.6" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.65" />
+            app:layout_constraintGuide_percent="0.45" />
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -100,6 +79,7 @@
             android:background="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@id/guideline"
             app:layout_constraintTop_toTopOf="parent">
+
             <ImageView
                 android:id="@+id/background_ImageView"
                 android:layout_width="match_parent"
@@ -114,8 +94,8 @@
                 android:background="#00FFFFFF"
                 android:padding="22dp"
                 android:scaleType="fitCenter"
-                android:tint="@color/white"
-                android:src="@drawable/back_arrow" />
+                android:src="@drawable/back_arrow"
+                android:tint="@color/white" />
 
 
         </RelativeLayout>
@@ -132,7 +112,7 @@
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/book_ImageView"
             android:layout_width="150dp"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/_170sdp"
             app:layout_constraintBottom_toBottomOf="@+id/big_image_RelativeLayout"
             app:layout_constraintStart_toStartOf="@id/guideline_vertical_image_margin"
             app:riv_corner_radius="10dip" />
@@ -152,7 +132,6 @@
 
 
         <LinearLayout
-            android:id="@+id/author_LinearLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"

@@ -16,13 +16,14 @@ import com.bernovia.zajel.databinding.FragmentBookDetailsBinding
 import com.bernovia.zajel.helpers.ImageUtil
 import com.bernovia.zajel.helpers.NavigateUtil.closeFragment
 import com.bernovia.zajel.helpers.StringsUtil.validateString
+import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class BookDetailsFragment : Fragment(),View.OnClickListener {
+class BookDetailsFragment : Fragment(), View.OnClickListener {
     lateinit var binding: FragmentBookDetailsBinding
     private val booksListViewModel: BooksListViewModel by viewModel()
     private val sendRequestViewModel: SendRequestViewModel by viewModel()
@@ -57,8 +58,13 @@ class BookDetailsFragment : Fragment(),View.OnClickListener {
 
                     }
 
-                }else{
+                } else {
                     booksListViewModel.getBookAndInsertInLocal(arguments?.getInt("book_id")!!)
+                }
+
+
+                if (it?.userId != null && it.userId == preferenceManager.userId) {
+                    binding.borrowBookButton.visibility = View.GONE
                 }
 
             })
@@ -92,8 +98,8 @@ class BookDetailsFragment : Fragment(),View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.back_ImageButton->closeFragment(requireActivity().supportFragmentManager,this)
+        when (v?.id) {
+            R.id.back_ImageButton -> closeFragment(requireActivity().supportFragmentManager, this)
         }
 
     }

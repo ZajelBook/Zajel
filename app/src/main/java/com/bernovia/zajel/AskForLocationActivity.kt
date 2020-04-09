@@ -46,16 +46,6 @@ class AskForLocationActivity : AppCompatActivity() {
 
     }
 
-    private fun openMainActivity() {
-        val i = Intent(applicationContext, MainActivity::class.java)
-        if (intent.extras != null) {
-            i.putExtra("type", intent.extras!!.getString("type"))
-            i.putExtra("conversation_id", intent.extras!!.getString("conversation_id"))
-        }
-        startActivity(i)
-        finish()
-
-    }
 
     override fun onResume() {
         super.onResume()
@@ -82,9 +72,7 @@ class AskForLocationActivity : AppCompatActivity() {
             }
             // Get new Instance ID token
             val token = task.result?.token
-            getLocationAndSendItToServer(this, editProfileViewModel, token)
-            openMainActivity()
-
+            getLocationAndSendItToServer(this, editProfileViewModel, token, this)
         })
 
     }
