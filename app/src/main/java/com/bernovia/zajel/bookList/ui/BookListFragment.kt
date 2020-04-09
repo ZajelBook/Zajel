@@ -40,6 +40,8 @@ class BookListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_book_list, container, false)
+        binding.swipeContainer.isRefreshing = true
+
         booksListViewModel.refreshPage().observe(viewLifecycleOwner, Observer { it.refreshPage() })
         booksListViewModel.dataSource.observe(viewLifecycleOwner, Observer {
             size = it.size
@@ -57,18 +59,23 @@ class BookListFragment : Fragment() {
         }
 
 
+
         booksListViewModel.networkState.observe(viewLifecycleOwner, Observer {
 
-            if (it.status == Status.SUCCESS) {
+
+            if (it.status == Status.SUCCESS || it.status == Status.FAILED) {
                 binding.swipeContainer.isRefreshing = false
-                if (size == 0) {
-                    binding.emptyScreenLinearLayout.visibility = View.VISIBLE
-                    binding.swipeContainer.visibility = View.GONE
-                    binding.emptyScreenButton.setOnClickListener { shareButton(requireContext()) }
-                } else {
-                    binding.emptyScreenLinearLayout.visibility = View.GONE
-                    binding.swipeContainer.visibility = View.VISIBLE
-                }
+                binding.emptyScreenLinearLayout.postDelayed({
+                    if (size == 0) {
+                        binding.emptyScreenLinearLayout.visibility = View.VISIBLE
+                        binding.swipeContainer.visibility = View.GONE
+                        binding.emptyScreenButton.setOnClickListener { shareButton(requireContext()) }
+                    } else {
+                        binding.emptyScreenLinearLayout.visibility = View.GONE
+                        binding.swipeContainer.visibility = View.VISIBLE
+                    }
+                }, 200)
+
             }
         })
 

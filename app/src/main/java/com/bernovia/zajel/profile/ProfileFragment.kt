@@ -15,10 +15,10 @@ import com.bernovia.zajel.actions.logout.LogoutViewModel
 import com.bernovia.zajel.auth.logIn.ui.LoginActivity
 import com.bernovia.zajel.bookList.ui.MyBooksFragment
 import com.bernovia.zajel.databinding.FragmentProfileBinding
+import com.bernovia.zajel.dialogs.DialogUtil.showAskForRating
 import com.bernovia.zajel.editProfile.EditProfileFragment
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.NavigateUtil
-import com.bernovia.zajel.helpers.ZajelUtil
 import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.bernovia.zajel.helpers.ZajelUtil.singleItemClick
 import kotlinx.coroutines.CoroutineScope
@@ -68,6 +68,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         binding.privacyPolicyRelativeLayout.setOnClickListener(this)
         binding.logoutRelativeLayout.setOnClickListener(this)
         binding.aboutRelativeLayout.setOnClickListener(this)
+        binding.rateUsRelativeLayout.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -88,6 +89,9 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                     R.id.added_FrameLayout,
                     WebViewFragment.newInstance(getString(R.string.terms_and_conditions), getString(R.string.terms_link)),
                     FragmentSwitcher.AnimationType.PUSH)
+            }
+            R.id.rate_us_RelativeLayout -> {
+                showAskForRating(requireActivity().supportFragmentManager,requireContext())
             }
             R.id.privacy_policy_RelativeLayout -> {
                 if (singleItemClick()) return

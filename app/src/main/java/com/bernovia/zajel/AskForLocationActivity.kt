@@ -79,7 +79,7 @@ class AskForLocationActivity : AppCompatActivity() {
 
     private fun setUpAllowLocation() {
         binding.locationTitleTextView.text = resources.getText(R.string.enable_location)
-        binding.locationMessageTextView.text = resources.getText(R.string.you_ll_need_to_enable_your_location_in_order_to_use_sugarbook)
+        binding.locationMessageTextView.text = resources.getText(R.string.you_ll_need_to_enable_your_location_in_order_to_use_zajel)
         binding.locationButton.text = resources.getText(R.string.allow_location)
         binding.locationButton.setOnClickListener {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_REQUEST)
@@ -89,7 +89,7 @@ class AskForLocationActivity : AppCompatActivity() {
 
     private fun setUpOpenSettings() {
         binding.locationTitleTextView.text = resources.getText(R.string.oops)
-        binding.locationMessageTextView.text = resources.getText(R.string.in_order_to_use_sugarbook_please_enable_your_location_n_n_go_to_app_settings_permissions)
+        binding.locationMessageTextView.text = resources.getText(R.string.in_order_to_use_zajel_please_enable_your_location_n_n_go_to_app_settings_permissions)
         binding.locationButton.text = resources.getText(R.string.open_settings)
         binding.locationButton.setOnClickListener {
             LocationUtil.openAppSettings(this)
@@ -99,7 +99,7 @@ class AskForLocationActivity : AppCompatActivity() {
 
     private fun setUpEnableLocation() {
         binding.locationTitleTextView.text = resources.getText(R.string.oops)
-        binding.locationMessageTextView.text = resources.getText(R.string.you_need_to_allow_access_to_location_in_order_to_use_sugarbook_nplease_try_again_and_hit_ok)
+        binding.locationMessageTextView.text = resources.getText(R.string.you_need_to_allow_access_to_location_in_order_to_use_zajel_nplease_try_again_and_hit_ok)
         binding.locationButton.text = resources.getText(R.string.try_again)
         binding.locationButton.setOnClickListener {
             LocationUtil.enableLocation(this)

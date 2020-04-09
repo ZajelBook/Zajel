@@ -64,8 +64,9 @@ class MyBooksFragment : Fragment() {
         }
 
         booksListViewModel.networkStateMyBooks.observe(viewLifecycleOwner, Observer {
-            if (it.status == Status.SUCCESS) {
+            if (it.status == Status.SUCCESS || it.status == Status.FAILED) {
                 binding.swipeContainer.isRefreshing = false
+                binding.emptyScreenLinearLayout.postDelayed({
                 if (size == 0) {
                     binding.emptyScreenLinearLayout.visibility = View.VISIBLE
                     binding.swipeContainer.visibility = View.GONE
@@ -77,7 +78,7 @@ class MyBooksFragment : Fragment() {
                     binding.emptyScreenLinearLayout.visibility = View.GONE
                     binding.swipeContainer.visibility = View.VISIBLE
                 }
-
+                }, 200)
             }
         })
 

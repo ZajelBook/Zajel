@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="30dp"
+    android:layout_marginEnd="30dp"
+    android:background="#ffffff"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingStart="45dp"
+    android:paddingEnd="45dp">
+
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/text_regular_16_black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="@string/how_much_do_you_rate_zajel" />
+
+    <RatingBar
+        android:id="@+id/add_review_ratingbar"
+        style="@style/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="20dp"
+        android:numStars="5"
+        android:stepSize="1">
+
+    </RatingBar>
+
+</LinearLayout>

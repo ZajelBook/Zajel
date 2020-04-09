@@ -33,7 +33,7 @@
             android:layout_marginTop="@dimen/_12sdp"
             android:gravity="center"
             android:lineSpacingMultiplier="1.1"
-            android:text="@string/you_need_to_allow_access_to_location_in_order_to_use_sugarbook_nplease_try_again_and_hit_ok" />
+            android:text="@string/you_need_to_allow_access_to_location_in_order_to_use_zajel_nplease_try_again_and_hit_ok" />
 
         <Button
             android:id="@+id/location_Button"

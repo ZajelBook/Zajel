@@ -31,11 +31,11 @@
     <string name="don_t_have_an_account">Don\'t have an account ?</string>
     <string name="forgot_password">Forgot password</string>
 
-    <string name="you_ll_need_to_enable_your_location_in_order_to_use_sugarbook">You\'ll need to enable your location in order to use Zajel</string>
+    <string name="you_ll_need_to_enable_your_location_in_order_to_use_zajel">You\'ll need to enable your location in order to use Zajel</string>
     <string name="oops">Oops</string>
-    <string name="in_order_to_use_sugarbook_please_enable_your_location_n_n_go_to_app_settings_permissions"><![CDATA[In order to use Zajel please enable your location\n\nGo to App Settings > Permissions]]></string>
+    <string name="in_order_to_use_zajel_please_enable_your_location_n_n_go_to_app_settings_permissions"><![CDATA[In order to use Zajel please enable your location\n\nGo to App Settings > Permissions]]></string>
     <string name="open_settings">Open Settings</string>
-    <string name="you_need_to_allow_access_to_location_in_order_to_use_sugarbook_nplease_try_again_and_hit_ok">You need to allow access to location in order to use Zajel.\nPlease try again and hit OK.</string>
+    <string name="you_need_to_allow_access_to_location_in_order_to_use_zajel_nplease_try_again_and_hit_ok">You need to allow access to location in order to use Zajel.\nPlease try again and hit OK.</string>
     <string name="try_again">Try Again</string>
     <string name="allow_location">Allow Location</string>
     <string name="enable_location">Enable Location</string>
@@ -93,6 +93,14 @@
     <string name="you_haven_t_received_any_notifications_yet">You haven\'t received any notifications yet.</string>
     <string name="you_haven_t_add_any_books_yet">You haven\'t add any books yet.</string>
     <string name="rate_us">Rate us</string>
-    <string name="how_much_do_you_rate_zajel">How much do you rate Zajel</string>
+    <string name="how_much_do_you_rate_zajel">How much do you rate Zajel ?</string>
+
+    <string name="leave_feedback">Leave feedback?</string>
+    <string name="leave_feedback_message">We\'d love to know how we can make Zajel even better for you. Would you like to leave us some feedback?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="thanks">Thank You</string>
+    <string name="rate_message">We\'re so happy to hear that you love using Zajel!\n\nWill you please rate us in the app store?</string>
+    <string name="no_thanks">No thanks</string>
 
 </resources>

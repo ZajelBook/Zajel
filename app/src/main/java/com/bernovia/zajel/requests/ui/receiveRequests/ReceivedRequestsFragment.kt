@@ -70,8 +70,9 @@ class ReceivedRequestsFragment : Fragment(), ReceivedRequestsAdapter.ReceivedReq
 
         bookActivitiesViewModel.receivedRequestsNetworkState.observe(viewLifecycleOwner, Observer {
 
-            if (it.status == Status.SUCCESS) {
+            if (it.status == Status.SUCCESS || it.status == Status.FAILED) {
                 binding.receivedRequestsSwipeRefreshLayout.isRefreshing = false
+                binding.emptyScreenLinearLayout.postDelayed({
                 if (size == 0) {
                     binding.emptyScreenLinearLayout.visibility = View.VISIBLE
                     binding.receivedRequestsSwipeRefreshLayout.visibility = View.GONE
@@ -83,7 +84,7 @@ class ReceivedRequestsFragment : Fragment(), ReceivedRequestsAdapter.ReceivedReq
                 } else {
                     binding.emptyScreenLinearLayout.visibility = View.GONE
                     binding.receivedRequestsSwipeRefreshLayout.visibility = View.VISIBLE
-                }
+                } }, 200)
 
             }
         })

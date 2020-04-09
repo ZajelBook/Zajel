@@ -65,21 +65,22 @@ class NotificationsListFragment : Fragment() {
         }
 
         notificationsListViewModel.networkState.observe(viewLifecycleOwner, Observer {
-            if (it.status == Status.SUCCESS) {
+            if (it.status == Status.SUCCESS || it.status == Status.FAILED) {
                 binding.swipeContainer.isRefreshing = false
-                if (size == 0) {
-                    binding.emptyScreenLinearLayout.visibility = View.VISIBLE
-                    binding.swipeContainer.visibility = View.GONE
-                    binding.emptyScreenButton.setOnClickListener {
-                        MainActivity.bottomNavigationView.selectedItemId = R.id.navigation_home
-                        MainActivity.fabButton.visibility = View.VISIBLE
-                        FragmentSwitcher.replaceFragmentWithNoAnimation(requireActivity().supportFragmentManager, R.id.main_content_frameLayout, BookListFragment.newInstance())
+                binding.emptyScreenLinearLayout.postDelayed({
+                    if (size == 0) {
+                        binding.emptyScreenLinearLayout.visibility = View.VISIBLE
+                        binding.swipeContainer.visibility = View.GONE
+                        binding.emptyScreenButton.setOnClickListener {
+                            MainActivity.bottomNavigationView.selectedItemId = R.id.navigation_home
+                            MainActivity.fabButton.visibility = View.VISIBLE
+                            FragmentSwitcher.replaceFragmentWithNoAnimation(requireActivity().supportFragmentManager, R.id.main_content_frameLayout, BookListFragment.newInstance())
+                        }
+                    } else {
+                        binding.emptyScreenLinearLayout.visibility = View.GONE
+                        binding.swipeContainer.visibility = View.VISIBLE
                     }
-                } else {
-                    binding.emptyScreenLinearLayout.visibility = View.GONE
-                    binding.swipeContainer.visibility = View.VISIBLE
-                }
-
+                }, 200)
             }
         })
     }

@@ -13,7 +13,9 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executors
 
 class GenericBoundaryCallback<T>(
-    private val removeAllItems: () -> Completable, private val getPage: (page: Int) -> Single<List<T>>, private val insertAllItems: (items: List<T>) -> Completable,
+    private val removeAllItems: () -> Completable,
+    private val getPage: (page: Int) -> Single<List<T>>,
+    private val insertAllItems: (items: List<T>) -> Completable,
     private val isMessaging: Boolean) : PagedList.BoundaryCallback<T>() {
 
     private val helper = PagingRequestHelper(Executors.newSingleThreadExecutor())
@@ -32,11 +34,7 @@ class GenericBoundaryCallback<T>(
             offsetCount += 1
             networkState.postValue(NetworkState.LOADED)
         }, onError = {
-
-//                            networkState.value =
-//                                    NetworkState.error(
-//                                            it.message
-//                                    )
+//            networkState.value = NetworkState.error(it.message)
         }).addTo(compositeDisposable)
     }
 
