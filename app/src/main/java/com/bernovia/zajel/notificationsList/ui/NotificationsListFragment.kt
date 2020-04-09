@@ -8,8 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bernovia.zajel.MainActivity
 import com.bernovia.zajel.R
+import com.bernovia.zajel.bookList.ui.BookListFragment
 import com.bernovia.zajel.databinding.FragmentNotificationsListBinding
+import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.apiCallsHelpers.Status
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -20,6 +23,7 @@ class NotificationsListFragment : Fragment() {
 
     private lateinit var binding: FragmentNotificationsListBinding
     private val notificationsListViewModel: NotificationsListViewModel by viewModel()
+    var size: Int = 0
 
     private val notificationsListAdapter: NotificationsListAdapter by lazy {
         NotificationsListAdapter(requireActivity().supportFragmentManager)
@@ -46,6 +50,7 @@ class NotificationsListFragment : Fragment() {
 
         notificationsListViewModel.refreshPage().observe(viewLifecycleOwner, Observer { it.refreshPage() })
         notificationsListViewModel.dataSource.observe(viewLifecycleOwner, Observer {
+            size = it.size
             notificationsListAdapter.submitList(it)
         })
 
@@ -62,6 +67,19 @@ class NotificationsListFragment : Fragment() {
         notificationsListViewModel.networkState.observe(viewLifecycleOwner, Observer {
             if (it.status == Status.SUCCESS) {
                 binding.swipeContainer.isRefreshing = false
+                if (size == 0) {
+                    binding.emptyScreenLinearLayout.visibility = View.VISIBLE
+                    binding.swipeContainer.visibility = View.GONE
+                    binding.emptyScreenButton.setOnClickListener {
+                        MainActivity.bottomNavigationView.selectedItemId = R.id.navigation_home
+                        MainActivity.fabButton.visibility = View.VISIBLE
+                        FragmentSwitcher.replaceFragmentWithNoAnimation(requireActivity().supportFragmentManager, R.id.main_content_frameLayout, BookListFragment.newInstance())
+                    }
+                } else {
+                    binding.emptyScreenLinearLayout.visibility = View.GONE
+                    binding.swipeContainer.visibility = View.VISIBLE
+                }
+
             }
         })
     }

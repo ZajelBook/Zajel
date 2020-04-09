@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bernovia.zajel.R
+import com.bernovia.zajel.addBook.AddBookFragment
 import com.bernovia.zajel.databinding.FragmentMyBooksBinding
+import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.NavigateUtil.closeFragment
 import com.bernovia.zajel.helpers.apiCallsHelpers.Status
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -21,6 +23,7 @@ class MyBooksFragment : Fragment() {
 
     lateinit var binding: FragmentMyBooksBinding
     private val booksListViewModel: BooksListViewModel by viewModel()
+    var size: Int = 0
 
     companion object {
         fun newInstance(): MyBooksFragment {
@@ -46,6 +49,7 @@ class MyBooksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         booksListViewModel.refreshPageMyBooks().observe(viewLifecycleOwner, Observer { it.refreshPage() })
         booksListViewModel.dataSourceMyBooks.observe(viewLifecycleOwner, Observer {
+            size = it.size
             bookListAdapter.submitList(it)
         })
 
@@ -62,10 +66,22 @@ class MyBooksFragment : Fragment() {
         booksListViewModel.networkStateMyBooks.observe(viewLifecycleOwner, Observer {
             if (it.status == Status.SUCCESS) {
                 binding.swipeContainer.isRefreshing = false
+                if (size == 0) {
+                    binding.emptyScreenLinearLayout.visibility = View.VISIBLE
+                    binding.swipeContainer.visibility = View.GONE
+                    binding.emptyScreenButton.setOnClickListener {
+                        closeFragment(requireActivity().supportFragmentManager, this)
+                        FragmentSwitcher.addFragment(requireActivity().supportFragmentManager, R.id.added_FrameLayout, AddBookFragment.newInstance(0), FragmentSwitcher.AnimationType.PUSH)
+                    }
+                } else {
+                    binding.emptyScreenLinearLayout.visibility = View.GONE
+                    binding.swipeContainer.visibility = View.VISIBLE
+                }
+
             }
         })
 
-        binding.backImageButton.setOnClickListener { closeFragment(requireActivity().supportFragmentManager,this) }
+        binding.backImageButton.setOnClickListener { closeFragment(requireActivity().supportFragmentManager, this) }
 
 
     }

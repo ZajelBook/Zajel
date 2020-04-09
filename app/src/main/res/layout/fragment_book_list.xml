@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,37 +15,69 @@
             android:visibility="visible">
 
             <RelativeLayout
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:layout_marginTop="5dp"
-                android:layout_height="match_parent">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/app_logo_ImageView"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:gravity="center"
-                    android:src="@drawable/app_logo"
-                   />
+                    android:src="@drawable/app_logo" />
+
                 <TextView
-                    android:layout_toEndOf="@+id/app_logo_ImageView"
-                    android:text="ajel"
-                    android:layout_centerVertical="true"
                     style="@style/page_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/app_logo_ImageView"
+                    android:text="ajel" />
 
 
             </RelativeLayout>
 
             <View
-                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/divider" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/empty_screen_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_50sdp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+            <TextView
+                style="@style/text_regular_16_grey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.1"
+                android:text="@string/it_looks_like_there_are_no_books_around_you_please_help_us_spread_the_word" />
+
+
+            <Button
+                android:id="@+id/empty_screen_button"
+                style="@style/button_style"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_rounded"
+                android:text="@string/share" />
+
 
         </LinearLayout>
 

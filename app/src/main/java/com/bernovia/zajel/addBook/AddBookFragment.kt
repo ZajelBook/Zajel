@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,7 @@ import com.bernovia.zajel.helpers.ImageUtil.getFileImageFromGallery
 import com.bernovia.zajel.helpers.ImageUtil.getFileName
 import com.bernovia.zajel.helpers.ImageUtil.openCropActivityInFragment
 import com.bernovia.zajel.helpers.ImageUtil.showFileChooser
+import com.bernovia.zajel.helpers.InputFilterMinMax
 import com.bernovia.zajel.helpers.NavigateUtil.closeFragment
 import com.bernovia.zajel.helpers.TextWatcherAdapter
 import com.bernovia.zajel.helpers.ValidateUtil.validateEmptyField
@@ -56,6 +58,9 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.IOException
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 /**
@@ -140,6 +145,8 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
         binding.languageEditText.addTextChangedListener(TextWatcherAdapter(binding.languageEditText, this))
         binding.genreEditText.addTextChangedListener(TextWatcherAdapter(binding.genreEditText, this))
         binding.addButton.setOnClickListener { submitForm() }
+
+        binding.publishYearEditText.filters = arrayOf<InputFilter>(InputFilterMinMax("0", Calendar.getInstance().get(Calendar.YEAR).toString()))
 
 
         binding.genreEditText.setOnClickListener {

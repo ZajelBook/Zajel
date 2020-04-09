@@ -19,7 +19,6 @@
                 android:src="@drawable/back_arrow" />
 
 
-
             <TextView
                 style="@style/page_title"
                 android:layout_width="match_parent"
@@ -37,6 +36,41 @@
 
 
         </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@id/empty_screen_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/header"
+            android:layout_marginStart="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_50sdp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+            <TextView
+                style="@style/text_regular_16_grey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.1"
+                android:text="@string/you_haven_t_add_any_books_yet" />
+
+
+            <Button
+                android:id="@id/empty_screen_button"
+                style="@style/button_style"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_rounded"
+                android:text="@string/add_book" />
+
+
+        </LinearLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@id/swipe_container"

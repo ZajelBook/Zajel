@@ -8,8 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bernovia.zajel.MainActivity
 import com.bernovia.zajel.R
 import com.bernovia.zajel.actions.acceptRejectRequest.AcceptRejectRequestViewModel
+import com.bernovia.zajel.bookList.ui.BookListFragment
 import com.bernovia.zajel.databinding.FragmentReceivedRequestsBinding
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.apiCallsHelpers.Status
@@ -26,6 +28,7 @@ class ReceivedRequestsFragment : Fragment(), ReceivedRequestsAdapter.ReceivedReq
 
     private val bookActivitiesViewModel: BookActivitiesViewModel by viewModel()
     private val acceptRejectRequestViewModel: AcceptRejectRequestViewModel by viewModel()
+    var size: Int = 0
 
     companion object {
         fun newInstance(): ReceivedRequestsFragment {
@@ -52,6 +55,7 @@ class ReceivedRequestsFragment : Fragment(), ReceivedRequestsAdapter.ReceivedReq
         super.onViewCreated(view, savedInstanceState)
         bookActivitiesViewModel.refreshPageReceivedRequests().observe(viewLifecycleOwner, Observer { it.refreshPage() })
         bookActivitiesViewModel.receivedRequestsDataSource.observe(viewLifecycleOwner, Observer {
+            size = it.size
             receivedRequestsAdapter.submitList(it)
         })
 
@@ -68,6 +72,19 @@ class ReceivedRequestsFragment : Fragment(), ReceivedRequestsAdapter.ReceivedReq
 
             if (it.status == Status.SUCCESS) {
                 binding.receivedRequestsSwipeRefreshLayout.isRefreshing = false
+                if (size == 0) {
+                    binding.emptyScreenLinearLayout.visibility = View.VISIBLE
+                    binding.receivedRequestsSwipeRefreshLayout.visibility = View.GONE
+                    binding.emptyScreenButton.setOnClickListener {
+                        MainActivity.bottomNavigationView.selectedItemId = R.id.navigation_home
+                        MainActivity.fabButton.visibility = View.VISIBLE
+                        FragmentSwitcher.replaceFragmentWithNoAnimation(requireActivity().supportFragmentManager, R.id.main_content_frameLayout, BookListFragment.newInstance())
+                    }
+                } else {
+                    binding.emptyScreenLinearLayout.visibility = View.GONE
+                    binding.receivedRequestsSwipeRefreshLayout.visibility = View.VISIBLE
+                }
+
             }
         })
 

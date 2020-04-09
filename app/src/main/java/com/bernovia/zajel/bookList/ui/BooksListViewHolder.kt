@@ -35,9 +35,6 @@ class BooksListViewHolder(var itemBinding: ItemBookBinding, private var fragment
 
 
             itemBinding.root.setOnClickListener {
-                Log.e("user id", preferenceManager.userId.toString())
-                Log.e("user id from book ", data.userId.toString())
-
                 if (data.userId == preferenceManager.userId){
                     FragmentSwitcher.addFragment(fragmentManager, R.id.added_FrameLayout, AddBookFragment.newInstance(data.id), FragmentSwitcher.AnimationType.PUSH)
 

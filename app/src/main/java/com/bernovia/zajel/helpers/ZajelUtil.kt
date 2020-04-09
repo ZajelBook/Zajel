@@ -2,6 +2,7 @@ package com.bernovia.zajel.helpers
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -9,7 +10,7 @@ import androidx.lifecycle.Observer
 import okhttp3.Headers
 
 object ZajelUtil {
-    val preferenceManager :PreferenceManager= PreferenceManager.instance
+    val preferenceManager: PreferenceManager = PreferenceManager.instance
 
 
     fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
@@ -28,6 +29,14 @@ object ZajelUtil {
         }
     }
 
+    fun shareButton(context: Context) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Join Zajel")
+        intent.putExtra(Intent.EXTRA_TEXT, "http://play.google.com/store/apps/details?id=" + context.packageName)
+        context.startActivity(Intent.createChooser(intent, "Send Invite link"))
+
+    }
 
     fun setHeaders(headers: Headers, preferenceManager: PreferenceManager) {
         preferenceManager.accessToken = headers.get("Access-Token")

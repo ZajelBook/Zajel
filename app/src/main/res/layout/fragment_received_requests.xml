@@ -6,6 +6,40 @@
         android:layout_height="match_parent">
 
 
+        <LinearLayout
+            android:id="@id/empty_screen_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_50sdp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+            <TextView
+                style="@style/text_regular_16_grey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.1"
+                android:text="@string/you_don_t_have_any_received_requests_yet" />
+
+
+            <Button
+                android:id="@id/empty_screen_button"
+                style="@style/button_style"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_rounded"
+                android:text="@string/browse_books" />
+
+
+        </LinearLayout>
+
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/received_requests_SwipeRefreshLayout"
             android:layout_width="match_parent"

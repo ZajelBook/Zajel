@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bernovia.zajel.R
 import com.bernovia.zajel.databinding.FragmentBookListBinding
+import com.bernovia.zajel.helpers.ZajelUtil.shareButton
 import com.bernovia.zajel.helpers.apiCallsHelpers.Status
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -19,6 +20,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class BookListFragment : Fragment() {
     lateinit var binding: FragmentBookListBinding
     private val booksListViewModel: BooksListViewModel by viewModel()
+    var size: Int = 0
 
 
     companion object {
@@ -40,6 +42,7 @@ class BookListFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_book_list, container, false)
         booksListViewModel.refreshPage().observe(viewLifecycleOwner, Observer { it.refreshPage() })
         booksListViewModel.dataSource.observe(viewLifecycleOwner, Observer {
+            size = it.size
             bookListAdapter.submitList(it)
         })
 
@@ -53,10 +56,19 @@ class BookListFragment : Fragment() {
             booksListViewModel.refreshPage().observe(viewLifecycleOwner, Observer { it.refreshPage() })
         }
 
+
         booksListViewModel.networkState.observe(viewLifecycleOwner, Observer {
 
             if (it.status == Status.SUCCESS) {
                 binding.swipeContainer.isRefreshing = false
+                if (size == 0) {
+                    binding.emptyScreenLinearLayout.visibility = View.VISIBLE
+                    binding.swipeContainer.visibility = View.GONE
+                    binding.emptyScreenButton.setOnClickListener { shareButton(requireContext()) }
+                } else {
+                    binding.emptyScreenLinearLayout.visibility = View.GONE
+                    binding.swipeContainer.visibility = View.VISIBLE
+                }
             }
         })
 

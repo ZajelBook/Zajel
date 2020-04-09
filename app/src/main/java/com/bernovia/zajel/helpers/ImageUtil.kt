@@ -41,13 +41,9 @@ object ImageUtil {
 
 
     fun renderBlurImage(photoUrl: String, context: Context, radius: Int, imageView: ImageView, placeholder: Int) {
-        if (photoUrl == "") {
-            Glide.with(context).load(placeholder).fitCenter() .apply(bitmapTransform(BlurTransformation(radius, 1))).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView)
-        } else {
-            Glide.with(context).load(photoUrl).fitCenter() .placeholder(placeholder).error(placeholder).apply(bitmapTransform(BlurTransformation(radius,
-                1))).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView)
+        if (photoUrl != "") {
+            Glide.with(context).load(photoUrl).fitCenter().apply(bitmapTransform(BlurTransformation(radius, 1))).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView)
         }
-
     }
 
 

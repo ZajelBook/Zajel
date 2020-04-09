@@ -22,6 +22,7 @@ import com.bernovia.zajel.notificationsList.ui.NotificationsListFragment
 import com.bernovia.zajel.profile.ProfileFragment
 import com.bernovia.zajel.requests.ui.RequestsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class MainActivity : AppCompatActivity() {
@@ -35,6 +36,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         lateinit var bottomNavigationView: BottomNavigationView
+        lateinit var fabButton: FloatingActionButton
+
     }
 
     @Suppress("SENSELESS_COMPARISON") fun checkIntent() {
@@ -64,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         bottomNavigationView = binding.bottomNavigation
-
+        fabButton = binding.addBookFAB
         registerTheReceiver(tokenMissMatchReceiver, TOKEN_MISMATCH)
 
         binding.addBookFAB.setOnClickListener {

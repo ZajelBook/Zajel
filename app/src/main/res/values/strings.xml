@@ -85,5 +85,12 @@
     <string name="profile_updated_">Profile Updated Successfully</string>
     <string name="book_added_success">Book Added Successfully</string>
     <string name="book_updated_success">Book Updated Successfully</string>
+    <string name="share">Share</string>
+    <string name="it_looks_like_there_are_no_books_around_you_please_help_us_spread_the_word">It looks like there are no books around you please help us spread the word.</string>
+    <string name="browse_books">Browse Books</string>
+    <string name="you_don_t_have_any_received_requests_yet">You don\'t have any received requests yet.</string>
+    <string name="you_haven_t_sent_any_request_yet">You haven\'t sent any request yet.</string>
+    <string name="you_haven_t_received_any_notifications_yet">You haven\'t received any notifications yet.</string>
+    <string name="you_haven_t_add_any_books_yet">You haven\'t add any books yet.</string>
 
 </resources>
