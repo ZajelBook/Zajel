@@ -48,6 +48,7 @@ class SentRequestsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.sentRequestsSwipeRefreshLayout.isRefreshing = true
         bookActivitiesViewModel.refreshPageSendRequests().observe(viewLifecycleOwner, Observer { it.refreshPage() })
         bookActivitiesViewModel.sentRequestsDataSource.observe(viewLifecycleOwner, Observer {
             size = it.size
@@ -65,18 +66,18 @@ class SentRequestsFragment : Fragment() {
             if (it.status == Status.SUCCESS || it.status == Status.FAILED) {
                 binding.sentRequestsSwipeRefreshLayout.isRefreshing = false
                 binding.emptyScreenLinearLayout.postDelayed({
-                if (size == 0) {
-                    binding.emptyScreenLinearLayout.visibility = View.VISIBLE
-                    binding.sentRequestsSwipeRefreshLayout.visibility = View.GONE
-                    binding.emptyScreenButton.setOnClickListener {
-                        MainActivity.bottomNavigationView.selectedItemId = R.id.navigation_home
-                        MainActivity.fabButton.visibility = View.VISIBLE
-                        FragmentSwitcher.replaceFragmentWithNoAnimation(requireActivity().supportFragmentManager, R.id.main_content_frameLayout, BookListFragment.newInstance())
+                    if (size == 0) {
+                        binding.emptyScreenLinearLayout.visibility = View.VISIBLE
+                        binding.sentRequestsSwipeRefreshLayout.visibility = View.GONE
+                        binding.emptyScreenButton.setOnClickListener {
+                            MainActivity.bottomNavigationView.selectedItemId = R.id.navigation_home
+                            MainActivity.fabButton.visibility = View.VISIBLE
+                            FragmentSwitcher.replaceFragmentWithNoAnimation(requireActivity().supportFragmentManager, R.id.main_content_frameLayout, BookListFragment.newInstance())
+                        }
+                    } else {
+                        binding.emptyScreenLinearLayout.visibility = View.GONE
+                        binding.sentRequestsSwipeRefreshLayout.visibility = View.VISIBLE
                     }
-                } else {
-                    binding.emptyScreenLinearLayout.visibility = View.GONE
-                    binding.sentRequestsSwipeRefreshLayout.visibility = View.VISIBLE
-                }
                 }, 200)
 
             }

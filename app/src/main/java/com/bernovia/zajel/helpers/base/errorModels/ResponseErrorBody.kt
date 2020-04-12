@@ -5,5 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ResponseErrorBody(
     @SerializedName("errors")
-    val errors: Errors?
+    val errors: List<String>?,
+    @SerializedName("success")
+    val success: Boolean?
 )

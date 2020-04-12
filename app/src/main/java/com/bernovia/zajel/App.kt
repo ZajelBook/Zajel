@@ -9,12 +9,12 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
+
 class App : Application() {
 
 
     override fun onCreate() {
         super.onCreate()
-
 
         initializeInjector()
         PreferenceManager.initializeInstance(this)
@@ -26,7 +26,7 @@ class App : Application() {
 
     }
 
-    private  fun initializeInjector() {
+    private fun initializeInjector() {
         startKoin {
             // declare used Android context
             androidLogger()
@@ -34,7 +34,6 @@ class App : Application() {
             modules(AppKoinModules.getModules())
         }
     }
-
 
     companion object {
 

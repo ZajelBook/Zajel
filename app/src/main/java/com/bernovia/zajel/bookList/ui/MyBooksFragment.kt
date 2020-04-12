@@ -47,6 +47,8 @@ class MyBooksFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.swipeContainer.isRefreshing = true
+
         booksListViewModel.refreshPageMyBooks().observe(viewLifecycleOwner, Observer { it.refreshPage() })
         booksListViewModel.dataSourceMyBooks.observe(viewLifecycleOwner, Observer {
             size = it.size

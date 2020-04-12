@@ -47,6 +47,7 @@ class NotificationsListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.swipeContainer.isRefreshing = true
 
         notificationsListViewModel.refreshPage().observe(viewLifecycleOwner, Observer { it.refreshPage() })
         notificationsListViewModel.dataSource.observe(viewLifecycleOwner, Observer {

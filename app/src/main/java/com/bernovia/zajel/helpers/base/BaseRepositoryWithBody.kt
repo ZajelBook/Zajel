@@ -10,13 +10,10 @@ import com.bernovia.zajel.helpers.NetworkUtil
 import com.bernovia.zajel.helpers.base.errorModels.ResponseErrorBody
 import com.google.gson.Gson
 import kotlinx.coroutines.*
-import retrofit2.HttpException
 import retrofit2.Response
 
 abstract class BaseRepositoryWithBody<T, V>(
-    @PublishedApi internal val service: ApiServicesCoRoutines,
-    val showToast: Boolean
-) {
+    @PublishedApi internal val service: ApiServicesCoRoutines, val showToast: Boolean) {
 
     abstract fun loadData(body: V): LiveData<Any>
 
@@ -34,22 +31,17 @@ abstract class BaseRepositoryWithBody<T, V>(
                         result.value = response
 
                         val gson = Gson()
-                        val message = gson.fromJson(
-                            response.errorBody()!!.charStream(),
-                            ResponseErrorBody::class.java
-                        )
+                        val message = gson.fromJson(response.errorBody()!!.charStream(), ResponseErrorBody::class.java)
 
 
                         if (message != null) {
-                            if (showToast)
-                                Toast.makeText(App.context, message.errors?.fullMessages?.get(0), Toast.LENGTH_SHORT)
-                                    .show()
+                            if (showToast) Toast.makeText(App.context, message.errors?.get(0), Toast.LENGTH_SHORT).show()
 
                         }
 
                     }
-                }catch (e: Throwable) {
-                    Log.e("tets","aaaa")
+                }
+                catch (e: Throwable) {
                     NetworkUtil.handleApiError(e)
 
                 }

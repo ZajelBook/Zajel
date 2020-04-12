@@ -67,7 +67,7 @@ object ImageUtil {
     }
 
     fun openCropActivityInFragment(fragment: Fragment?, context: Context?, uri: Uri?) {
-        if (context != null) CropImage.activity(uri).setAllowFlipping(false).setCropShape(CropImageView.CropShape.RECTANGLE).setAspectRatio(900, 1200).setMinCropWindowSize(900, 1200).start(context,
+        if (context != null) CropImage.activity(uri).setAllowFlipping(false).setMinCropWindowSize(900, 1200).start(context,
             fragment!!)
     }
 

@@ -157,7 +157,7 @@
                         android:layout_height="300dp"
                         android:gravity="top"
                         android:hint="@string/description"
-                        android:inputType="text"
+                        android:inputType="textMultiLine"
 
 
                         />

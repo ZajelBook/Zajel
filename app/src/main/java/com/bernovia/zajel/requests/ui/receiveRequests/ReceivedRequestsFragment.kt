@@ -53,6 +53,8 @@ class ReceivedRequestsFragment : Fragment(), ReceivedRequestsAdapter.ReceivedReq
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.receivedRequestsSwipeRefreshLayout.isRefreshing = true
+
         bookActivitiesViewModel.refreshPageReceivedRequests().observe(viewLifecycleOwner, Observer { it.refreshPage() })
         bookActivitiesViewModel.receivedRequestsDataSource.observe(viewLifecycleOwner, Observer {
             size = it.size
