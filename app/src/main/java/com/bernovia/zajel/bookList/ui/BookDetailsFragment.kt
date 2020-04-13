@@ -48,6 +48,7 @@ class BookDetailsFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
 
+
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_book_details, container, false)
         if (arguments != null && arguments?.getInt("book_id") != null) {
