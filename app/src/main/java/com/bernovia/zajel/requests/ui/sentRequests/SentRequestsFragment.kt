@@ -10,9 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bernovia.zajel.MainActivity
 import com.bernovia.zajel.R
+import com.bernovia.zajel.auth.logIn.ui.LoginActivity
+import com.bernovia.zajel.auth.signup.ui.SignUpActivity
 import com.bernovia.zajel.bookList.ui.BookListFragment
 import com.bernovia.zajel.databinding.FragmentSentRequestsBinding
 import com.bernovia.zajel.helpers.FragmentSwitcher
+import com.bernovia.zajel.helpers.NavigateUtil
+import com.bernovia.zajel.helpers.ZajelUtil
 import com.bernovia.zajel.helpers.apiCallsHelpers.Status
 import com.bernovia.zajel.requests.ui.BookActivitiesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,47 +45,68 @@ class SentRequestsFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sent_requests, container, false)
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_sent_requests, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.sentRequestsSwipeRefreshLayout.isRefreshing = true
-        bookActivitiesViewModel.refreshPageSendRequests().observe(viewLifecycleOwner, Observer { it.refreshPage() })
-        bookActivitiesViewModel.sentRequestsDataSource.observe(viewLifecycleOwner, Observer {
-            size = it.size
-            sentRequestsAdapter.submitList(it)
-        })
-        binding.sentRequestsRecyclerView.apply {
-            adapter = sentRequestsAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
-        binding.sentRequestsSwipeRefreshLayout.setOnRefreshListener {
-            bookActivitiesViewModel.refreshPageSendRequests().observe(viewLifecycleOwner, Observer { it.refreshPage() })
-        }
-
-        bookActivitiesViewModel.sentRequestsNetworkState.observe(viewLifecycleOwner, Observer {
-            if (it.status == Status.SUCCESS || it.status == Status.FAILED) {
-                binding.sentRequestsSwipeRefreshLayout.isRefreshing = false
-                binding.emptyScreenLinearLayout.postDelayed({
-                    if (size == 0) {
-                        binding.emptyScreenLinearLayout.visibility = View.VISIBLE
-                        binding.sentRequestsSwipeRefreshLayout.visibility = View.GONE
-                        binding.emptyScreenButton.setOnClickListener {
-                            MainActivity.bottomNavigationView.selectedItemId = R.id.navigation_home
-                            MainActivity.fabButton.visibility = View.VISIBLE
-                            FragmentSwitcher.replaceFragmentWithNoAnimation(requireActivity().supportFragmentManager, R.id.main_content_frameLayout, BookListFragment.newInstance())
-                        }
-                    } else {
-                        binding.emptyScreenLinearLayout.visibility = View.GONE
-                        binding.sentRequestsSwipeRefreshLayout.visibility = View.VISIBLE
-                    }
-                }, 200)
+        if (ZajelUtil.preferenceManager.accessToken == "" || ZajelUtil.preferenceManager.accessToken == null) {
+            binding.emptyScreenLinearLayout.visibility = View.VISIBLE
+            binding.sentRequestsSwipeRefreshLayout.visibility = View.GONE
+            binding.emptyScreenTextView.text= getString(R.string.login_to_see_reqeuests)
+            binding.emptyScreenButton.text= getString(R.string.login)
+            binding.emptyScreenButton.setOnClickListener {
+                NavigateUtil.start<LoginActivity>(requireContext())
 
             }
-        })
+        }else{
+            binding.sentRequestsSwipeRefreshLayout.isRefreshing = true
+            bookActivitiesViewModel.refreshPageSendRequests()
+                .observe(viewLifecycleOwner, Observer { it.refreshPage() })
+            bookActivitiesViewModel.sentRequestsDataSource.observe(viewLifecycleOwner, Observer {
+                size = it.size
+                sentRequestsAdapter.submitList(it)
+            })
+            binding.sentRequestsRecyclerView.apply {
+                adapter = sentRequestsAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+            }
+            binding.sentRequestsSwipeRefreshLayout.setOnRefreshListener {
+                bookActivitiesViewModel.refreshPageSendRequests()
+                    .observe(viewLifecycleOwner, Observer { it.refreshPage() })
+            }
+
+            bookActivitiesViewModel.sentRequestsNetworkState.observe(viewLifecycleOwner, Observer {
+                if (it.status == Status.SUCCESS || it.status == Status.FAILED) {
+                    binding.sentRequestsSwipeRefreshLayout.isRefreshing = false
+                    binding.emptyScreenLinearLayout.postDelayed({
+                        if (size == 0) {
+                            binding.emptyScreenLinearLayout.visibility = View.VISIBLE
+                            binding.sentRequestsSwipeRefreshLayout.visibility = View.GONE
+                            binding.emptyScreenButton.setOnClickListener {
+                                MainActivity.bottomNavigationView.selectedItemId = R.id.navigation_home
+                                MainActivity.fabButton.visibility = View.VISIBLE
+                                FragmentSwitcher.replaceFragmentWithNoAnimation(
+                                    requireActivity().supportFragmentManager,
+                                    R.id.main_content_frameLayout,
+                                    BookListFragment.newInstance()
+                                )
+                            }
+                        } else {
+                            binding.emptyScreenLinearLayout.visibility = View.GONE
+                            binding.sentRequestsSwipeRefreshLayout.visibility = View.VISIBLE
+                        }
+                    }, 200)
+
+                }
+            })
+
+        }
+
 
     }
 

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bernovia.zajel.AskForLocationActivity
+import com.bernovia.zajel.MainActivity
 import com.bernovia.zajel.R
 import com.bernovia.zajel.WebViewFragment
 import com.bernovia.zajel.auth.logIn.ui.LoginActivity
@@ -145,6 +146,9 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener, TextWatcherAda
                     preferenceManager.userName = it.body()?.data?.firstName + " " + it.body()?.data?.lastName
                     setHeaders(headers, preferenceManager)
                     start<AskForLocationActivity>(this)
+                    if(MainActivity.activity!=null){
+                        MainActivity.activity.finish()
+                    }
                     finish()
                 }
 

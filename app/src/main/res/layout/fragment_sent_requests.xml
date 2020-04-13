@@ -18,6 +18,7 @@
 
 
             <TextView
+                android:id="@+id/empty_screen_TextView"
                 style="@style/text_regular_16_grey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

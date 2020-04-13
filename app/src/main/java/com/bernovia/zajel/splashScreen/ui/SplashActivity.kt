@@ -12,24 +12,17 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashActivity : AppCompatActivity() {
 
-    private val metaDataViewModel: MetaDataViewModel by viewModel()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        metaDataViewModel.insertMetaDataInLocal()
-        if (preferenceManager.accessToken == "" || preferenceManager.accessToken == null) {
-            NavigateUtil.start<LoginActivity>(applicationContext)
-            finish()
-        } else {
-            val i = Intent(applicationContext, AskForLocationActivity::class.java)
-            if (intent.extras != null) {
-                i.putExtra("type", intent.extras!!.getString("type"))
-                i.putExtra("conversation_id", intent.extras!!.getString("conversation_id"))
-            }
-            startActivity(i)
-            finish()
+        val i = Intent(applicationContext, AskForLocationActivity::class.java)
+        if (intent.extras != null) {
+            i.putExtra("type", intent.extras!!.getString("type"))
+            i.putExtra("conversation_id", intent.extras!!.getString("conversation_id"))
         }
+        startActivity(i)
+        finish()
+
 
     }
 }

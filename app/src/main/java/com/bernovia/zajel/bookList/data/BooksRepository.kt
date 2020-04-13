@@ -36,16 +36,28 @@ interface BooksRepository {
 
 
     open class BooksRepositoryImpl(
-        private val service: ApiServicesRx, private val dao: BookDao) : BooksRepository {
+        private val service: ApiServicesRx, private val dao: BookDao
+    ) : BooksRepository {
+
 
         private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
         val bc: GenericBoundaryCallback<Book> by lazy {
-            GenericBoundaryCallback({ dao.deleteAllBooksList() }, { bookList(it) }, { insertAllBooksList(it) }, false)
+            GenericBoundaryCallback(
+                { dao.deleteAllBooksList() },
+                { bookList(it) },
+                { insertAllBooksList(it) },
+                false
+            )
         }
 
         val bcMyBooks: GenericBoundaryCallback<Book> by lazy {
-            GenericBoundaryCallback({ dao.deleteMyBooksList(preferenceManager.userId) }, { myBookList(it) }, { insertAllBooksList(it) }, false)
+            GenericBoundaryCallback(
+                { dao.deleteMyBooksList(preferenceManager.userId) },
+                { myBookList(it) },
+                { insertAllBooksList(it) },
+                false
+            )
         }
 
         override fun getListableMyBooks(): Listing<Book> {
@@ -57,7 +69,8 @@ interface BooksRepository {
                 }
 
                 override fun getDataSource(): LiveData<PagedList<Book>> {
-                    return dao.allMyBooksPaginated(preferenceManager.userId).map { it }.toLiveData(pageSize = SIZE_PAGE, boundaryCallback = bcMyBooks)
+                    return dao.allMyBooksPaginated(preferenceManager.userId).map { it }
+                        .toLiveData(pageSize = SIZE_PAGE, boundaryCallback = bcMyBooks)
                 }
 
             }
@@ -74,7 +87,8 @@ interface BooksRepository {
                 }
 
                 override fun getDataSource(): LiveData<PagedList<Book>> {
-                    return dao.allBooksPaginated().map { it }.toLiveData(pageSize = SIZE_PAGE, boundaryCallback = bc)
+                    return dao.allBooksPaginated().map { it }
+                        .toLiveData(pageSize = SIZE_PAGE, boundaryCallback = bc)
                 }
 
             }
@@ -124,7 +138,10 @@ interface BooksRepository {
 
 
         fun bookList(page: Int): Single<List<Book>> {
-            return service.bookList(SIZE_PAGE, page).map { it }
+            return service.bookList(
+                SIZE_PAGE, page,
+                preferenceManager.latitude.toDouble(), preferenceManager.longitude.toDouble()
+            ).map { it }
         }
 
     }

@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import com.bernovia.zajel.MainActivity
 import com.bernovia.zajel.editProfile.models.EditProfileRequestBody
 import com.bernovia.zajel.editProfile.ui.EditProfileViewModel
+import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -24,7 +25,9 @@ object LocationUtil {
 
     fun isLocationEnabled(context: Context): Boolean {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
     }
 
     private fun openMainActivity(activity: Activity) {
@@ -39,14 +42,28 @@ object LocationUtil {
     }
 
 
-    fun getLocationAndSendItToServer(activity: Activity, editProfileViewModel: EditProfileViewModel, fcmToken: String?, lifecycleOwner: LifecycleOwner) {
+    fun getLocationAndSendItToServer(
+        activity: Activity,
+        editProfileViewModel: EditProfileViewModel,
+        fcmToken: String?,
+        lifecycleOwner: LifecycleOwner
+    ) {
 
-        val fusedLocationClient: FusedLocationProviderClient? = LocationServices.getFusedLocationProviderClient(activity)
+        val fusedLocationClient: FusedLocationProviderClient? =
+            LocationServices.getFusedLocationProviderClient(activity)
         fusedLocationClient?.lastLocation?.addOnSuccessListener { location ->
             if (location != null) {
 
+                preferenceManager.latitude = location.latitude.toFloat()
+                preferenceManager.longitude = location.longitude.toFloat()
 
-                editProfileViewModel.getDataFromRetrofit(EditProfileRequestBody(location.latitude, location.longitude, fcmToken)).observe(lifecycleOwner, Observer {
+                editProfileViewModel.getDataFromRetrofit(
+                    EditProfileRequestBody(
+                        location.latitude,
+                        location.longitude,
+                        fcmToken
+                    )
+                ).observe(lifecycleOwner, Observer {
                     openMainActivity(activity)
                 })
 
@@ -59,14 +76,27 @@ object LocationUtil {
                         override fun onLocationResult(locationResult: LocationResult) {
                             for (location in locationResult.locations) {
                                 if (location != null) {
-                                    editProfileViewModel.getDataFromRetrofit(EditProfileRequestBody(location.latitude, location.longitude, fcmToken)).observe(lifecycleOwner, Observer {
+                                    preferenceManager.latitude = location.latitude.toFloat()
+                                    preferenceManager.longitude = location.longitude.toFloat()
+
+                                    editProfileViewModel.getDataFromRetrofit(
+                                        EditProfileRequestBody(
+                                            location.latitude,
+                                            location.longitude,
+                                            fcmToken
+                                        )
+                                    ).observe(lifecycleOwner, Observer {
                                         openMainActivity(activity)
                                     })
                                 }
                             }
                         }
                     }
-                    fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+                    fusedLocationClient.requestLocationUpdates(
+                        locationRequest,
+                        locationCallback,
+                        null
+                    )
                 }
             }
 
@@ -88,15 +118,15 @@ object LocationUtil {
         locationRequest.interval = 10000
         locationRequest.fastestInterval = 10000 / 2.toLong()
         val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
-        val result = LocationServices.getSettingsClient(activity).checkLocationSettings(builder.build())
+        val result =
+            LocationServices.getSettingsClient(activity).checkLocationSettings(builder.build())
         result.addOnCompleteListener { task: Task<LocationSettingsResponse?> ->
             try {
                 val response = task.getResult(ApiException::class.java)
                 // All location settings are satisfied. The client can initialize location
                 // requests here.
 
-            }
-            catch (exception: ApiException) {
+            } catch (exception: ApiException) {
                 when (exception.statusCode) {
                     LocationSettingsStatusCodes.RESOLUTION_REQUIRED ->  // Location settings are not satisfied. But could be fixed by showing the
                         // user a dialog.
@@ -105,10 +135,8 @@ object LocationUtil {
                             // Show the dialog by calling startResolutionForResult(),
                             // and check the result in onActivityResult().
                             resolvable.startResolutionForResult(activity, 444)
-                        }
-                        catch (e: IntentSender.SendIntentException) { // Ignore the error.
-                        }
-                        catch (e: ClassCastException) { // Ignore, should be an impossible error.
+                        } catch (e: IntentSender.SendIntentException) { // Ignore the error.
+                        } catch (e: ClassCastException) { // Ignore, should be an impossible error.
                         }
                     LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
                         // Location settings are not satisfied. However, we have no way to fix the

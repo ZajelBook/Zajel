@@ -102,5 +102,8 @@
     <string name="thanks">Thank You</string>
     <string name="rate_message">We\'re so happy to hear that you love using Zajel!\n\nWill you please rate us in the app store?</string>
     <string name="no_thanks">No thanks</string>
+    <string name="login_to_see_reqeuests">Login to see your Requests</string>
+    <string name="login_to_see_notification">Login to see your notifications</string>
+    <string name="login_to_see_profile">Login to see your profile</string>
 
 </resources>

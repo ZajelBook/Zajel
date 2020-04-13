@@ -24,7 +24,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiServicesRx {
-    fun bookList(perPage: Int, page: Int): Single<List<Book>>
+    fun bookList(perPage: Int, page: Int, latitude: Double, longitude: Double): Single<List<Book>>
     fun metaData(): Single<MetaDataResponseBody>
 
     fun requestsList(type: String, perPage: Int, page: Int): Single<List<BookActivity?>>
@@ -39,65 +39,100 @@ interface ApiServicesRx {
 
 
     class Network(
-        private val retrofit: Retrofit, private val schedulers: BaseSchedulers) : ApiServicesRx {
-        override fun bookList(perPage: Int, page: Int): Single<List<Book>> {
+        private val retrofit: Retrofit, private val schedulers: BaseSchedulers
+    ) : ApiServicesRx {
+        override fun bookList(
+            perPage: Int,
+            page: Int,
+            latitude: Double,
+            longitude: Double
+        ): Single<List<Book>> {
 
-            return retrofit.create(NetworkCalls::class.java).getBooksList(perPage, page).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
+            return retrofit.create(NetworkCalls::class.java)
+                .getBooksList(perPage, page, latitude, longitude).subscribeOn(schedulers.io())
+                .doOnError { handleApiError(it) }.map {
                 it.books
             }
         }
 
         override fun metaData(): Single<MetaDataResponseBody> {
-            return retrofit.create(NetworkCalls::class.java).getMetaData().subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
+            return retrofit.create(NetworkCalls::class.java).getMetaData()
+                .subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
                 it
             }
         }
 
-        override fun requestsList(type: String, perPage: Int, page: Int): Single<List<BookActivity?>> {
-            return retrofit.create(NetworkCalls::class.java).getRequests(type, perPage, page).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
+        override fun requestsList(
+            type: String,
+            perPage: Int,
+            page: Int
+        ): Single<List<BookActivity?>> {
+            return retrofit.create(NetworkCalls::class.java).getRequests(type, perPage, page)
+                .subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
                 it.bookActivities
             }
         }
 
-        override fun messagesList(perPage: Int, page: Int, conversationId: Int): Single<List<Message?>> {
-            return retrofit.create(NetworkCalls::class.java).getMessages(conversationId, perPage, page).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
+        override fun messagesList(
+            perPage: Int,
+            page: Int,
+            conversationId: Int
+        ): Single<List<Message?>> {
+            return retrofit.create(NetworkCalls::class.java)
+                .getMessages(conversationId, perPage, page).subscribeOn(schedulers.io())
+                .doOnError { handleApiError(it) }.map {
                 it.messages
             }
         }
 
         override fun book(bookId: Int): Single<Book> {
-            return retrofit.create(NetworkCalls::class.java).getBook(bookId).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
+            return retrofit.create(NetworkCalls::class.java).getBook(bookId)
+                .subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
                 it
             }
         }
 
         override fun myBookList(perPage: Int, page: Int): Single<List<Book>> {
-            return retrofit.create(NetworkCalls::class.java).getMyBooksList(perPage, page).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
+            return retrofit.create(NetworkCalls::class.java).getMyBooksList(perPage, page)
+                .subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
                 it.books
             }
         }
 
         override fun notificationsList(perPage: Int, page: Int): Single<List<Notification>> {
-            return retrofit.create(NetworkCalls::class.java).getNotificationsList(perPage, page).subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
+            return retrofit.create(NetworkCalls::class.java).getNotificationsList(perPage, page)
+                .subscribeOn(schedulers.io()).doOnError { handleApiError(it) }.map {
                 it.notifications
             }
         }
 
         interface NetworkCalls {
-            @GET("$API_BOOKS_LIST/{book_id}") fun getBook(@Path("book_id") bookId: Int): Single<Book>
+            @GET("$API_BOOKS_LIST/{book_id}")
+            fun getBook(@Path("book_id") bookId: Int): Single<Book>
 
-            @GET(API_MY_BOOKS) fun getMyBooksList(@Query("per_page") perPage: Int, @Query("page") page: Int): Single<BookListResponseModel<List<Book>>>
+            @GET(API_MY_BOOKS)
+            fun getMyBooksList(@Query("per_page") perPage: Int, @Query("page") page: Int): Single<BookListResponseModel<List<Book>>>
 
-            @GET(API_BOOKS_LIST) fun getBooksList(@Query("per_page") perPage: Int, @Query("page") page: Int): Single<BookListResponseModel<List<Book>>>
+            @GET(API_BOOKS_LIST)
+            fun getBooksList(
+                @Query("per_page") perPage: Int, @Query("page") page: Int
+                , @Query("latitude") latitude: Double, @Query("longitude") longitude: Double
+            ): Single<BookListResponseModel<List<Book>>>
 
-            @GET(API_META_DATA) fun getMetaData(): Single<MetaDataResponseBody>
 
-            @GET(API_BOOK_ACTIVITIES) fun getRequests(@Query("type") type: String, @Query("per_page") perPage: Int, @Query("page") page: Int): Single<RequestsResponseModel<List<BookActivity?>>>
+            @GET(API_META_DATA)
+            fun getMetaData(): Single<MetaDataResponseBody>
 
-            @GET(API_CONVERSATION) fun getMessages(
-                @Path("conversation_id") conversationId: Int, @Query("per_page") type: Int, @Query("page") page: Int): Single<MessagesListResponseBody<List<Message?>>>
+            @GET(API_BOOK_ACTIVITIES)
+            fun getRequests(@Query("type") type: String, @Query("per_page") perPage: Int, @Query("page") page: Int): Single<RequestsResponseModel<List<BookActivity?>>>
 
-            @GET(API_NOTIFICATIONS) fun getNotificationsList(@Query("per_page") perPage: Int, @Query("page") page: Int): Single<NotificationListResponseModel<List<Notification>>>
+            @GET(API_CONVERSATION)
+            fun getMessages(
+                @Path("conversation_id") conversationId: Int, @Query("per_page") type: Int, @Query("page") page: Int
+            ): Single<MessagesListResponseBody<List<Message?>>>
+
+            @GET(API_NOTIFICATIONS)
+            fun getNotificationsList(@Query("per_page") perPage: Int, @Query("page") page: Int): Single<NotificationListResponseModel<List<Notification>>>
 
 
         }

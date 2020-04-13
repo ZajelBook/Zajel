@@ -16,6 +16,7 @@ import com.bernovia.zajel.databinding.FragmentBookDetailsBinding
 import com.bernovia.zajel.helpers.ImageUtil
 import com.bernovia.zajel.helpers.NavigateUtil.closeFragment
 import com.bernovia.zajel.helpers.StringsUtil.validateString
+import com.bernovia.zajel.helpers.ZajelUtil
 import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -41,48 +42,70 @@ class BookDetailsFragment : Fragment(), View.OnClickListener {
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_book_details, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_book_details, container, false)
         if (arguments != null && arguments?.getInt("book_id") != null) {
-            booksListViewModel.getBookById(arguments?.getInt("book_id")!!).observe(viewLifecycleOwner, Observer {
-                binding.bookDetails = it
-                if (it?.image != null) {
-                    ImageUtil.renderBlurImage(validateString(it.image), requireContext(), 50, binding.backgroundImageView, R.drawable.newsletter_placeholder)
-                    ImageUtil.renderImageWithNoPlaceHolder(validateString(it.image), binding.bookImageView, requireContext())
-                    if (it.requested) {
-                        binding.borrowBookButton.text = resources.getString(R.string.cancel)
+            booksListViewModel.getBookById(arguments?.getInt("book_id")!!)
+                .observe(viewLifecycleOwner, Observer {
+                    binding.bookDetails = it
+                    if (it?.image != null) {
+                        ImageUtil.renderBlurImage(
+                            validateString(it.image),
+                            requireContext(),
+                            50,
+                            binding.backgroundImageView,
+                            R.drawable.newsletter_placeholder
+                        )
+                        ImageUtil.renderImageWithNoPlaceHolder(
+                            validateString(it.image),
+                            binding.bookImageView,
+                            requireContext()
+                        )
+                        if (it.requested) {
+                            binding.borrowBookButton.text = resources.getString(R.string.cancel)
+
+                        } else {
+                            binding.borrowBookButton.text = resources.getString(R.string.borrow)
+
+                        }
 
                     } else {
-                        binding.borrowBookButton.text = resources.getString(R.string.borrow)
-
+                        booksListViewModel.getBookAndInsertInLocal(arguments?.getInt("book_id")!!)
                     }
 
-                } else {
-                    booksListViewModel.getBookAndInsertInLocal(arguments?.getInt("book_id")!!)
-                }
+
+                    if (it?.userId != null && it.userId == preferenceManager.userId) {
+                        binding.borrowBookButton.visibility = View.GONE
+                    }
+                    if (preferenceManager.accessToken == "" || preferenceManager.accessToken == null) {
+                        binding.borrowBookButton.visibility = View.GONE
+                    }
 
 
-                if (it?.userId != null && it.userId == preferenceManager.userId) {
-                    binding.borrowBookButton.visibility = View.GONE
-                }
-
-            })
+                })
         }
 
         binding.borrowBookButton.setOnClickListener {
             if (binding.bookDetails != null) {
                 if (binding.bookDetails!!.requested) {
-                    cancelRequestViewModel.getDataFromRetrofit(binding.bookDetails!!.id).observe(viewLifecycleOwner, Observer {
-                        binding.borrowBookButton.text = resources.getString(R.string.borrow)
-                        booksListViewModel.updateRequested(binding.bookDetails!!.id, false)
-                    })
+                    cancelRequestViewModel.getDataFromRetrofit(binding.bookDetails!!.id)
+                        .observe(viewLifecycleOwner, Observer {
+                            binding.borrowBookButton.text = resources.getString(R.string.borrow)
+                            booksListViewModel.updateRequested(binding.bookDetails!!.id, false)
+                        })
                 } else {
-                    sendRequestViewModel.getDataFromRetrofit(SendRequestRequestBody(binding.bookDetails!!.id)).observe(viewLifecycleOwner, Observer {
-                        binding.borrowBookButton.text = resources.getString(R.string.cancel)
-                        booksListViewModel.updateRequested(binding.bookDetails!!.id, true)
+                    sendRequestViewModel.getDataFromRetrofit(SendRequestRequestBody(binding.bookDetails!!.id))
+                        .observe(viewLifecycleOwner, Observer {
+                            binding.borrowBookButton.text = resources.getString(R.string.cancel)
+                            booksListViewModel.updateRequested(binding.bookDetails!!.id, true)
 
-                    })
+                        })
                 }
             }
         }

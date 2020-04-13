@@ -29,6 +29,15 @@ class PreferenceManager private constructor(context: Context) {
         get() = mPref.getString(USER_NAME, "")
         set(value) = mPref.edit().putString(USER_NAME, value).apply()
 
+
+    var latitude: Float
+        get() = mPref.getFloat(LATITUDE, 0f)
+        set(value) = mPref.edit().putFloat(LATITUDE, value).apply()
+
+    var longitude: Float
+        get() = mPref.getFloat(LONGITUDE, 0f)
+        set(value) = mPref.edit().putFloat(LONGITUDE, value).apply()
+
     init {
         mPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
@@ -48,11 +57,14 @@ class PreferenceManager private constructor(context: Context) {
         private const val TOKEN_TYPE = "token_type"
         private const val USER_ID = "user_id"
         private const val USER_NAME = "user_name"
+        private const val LATITUDE = "latitude"
+        private const val LONGITUDE = "longitude"
 
 
         private var sInstance: PreferenceManager? = null
 
-        @Synchronized fun initializeInstance(context: Context) {
+        @Synchronized
+        fun initializeInstance(context: Context) {
             if (sInstance == null) {
                 sInstance = PreferenceManager(context)
             }

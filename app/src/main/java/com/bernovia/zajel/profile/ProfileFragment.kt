@@ -19,6 +19,7 @@ import com.bernovia.zajel.dialogs.DialogUtil.showAskForRating
 import com.bernovia.zajel.editProfile.EditProfileFragment
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.NavigateUtil
+import com.bernovia.zajel.helpers.ZajelUtil
 import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.bernovia.zajel.helpers.ZajelUtil.singleItemClick
 import kotlinx.coroutines.CoroutineScope
@@ -44,31 +45,46 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.userNameTextView.text = preferenceManager.userName
+        if (preferenceManager.accessToken == "" || preferenceManager.accessToken == null) {
+            binding.emptyScreenLinearLayout.visibility = View.VISIBLE
+            binding.contentRelativeLayout.visibility = View.GONE
+            binding.emptyScreenTextView.text = getString(R.string.login_to_see_profile)
+            binding.emptyScreenButton.text = getString(R.string.login)
+            binding.emptyScreenButton.setOnClickListener {
+                NavigateUtil.start<LoginActivity>(requireContext())
+            }
+        } else {
+            binding.userNameTextView.text = preferenceManager.userName
 
-        var versionNumber: String? = null
-        try {
-            versionNumber = "V " + requireContext().packageManager.getPackageInfo(requireContext().packageName, 0).versionName
-        }
-        catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-        }
-        binding.versionNumberTextView.text = versionNumber
+            var versionNumber: String? = null
+            try {
+                versionNumber = "V " + requireContext().packageManager.getPackageInfo(
+                    requireContext().packageName,
+                    0
+                ).versionName
+            } catch (e: PackageManager.NameNotFoundException) {
+                e.printStackTrace()
+            }
+            binding.versionNumberTextView.text = versionNumber
 
-        binding.nameRelativeLayout.setOnClickListener(this)
-        binding.myBooksRelativeLayout.setOnClickListener(this)
-        binding.termsRelativeLayout.setOnClickListener(this)
-        binding.privacyPolicyRelativeLayout.setOnClickListener(this)
-        binding.logoutRelativeLayout.setOnClickListener(this)
-        binding.aboutRelativeLayout.setOnClickListener(this)
-        binding.rateUsRelativeLayout.setOnClickListener(this)
+            binding.nameRelativeLayout.setOnClickListener(this)
+            binding.myBooksRelativeLayout.setOnClickListener(this)
+            binding.termsRelativeLayout.setOnClickListener(this)
+            binding.privacyPolicyRelativeLayout.setOnClickListener(this)
+            binding.logoutRelativeLayout.setOnClickListener(this)
+            binding.aboutRelativeLayout.setOnClickListener(this)
+            binding.rateUsRelativeLayout.setOnClickListener(this)
+        }
+
+
     }
 
     override fun onClick(v: View?) {
@@ -76,36 +92,61 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             R.id.name_RelativeLayout -> {
                 if (singleItemClick()) return
 
-                FragmentSwitcher.addFragment(requireActivity().supportFragmentManager, R.id.added_FrameLayout, EditProfileFragment.newInstance(), FragmentSwitcher.AnimationType.PUSH)
+                FragmentSwitcher.addFragment(
+                    requireActivity().supportFragmentManager,
+                    R.id.added_FrameLayout,
+                    EditProfileFragment.newInstance(),
+                    FragmentSwitcher.AnimationType.PUSH
+                )
 
             }
             R.id.my_books_RelativeLayout -> {
                 if (singleItemClick()) return
-                FragmentSwitcher.addFragment(requireActivity().supportFragmentManager, R.id.added_FrameLayout, MyBooksFragment.newInstance(), FragmentSwitcher.AnimationType.PUSH)
+                FragmentSwitcher.addFragment(
+                    requireActivity().supportFragmentManager,
+                    R.id.added_FrameLayout,
+                    MyBooksFragment.newInstance(),
+                    FragmentSwitcher.AnimationType.PUSH
+                )
             }
             R.id.terms_RelativeLayout -> {
                 if (singleItemClick()) return
-                FragmentSwitcher.addFragment(requireActivity().supportFragmentManager,
+                FragmentSwitcher.addFragment(
+                    requireActivity().supportFragmentManager,
                     R.id.added_FrameLayout,
-                    WebViewFragment.newInstance(getString(R.string.terms_and_conditions), getString(R.string.terms_link)),
-                    FragmentSwitcher.AnimationType.PUSH)
+                    WebViewFragment.newInstance(
+                        getString(R.string.terms_and_conditions),
+                        getString(R.string.terms_link)
+                    ),
+                    FragmentSwitcher.AnimationType.PUSH
+                )
             }
             R.id.rate_us_RelativeLayout -> {
-                showAskForRating(requireActivity().supportFragmentManager,requireContext())
+                showAskForRating(requireActivity().supportFragmentManager, requireContext())
             }
             R.id.privacy_policy_RelativeLayout -> {
                 if (singleItemClick()) return
-                FragmentSwitcher.addFragment(requireActivity().supportFragmentManager,
+                FragmentSwitcher.addFragment(
+                    requireActivity().supportFragmentManager,
                     R.id.added_FrameLayout,
-                    WebViewFragment.newInstance(getString(R.string.privacy_policy), getString(R.string.privacy_link)),
-                    FragmentSwitcher.AnimationType.PUSH)
+                    WebViewFragment.newInstance(
+                        getString(R.string.privacy_policy),
+                        getString(R.string.privacy_link)
+                    ),
+                    FragmentSwitcher.AnimationType.PUSH
+                )
             }
             R.id.about_RelativeLayout -> {
                 if (singleItemClick()) return
-                FragmentSwitcher.addFragment(requireActivity().supportFragmentManager,
+                FragmentSwitcher.addFragment(
+                    requireActivity().supportFragmentManager,
                     R.id.added_FrameLayout,
-                    WebViewFragment.newInstance(getString(R.string.about), getString(R.string.about_link)),
-                    FragmentSwitcher.AnimationType.PUSH)
+                    WebViewFragment.newInstance(
+                        getString(R.string.about),
+                        getString(R.string.about_link)
+                    ),
+                    FragmentSwitcher.AnimationType.PUSH
+                )
             }
             R.id.logout_RelativeLayout -> {
                 if (singleItemClick()) return
