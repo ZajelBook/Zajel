@@ -11,6 +11,6 @@ object APIs {
     const val API_CONVERSATION = "conversations/{conversation_id}/messages"
     const val API_MY_BOOKS = "my_books"
     const val API_NOTIFICATIONS = "notifications"
-
+    const val API_CONFIRM_EMAIL = "users/confirm"
 
 }

@@ -19,6 +19,8 @@ import com.bernovia.zajel.api.ApiServicesCoRoutines
 import com.bernovia.zajel.api.ApiServicesRx
 import com.bernovia.zajel.api.AuthInterceptor
 import com.bernovia.zajel.api.AuthInterceptorWithToken
+import com.bernovia.zajel.auth.activateEmail.ActivateEmailRepository
+import com.bernovia.zajel.auth.activateEmail.ActivateEmailViewModel
 import com.bernovia.zajel.auth.logIn.data.LoginRepository
 import com.bernovia.zajel.auth.logIn.ui.LoginViewModel
 import com.bernovia.zajel.auth.signup.data.SignUpRepository
@@ -112,7 +114,9 @@ val repositoryModule by lazy {
         single {
             LogoutRepository(get(named("interceptor_with_token")))
         }
-
+        single {
+            ActivateEmailRepository(get(named("interceptor_with_token")))
+        }
 
         single<BooksRepository> {
             BooksRepository.BooksRepositoryImpl(get(), get())
@@ -198,7 +202,9 @@ val viewModelModule by lazy {
         viewModel {
             GetProfileViewModel(get())
         }
-
+        viewModel {
+            ActivateEmailViewModel(get())
+        }
     }
 }
 
@@ -222,11 +228,14 @@ val serviceModuleV1 by lazy {
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
             val okHttpClient = OkHttpClient.Builder()
-            okHttpClient.connectTimeout(40, TimeUnit.SECONDS).readTimeout(40, TimeUnit.SECONDS).writeTimeout(40, TimeUnit.SECONDS)
+            okHttpClient.connectTimeout(40, TimeUnit.SECONDS).readTimeout(40, TimeUnit.SECONDS)
+                .writeTimeout(40, TimeUnit.SECONDS)
             okHttpClient.interceptors().add(AuthInterceptorWithToken())
             okHttpClient.addInterceptor(logging)  // <-- this is the important line!
 
-            Retrofit.Builder().baseUrl(BuildConfig.BASE_URL).client(okHttpClient.build()).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
+            Retrofit.Builder().baseUrl(BuildConfig.BASE_URL).client(okHttpClient.build())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
         }
     }
 

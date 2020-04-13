@@ -105,5 +105,10 @@
     <string name="login_to_see_reqeuests">Login to see your Requests</string>
     <string name="login_to_see_notification">Login to see your notifications</string>
     <string name="login_to_see_profile">Login to see your profile</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="please_copy_the_4_digits_in_your_email">Please copy the 4 digits in your Email</string>
+    <string name="note_don_t_forget_to_check_your_junk_spam_folder">Note don\'t forget to check your junk/spam folder</string>
+    <string name="verify">Verify</string>
+    <string name="we_have_sent_an_email_to">We have sent an Email to</string>
 
 </resources>
