@@ -9,7 +9,9 @@ import android.view.View
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.bernovia.zajel.addBook.AddBookFragment
+import com.bernovia.zajel.auth.activateEmail.ActivateEmailActivity
 import com.bernovia.zajel.bookList.ui.BookListFragment
 import com.bernovia.zajel.databinding.ActivityMainBinding
 import com.bernovia.zajel.dialogs.DialogUtil
@@ -17,6 +19,7 @@ import com.bernovia.zajel.helpers.BroadcastReceiversUtil.TOKEN_MISMATCH
 import com.bernovia.zajel.helpers.BroadcastReceiversUtil.registerTheReceiver
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.FragmentSwitcher.replaceFragmentWithNoAnimation
+import com.bernovia.zajel.helpers.NavigateUtil
 import com.bernovia.zajel.helpers.ZajelUtil
 import com.bernovia.zajel.messages.ui.MessagesListFragment
 import com.bernovia.zajel.notificationsList.ui.NotificationsListFragment
@@ -67,7 +70,9 @@ class MainActivity : AppCompatActivity() {
                             FragmentSwitcher.addFragment(
                                 supportFragmentManager,
                                 R.id.added_FrameLayout,
-                                MessagesListFragment.newInstance(intent.extras!!.getString("conversation_id")!!.toInt()),
+                                MessagesListFragment.newInstance(
+                                    intent.extras!!.getString("conversation_id")!!.toInt()
+                                ),
                                 FragmentSwitcher.AnimationType.PUSH
                             )
 
@@ -86,6 +91,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         metaDataViewModel.insertMetaDataInLocal()
+        metaDataViewModel.getMetaData().observe(this, Observer {
+            if (it?.confirmed != null)
+                if (it.confirmed)
+                    NavigateUtil.start<ActivateEmailActivity>(this)
+        })
         activity = this
 
         bottomNavigationView = binding.bottomNavigation

@@ -24,9 +24,8 @@ class WebViewFragment : Fragment() {
 
 
     companion object {
-        fun newInstance(pageTitle: String, url: String): WebViewFragment {
+        fun newInstance(pageTitle: String): WebViewFragment {
             val args = Bundle()
-            args.putString("url_link", url)
             args.putString("page_title", pageTitle)
 
             val fragment = WebViewFragment()
@@ -37,32 +36,55 @@ class WebViewFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_web_view, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.backImageButton.setOnClickListener { closeFragment(requireActivity().supportFragmentManager, this) }
-
+        binding.backImageButton.setOnClickListener {
+            closeFragment(
+                requireActivity().supportFragmentManager,
+                this
+            )
+        }
         if (arguments != null) {
             binding.pageTitleTextView.text = arguments?.getString("page_title")
 
-            val url = arguments?.getString("url_link")
-
             metaDataViewModel.getMetaData().observe(viewLifecycleOwner, Observer {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    binding.contentTextView.text = Html.fromHtml(it?.privacy?.content, Html.FROM_HTML_MODE_COMPACT)
-                } else {
-                    binding.contentTextView.text = Html.fromHtml(it?.privacy?.content)
+                when (arguments?.getString("page_title")) {
+                    getString(R.string.about) -> {
+                        setHtmlText(it?.about?.content)
+                    }
+
+                    getString(R.string.privacy_policy) -> {
+                        setHtmlText(it?.privacy?.content)
+
+                    }
+                    getString(R.string.terms_and_conditions) -> {
+                        setHtmlText(it?.terms?.content)
+
+                    }
                 }
-
             })
-
-
         }
 
+    }
+
+    private fun setHtmlText(text: String?) {
+        if (text == null) {
+            metaDataViewModel.insertMetaDataInLocal()
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                binding.contentTextView.text =
+                    Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT)
+            } else {
+                @Suppress("DEPRECATION")
+                binding.contentTextView.text = Html.fromHtml(text)
+            }
+        }
     }
 
 }

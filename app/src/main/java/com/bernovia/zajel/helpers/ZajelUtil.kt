@@ -51,10 +51,10 @@ object ZajelUtil {
     }
 
     fun setHeaders(headers: Headers, preferenceManager: PreferenceManager) {
-        preferenceManager.accessToken = headers.get("Access-Token")
-        preferenceManager.client = headers.get("Client")
-        preferenceManager.expiry = headers.get("Expiry")
-        preferenceManager.uid = headers.get("Uid")
-        preferenceManager.tokenType = headers.get("Token-Type")
+        preferenceManager.accessToken = headers["Access-Token"]
+        preferenceManager.client = headers["Client"]
+        preferenceManager.expiry = headers["Expiry"]
+        preferenceManager.uid = headers["Uid"]
+        preferenceManager.tokenType = headers["Token-Type"]
     }
 }

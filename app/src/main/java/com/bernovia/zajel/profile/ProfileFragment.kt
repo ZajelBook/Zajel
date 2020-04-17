@@ -19,7 +19,6 @@ import com.bernovia.zajel.dialogs.DialogUtil.showAskForRating
 import com.bernovia.zajel.editProfile.EditProfileFragment
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.NavigateUtil
-import com.bernovia.zajel.helpers.ZajelUtil
 import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.bernovia.zajel.helpers.ZajelUtil.singleItemClick
 import kotlinx.coroutines.CoroutineScope
@@ -115,8 +114,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                     requireActivity().supportFragmentManager,
                     R.id.added_FrameLayout,
                     WebViewFragment.newInstance(
-                        getString(R.string.terms_and_conditions),
-                        getString(R.string.terms_link)
+                        getString(R.string.terms_and_conditions)
                     ),
                     FragmentSwitcher.AnimationType.PUSH
                 )
@@ -130,8 +128,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                     requireActivity().supportFragmentManager,
                     R.id.added_FrameLayout,
                     WebViewFragment.newInstance(
-                        getString(R.string.privacy_policy),
-                        getString(R.string.privacy_link)
+                        getString(R.string.privacy_policy)
                     ),
                     FragmentSwitcher.AnimationType.PUSH
                 )
@@ -142,8 +139,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                     requireActivity().supportFragmentManager,
                     R.id.added_FrameLayout,
                     WebViewFragment.newInstance(
-                        getString(R.string.about),
-                        getString(R.string.about_link)
+                        getString(R.string.about)
                     ),
                     FragmentSwitcher.AnimationType.PUSH
                 )

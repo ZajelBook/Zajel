@@ -57,14 +57,14 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener, TextWatcherAda
                 SimpleText.from(text).first(getString(R.string.privacy_policy)).textColor(R.color.colorPrimary).background(R.color.white).pressedTextColor(R.color.colorPrimary).bold().onClick(binding.termsTextView) { _, _, _ ->
                     FragmentSwitcher.addFragment(supportFragmentManager,
                         R.id.added_FrameLayout,
-                        WebViewFragment.newInstance(getString(R.string.privacy_policy), privacyUrl),
+                        WebViewFragment.newInstance(getString(R.string.privacy_policy)),
                         FragmentSwitcher.AnimationType.PUSH)
                 }
 
                     .first(getString(R.string.terms)).textColor(R.color.colorPrimary).background(R.color.white).pressedTextColor(R.color.colorPrimary).bold().onClick(binding.termsTextView) { _, _, _ ->
                         FragmentSwitcher.addFragment(supportFragmentManager,
                             R.id.added_FrameLayout,
-                            WebViewFragment.newInstance(getString(R.string.terms_and_conditions), termsurl),
+                            WebViewFragment.newInstance(getString(R.string.terms_and_conditions)),
                             FragmentSwitcher.AnimationType.PUSH)
 
                     }
