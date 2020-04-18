@@ -17,6 +17,7 @@
     <string name="empty_language">Please Enter the language</string>
     <string name="empty_genre">Please Enter the genre</string>
     <string name="empty_photo">Please upload the book cover.</string>
+    <string name="empty_status">Please Enter the status</string>
 
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
@@ -110,5 +111,6 @@
     <string name="note_don_t_forget_to_check_your_junk_spam_folder">Note don\'t forget to check your junk/spam folder</string>
     <string name="verify">Verify</string>
     <string name="we_have_sent_an_email_to">We have sent an Email to</string>
+    <string name="status">Status</string>
 
 </resources>

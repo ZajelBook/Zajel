@@ -87,6 +87,8 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
                 when (intent.getStringExtra("title")) {
                     resources.getString(R.string.language) -> binding.languageEditText.setText(intent.getStringExtra("value"))
                     resources.getString(R.string.genre) -> binding.genreEditText.setText(intent.getStringExtra("value"))
+                    resources.getString(R.string.status) -> binding.statusEditText.setText(intent.getStringExtra("value"))
+
                 }
             }
         }
@@ -120,6 +122,8 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
                 binding.descriptionEditText.setText(it.description)
                 binding.languageEditText.setText(it.language)
                 binding.genreEditText.setText(it.genre)
+                binding.statusEditText.setText(it.status?.capitalize())
+
             })
             binding.addButton.text = getString(R.string.update)
             binding.pageTitleTextView.text = getString(R.string.update_book)
@@ -144,6 +148,8 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
         binding.descriptionEditText.addTextChangedListener(TextWatcherAdapter(binding.descriptionEditText, this))
         binding.languageEditText.addTextChangedListener(TextWatcherAdapter(binding.languageEditText, this))
         binding.genreEditText.addTextChangedListener(TextWatcherAdapter(binding.genreEditText, this))
+        binding.statusEditText.addTextChangedListener(TextWatcherAdapter(binding.statusEditText, this))
+
         binding.addButton.setOnClickListener { submitForm() }
 
         binding.publishYearEditText.filters = arrayOf<InputFilter>(InputFilterMinMax("0", Calendar.getInstance().get(Calendar.YEAR).toString()))
@@ -152,6 +158,10 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
         binding.genreEditText.setOnClickListener {
             DialogUtil.showSingleChoiceMenuFragment(requireActivity().supportFragmentManager, resources.getString(R.string.genre), binding.genreEditText.text.toString())
         }
+        binding.statusEditText.setOnClickListener {
+            DialogUtil.showSingleChoiceMenuFragment(requireActivity().supportFragmentManager, resources.getString(R.string.status), binding.statusEditText.text.toString())
+        }
+
 
         binding.languageEditText.setOnClickListener {
             DialogUtil.showSingleChoiceMenuFragment(requireActivity().supportFragmentManager, resources.getString(R.string.language), binding.languageEditText.text.toString())
@@ -282,6 +292,8 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
         if (!validateEmptyField(binding.descriptionEditText, binding.descriptionTextInputLayout, requireActivity(), resources.getString(R.string.empty_description))) return
         if (!validateEmptyField(binding.languageEditText, binding.languageTextInputLayout, requireActivity(), resources.getString(R.string.empty_language))) return
         if (!validateEmptyField(binding.genreEditText, binding.genreTextInputLayout, requireActivity(), resources.getString(R.string.empty_genre))) return
+        if (!validateEmptyField(binding.statusEditText, binding.statusTextInputLayout, requireActivity(), resources.getString(R.string.empty_status))) return
+
         if (photoFile == null && bookId == 0) {
             Snackbar.make(binding.root, resources.getString(R.string.empty_photo), Snackbar.LENGTH_LONG).show()
         } else {
@@ -321,6 +333,7 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
             val descriptionRequestBody = binding.descriptionEditText.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val languageRequestBody = binding.languageEditText.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val genreRequestBody = getGenreIdFromText(binding.genreEditText.text.toString()).toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val statusRequestBody = binding.statusEditText.text.toString().toLowerCase().toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
 
             val map: HashMap<String, RequestBody> = HashMap()
@@ -331,6 +344,7 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
             map["page_count"] = pageCountRequestBody
             map["published_at"] = publishYearRequestBody
             map["genre_id"] = genreRequestBody
+            map["status"] = statusRequestBody
 
 
             if (bookId != 0) {
@@ -362,6 +376,7 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
             R.id.page_count_EditText -> validateEmptyField(binding.pageCountEditText, binding.pageCountTextInputLayout, requireActivity(), resources.getString(R.string.empty_page_count))
             R.id.language_EditText -> validateEmptyField(binding.languageEditText, binding.languageTextInputLayout, requireActivity(), resources.getString(R.string.empty_language))
             R.id.genre_EditText -> validateEmptyField(binding.genreEditText, binding.genreTextInputLayout, requireActivity(), resources.getString(R.string.empty_genre))
+            R.id.status_EditText -> validateEmptyField(binding.statusEditText, binding.statusTextInputLayout, requireActivity(), resources.getString(R.string.empty_status))
 
         }
     }

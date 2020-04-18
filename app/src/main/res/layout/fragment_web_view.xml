@@ -44,11 +44,17 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/content_TextView"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/_10sdp" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/content_TextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_10sdp" />
+
+        </ScrollView>
 
 
     </LinearLayout>

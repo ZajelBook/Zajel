@@ -68,6 +68,11 @@ class SingleChoiceMenuFragment : BottomSheetDialogFragment(), CompoundButton.OnC
 
                         }
                     }
+                    resources.getString(R.string.status) -> {
+                        data!!.add("Available")
+                        data!!.add("Unavailable")
+                    }
+
                 }
 
 
@@ -97,7 +102,7 @@ class SingleChoiceMenuFragment : BottomSheetDialogFragment(), CompoundButton.OnC
             var checkBox: RadioButton
             if (context != null) {
                 checkBox = (requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.filters_radiobutton, null) as RadioButton
-                checkBox.text = data[i]
+                checkBox.text = data[i].capitalize()
                 val rProfile = requireContext().resources
                 val pxProfile = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, rProfile.displayMetrics).toInt()
                 checkBoxArrayList.add(checkBox)
