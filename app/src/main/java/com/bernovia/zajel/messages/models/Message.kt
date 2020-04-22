@@ -7,8 +7,11 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "message", indices = [Index("id_message")]) data class Message(
-    @PrimaryKey @ColumnInfo(name = "id_message") @SerializedName("id") val id: Int?,
+@Entity(tableName = "message") data class Message(
+    @PrimaryKey(autoGenerate = true)
+    val gIdMessage: Int,
+
+    @ColumnInfo(name = "id_message") @SerializedName("id") val id: Int?,
     @ColumnInfo(name = "content_message") @SerializedName("content") val content: String?,
     @ColumnInfo(name = "conversation_id_message") @SerializedName("conversation_id") val conversationId: Int?,
     @ColumnInfo(name = "sender_id_message") @SerializedName("sender_id") val senderId: Int,

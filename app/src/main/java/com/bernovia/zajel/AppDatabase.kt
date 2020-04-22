@@ -18,10 +18,15 @@ import com.bernovia.zajel.requests.models.BookActivity
 import com.bernovia.zajel.splashScreen.data.MetaDataDao
 import com.bernovia.zajel.splashScreen.models.MetaDataResponseBody
 
-@Database(entities = [Book::class, MetaDataResponseBody::class, BookActivity::class, Message::class, Notification::class], version = 23, exportSchema = false)
+@Database(
+    entities = [Book::class, MetaDataResponseBody::class, BookActivity::class, Message::class, Notification::class],
+    version = 25,
+    exportSchema = false
+)
 
 
-@TypeConverters(StringTypeConverter::class, GenresTypeConverter::class) abstract class AppDatabase : RoomDatabase() {
+@TypeConverters(StringTypeConverter::class, GenresTypeConverter::class)
+abstract class AppDatabase : RoomDatabase() {
 
     abstract fun bookDao(): BookDao
     abstract fun metaDataDao(): MetaDataDao
@@ -43,7 +48,8 @@ import com.bernovia.zajel.splashScreen.models.MetaDataResponseBody
         }
 
         private fun buildDatabase(context: Context): AppDatabase {
-            return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME).fallbackToDestructiveMigration().build()
+            return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+                .fallbackToDestructiveMigration().build()
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.bernovia.zajel.bookList.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
@@ -115,7 +116,7 @@ interface BooksRepository {
         }
 
         private fun insertAllBooksList(list: List<Book>): Completable {
-            return dao.insertAllBooksList(list.map { it })
+            return dao.insertAllBooksList(list)
         }
 
         fun insertBookInLocal(book: Book): Completable {

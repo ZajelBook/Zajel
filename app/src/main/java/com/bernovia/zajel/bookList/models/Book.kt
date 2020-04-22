@@ -8,8 +8,10 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 
-@Entity(tableName = "book", indices = [Index("id_book")]) data class Book(
-    @PrimaryKey @ColumnInfo(name = "id_book") @SerializedName("id") val id: Int,
+@Entity(tableName = "book") data class Book(
+    @PrimaryKey(autoGenerate = true)
+    val gIdBook: Int,
+    @ColumnInfo(name = "id_book") @SerializedName("id") val id: Int,
     @ColumnInfo(name = "approved_book") @SerializedName("approved") val approved: Boolean?,
     @ColumnInfo(name = "author_book") @SerializedName("author") val author: String?,
     @ColumnInfo(name = "description_book") @SerializedName("description") val description: String?,
