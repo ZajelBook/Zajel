@@ -17,54 +17,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:clickable="true"
         android:focusable="true"
-        android:background="@color/white"
         tools:ignore="ContentDescription,MissingConstraints">
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.39" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_wishlist_botton_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="278dp" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_wishlist_botton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.8" />
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.45" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/top_image_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.1" />
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_vertical_image_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.1" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_vertical_page_margin"
@@ -79,6 +35,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.38" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/guideline"
+            app:layout_constraintGuide_percent="0.41"
+
+            />
 
 
         <RelativeLayout
@@ -99,12 +73,12 @@
                 android:id="@id/back_ImageButton"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:adjustViewBounds="true"
                 android:background="#00FFFFFF"
                 android:padding="22dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/close_empty"
-                android:layout_alignParentEnd="true"
                 android:tint="@color/white" />
 
 
@@ -123,30 +97,18 @@
             android:id="@+id/book_ImageView"
             android:layout_width="150dp"
             android:layout_height="@dimen/_170sdp"
-            app:layout_constraintTop_toTopOf="@+id/top_image_guideline"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="@+id/big_image_RelativeLayout"
-            app:layout_constraintStart_toStartOf="@id/guideline_vertical_image_margin"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertical_page_margin"
             app:riv_corner_radius="10dip" />
-
-        <ImageView
-            android:id="@+id/add_to_wishlist_ImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/circle"
-            android:padding="15dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/guideline_wishlist_botton_horizontal"
-            app:layout_constraintEnd_toEndOf="@+id/guideline_wishlist_botton"
-            app:layout_constraintStart_toStartOf="@id/guideline_wishlist_botton"
-            app:layout_constraintTop_toTopOf="@+id/guideline_wishlist_botton_horizontal"
-            app:srcCompat="@drawable/remove_from_wishlist" />
 
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_height="0dp"
             android:orientation="vertical"
+            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toTopOf="@+id/borrow_book_Button"
             app:layout_constraintEnd_toEndOf="@id/guideline_vertical_page_end_margin"
             app:layout_constraintStart_toStartOf="@id/guideline_vertical_page_margin"
@@ -247,15 +209,21 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/description_TextView"
-                style="@style/text_regular_16_grey"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/_170sdp"
-                android:layout_marginTop="10dp"
-                android:lineSpacingExtra="8dp"
-                android:scrollbars="vertical"
-                android:text="@{bookDetails.description}" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/description_TextView"
+                    style="@style/text_regular_16_grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_170sdp"
+                    android:layout_marginTop="10dp"
+                    android:lineSpacingExtra="8dp"
+                    android:scrollbars="vertical"
+                    android:text="@{bookDetails.description}" />
+
+            </androidx.core.widget.NestedScrollView>
 
 
         </LinearLayout>
@@ -263,18 +231,13 @@
 
         <Button
             android:id="@+id/borrow_book_Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            style="@style/button_style"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/colorAccent"
-            android:fontFamily="@font/proxima_nova_bold"
+            android:layout_marginBottom="10dp"
             android:text="@string/borrow"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
