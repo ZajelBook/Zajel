@@ -16,6 +16,7 @@ import com.bernovia.zajel.databinding.FragmentNotificationsListBinding
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.NavigateUtil
 import com.bernovia.zajel.helpers.ZajelUtil
+import com.bernovia.zajel.helpers.ZajelUtil.isLoggedIn
 import com.bernovia.zajel.helpers.apiCallsHelpers.Status
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -56,7 +57,7 @@ class NotificationsListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (ZajelUtil.preferenceManager.accessToken == "" || ZajelUtil.preferenceManager.accessToken == null) {
+        if (!isLoggedIn()) {
             binding.emptyScreenLinearLayout.visibility = View.VISIBLE
             binding.swipeContainer.visibility = View.GONE
             binding.emptyScreenTextView.text = getString(R.string.login_to_see_notification)

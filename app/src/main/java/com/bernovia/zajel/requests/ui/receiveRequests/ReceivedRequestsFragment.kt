@@ -58,7 +58,7 @@ class ReceivedRequestsFragment : Fragment(), ReceivedRequestsAdapter.ReceivedReq
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (ZajelUtil.preferenceManager.accessToken == "" || ZajelUtil.preferenceManager.accessToken == null) {
+        if (!ZajelUtil.isLoggedIn()) {
             binding.emptyScreenLinearLayout.visibility = View.VISIBLE
             binding.receivedRequestsSwipeRefreshLayout.visibility = View.GONE
             binding.emptyScreenTextView.text = getString(R.string.login_to_see_reqeuests)

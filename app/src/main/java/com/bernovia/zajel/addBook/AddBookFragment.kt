@@ -114,7 +114,8 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
     private fun setData() {
         if (bookId != 0) {
             booksListViewModel.getBookById(bookId).observe(viewLifecycleOwner, Observer {
-                ImageUtil.renderImage(it.image, binding.bookImageView, R.drawable.newsletter_placeholder, requireContext())
+                ImageUtil.renderImage(it.image, binding.bookImageView,
+                        R.drawable.newsletter_placeholder, requireContext())
                 binding.titleEditText.setText(it.title)
                 binding.authorEditText.setText(it.author)
                 binding.publishYearEditText.setText(it.publishedAt)

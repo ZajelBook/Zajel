@@ -1,6 +1,7 @@
 package com.bernovia.zajel.helpers
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer
 import com.bernovia.zajel.MainActivity
 import com.bernovia.zajel.editProfile.models.EditProfileRequestBody
 import com.bernovia.zajel.editProfile.ui.EditProfileViewModel
+import com.bernovia.zajel.helpers.ZajelUtil.isLoggedIn
 import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
@@ -42,6 +44,7 @@ object LocationUtil {
     }
 
 
+    @SuppressLint("MissingPermission")
     fun getLocationAndSendItToServer(
         activity: Activity,
         editProfileViewModel: EditProfileViewModel,
@@ -57,15 +60,20 @@ object LocationUtil {
                 preferenceManager.latitude = location.latitude.toFloat()
                 preferenceManager.longitude = location.longitude.toFloat()
 
-                editProfileViewModel.getDataFromRetrofit(
-                    EditProfileRequestBody(
-                        location.latitude,
-                        location.longitude,
-                        fcmToken
-                    )
-                ).observe(lifecycleOwner, Observer {
+                if (isLoggedIn()){
+                    editProfileViewModel.getDataFromRetrofit(
+                        EditProfileRequestBody(
+                            location.latitude,
+                            location.longitude,
+                            fcmToken
+                        )
+                    ).observe(lifecycleOwner, Observer {
+                        openMainActivity(activity)
+                    })
+                }else{
                     openMainActivity(activity)
-                })
+
+                }
 
             } else {
                 val locationRequest: LocationRequest? = LocationRequest.create()
@@ -79,15 +87,20 @@ object LocationUtil {
                                     preferenceManager.latitude = location.latitude.toFloat()
                                     preferenceManager.longitude = location.longitude.toFloat()
 
-                                    editProfileViewModel.getDataFromRetrofit(
-                                        EditProfileRequestBody(
-                                            location.latitude,
-                                            location.longitude,
-                                            fcmToken
-                                        )
-                                    ).observe(lifecycleOwner, Observer {
+                                    if (isLoggedIn()){
+                                        editProfileViewModel.getDataFromRetrofit(
+                                            EditProfileRequestBody(
+                                                location.latitude,
+                                                location.longitude,
+                                                fcmToken
+                                            )
+                                        ).observe(lifecycleOwner, Observer {
+                                            openMainActivity(activity)
+                                        })
+                                    }else{
                                         openMainActivity(activity)
-                                    })
+
+                                    }
                                 }
                             }
                         }

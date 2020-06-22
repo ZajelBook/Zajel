@@ -19,6 +19,7 @@ import com.bernovia.zajel.dialogs.DialogUtil.showAskForRating
 import com.bernovia.zajel.editProfile.EditProfileFragment
 import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.NavigateUtil
+import com.bernovia.zajel.helpers.ZajelUtil.isLoggedIn
 import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import com.bernovia.zajel.helpers.ZajelUtil.singleItemClick
 import kotlinx.coroutines.CoroutineScope
@@ -52,7 +53,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (preferenceManager.accessToken == "" || preferenceManager.accessToken == null) {
+        if (!isLoggedIn()) {
             binding.emptyScreenLinearLayout.visibility = View.VISIBLE
             binding.contentRelativeLayout.visibility = View.GONE
             binding.emptyScreenTextView.text = getString(R.string.login_to_see_profile)

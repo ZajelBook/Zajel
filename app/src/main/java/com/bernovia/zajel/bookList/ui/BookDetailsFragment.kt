@@ -17,6 +17,7 @@ import com.bernovia.zajel.helpers.ImageUtil
 import com.bernovia.zajel.helpers.NavigateUtil.closeFragment
 import com.bernovia.zajel.helpers.StringsUtil.validateString
 import com.bernovia.zajel.helpers.ZajelUtil
+import com.bernovia.zajel.helpers.ZajelUtil.isLoggedIn
 import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -84,10 +85,10 @@ class BookDetailsFragment : Fragment(), View.OnClickListener {
                     if (it?.userId != null && it.userId == preferenceManager.userId) {
                         binding.borrowBookButton.visibility = View.GONE
                     }
-                    if (preferenceManager.accessToken == "" || preferenceManager.accessToken == null) {
+
+                    if (!isLoggedIn()) {
                         binding.borrowBookButton.visibility = View.GONE
                     }
-
 
                 })
         }

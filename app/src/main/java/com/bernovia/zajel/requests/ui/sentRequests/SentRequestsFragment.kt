@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bernovia.zajel.MainActivity
 import com.bernovia.zajel.R
 import com.bernovia.zajel.auth.logIn.ui.LoginActivity
-import com.bernovia.zajel.auth.signup.ui.SignUpActivity
 import com.bernovia.zajel.bookList.ui.BookListFragment
 import com.bernovia.zajel.databinding.FragmentSentRequestsBinding
 import com.bernovia.zajel.helpers.FragmentSwitcher
@@ -54,7 +53,7 @@ class SentRequestsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (ZajelUtil.preferenceManager.accessToken == "" || ZajelUtil.preferenceManager.accessToken == null) {
+        if (!ZajelUtil.isLoggedIn()) {
             binding.emptyScreenLinearLayout.visibility = View.VISIBLE
             binding.sentRequestsSwipeRefreshLayout.visibility = View.GONE
             binding.emptyScreenTextView.text= getString(R.string.login_to_see_reqeuests)

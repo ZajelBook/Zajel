@@ -45,7 +45,10 @@ object ZajelUtil {
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_SUBJECT, "Join Zajel")
-        intent.putExtra(Intent.EXTRA_TEXT, "http://play.google.com/store/apps/details?id=" + context.packageName)
+        intent.putExtra(
+            Intent.EXTRA_TEXT,
+            "http://play.google.com/store/apps/details?id=" + context.packageName
+        )
         context.startActivity(Intent.createChooser(intent, "Send Invite link"))
 
     }
@@ -56,5 +59,9 @@ object ZajelUtil {
         preferenceManager.expiry = headers["Expiry"]
         preferenceManager.uid = headers["Uid"]
         preferenceManager.tokenType = headers["Token-Type"]
+    }
+
+    fun isLoggedIn(): Boolean {
+        return !(preferenceManager.accessToken == "" || preferenceManager.accessToken == null)
     }
 }
