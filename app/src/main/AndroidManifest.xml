@@ -15,7 +15,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".auth.activateEmail.ActivateEmailActivity"></activity>
+        <activity
+            android:name=".auth.activateEmail.ActivateEmailActivity"
+            android:screenOrientation="locked"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".splashScreen.ui.SplashActivity"
             android:screenOrientation="locked"

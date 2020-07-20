@@ -22,19 +22,24 @@ import com.bernovia.zajel.R
 class RatingDialogFragment(private val context1: Context) : DialogFragment() {
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val rootView: View = inflater.inflate(R.layout.fragment_rating_dialog, container, false)
         val ratingBar = rootView.findViewById<RatingBar>(R.id.add_review_ratingbar)
-        ratingBar.onRatingBarChangeListener = OnRatingBarChangeListener { ratingBar1: RatingBar, rating: Float, fromUser: Boolean ->
+        ratingBar.onRatingBarChangeListener =
+            OnRatingBarChangeListener { ratingBar1: RatingBar, rating: Float, fromUser: Boolean ->
 
-            if (ratingBar1.rating == 4f || ratingBar1.rating == 5f) {
-                askRatingAppStore()
-                dismiss()
-            } else {
-//                askRatingFeedback()
-                dismiss()
+                if (ratingBar1.rating == 4f || ratingBar1.rating == 5f) {
+                    askRatingAppStore()
+                    dismiss()
+                } else {
+                    askRatingFeedback()
+                    dismiss()
+                }
             }
-        }
         isCancelable = true
         return rootView
     }
@@ -56,15 +61,15 @@ class RatingDialogFragment(private val context1: Context) : DialogFragment() {
             alertDialogBuilder.setTitle(resources.getString(R.string.leave_feedback))
             alertDialogBuilder.setMessage(resources.getString(R.string.leave_feedback_message))
             alertDialogBuilder.setPositiveButton(resources.getString(R.string.yes)) { arg0: DialogInterface?, arg1: Int ->
-//                val i = Intent(context, SupportTicketActivity::class.java)
-//                i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//                try {
-//                    if (i.resolveActivity(context!!.packageManager) != null) {
-//                        context!!.startActivity(i)
-//                    }
-//                }
-//                catch (ignore: ActivityNotFoundException) {
-//                }
+
+                val emailIntent = Intent(
+                    Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto", "zajelbooks@gmail.com", null
+                    )
+                )
+                context1.startActivity(Intent.createChooser(emailIntent, "Send email..."))
+
+
             }
             alertDialogBuilder.setNegativeButton(resources.getString(R.string.no)) { dialog: DialogInterface?, which: Int -> }
             val alertDialog = alertDialogBuilder.create()
@@ -89,9 +94,13 @@ class RatingDialogFragment(private val context1: Context) : DialogFragment() {
                     goToMarket.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     try {
                         context1.startActivity(goToMarket)
-                    }
-                    catch (e: Exception) {
-                        context1.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + context1.packageName)))
+                    } catch (e: Exception) {
+                        context1.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("http://play.google.com/store/apps/details?id=" + context1.packageName)
+                            )
+                        )
                     }
                 }
                 alertDialogBuilder.setNegativeButton(resources.getString(R.string.no_thanks)) { dialog: DialogInterface?, which: Int -> }
