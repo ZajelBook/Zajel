@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         fabVisibility()
         metaDataViewModel.insertMetaDataInLocal()
         metaDataViewModel.getMetaData().observe(this, Observer {
-            if (it?.confirmed != null) if (it.confirmed) NavigateUtil.start<ActivateEmailActivity>(
+            if (it?.confirmed != null) if (!it.confirmed) NavigateUtil.start<ActivateEmailActivity>(
                     this)
         })
         activity = this
