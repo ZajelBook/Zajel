@@ -112,5 +112,7 @@
     <string name="verify">Verify</string>
     <string name="we_have_sent_an_email_to">We have sent an Email to</string>
     <string name="status">Status</string>
+    <string name="resend_email">Resend Email</string>
+    <string name="email_sent">Email sent successfully</string>
 
 </resources>

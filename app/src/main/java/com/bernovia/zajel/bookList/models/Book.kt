@@ -3,12 +3,12 @@ package com.bernovia.zajel.bookList.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 
-@Entity(tableName = "book") data class Book(
+@Entity(tableName = "book")
+data class Book(
     @PrimaryKey(autoGenerate = true)
     val gIdBook: Int,
     @ColumnInfo(name = "id_book") @SerializedName("id") val id: Int,
@@ -25,6 +25,8 @@ import com.google.gson.annotations.SerializedName
     @ColumnInfo(name = "owner_id_book") @SerializedName("owner_id") val userId: Int,
     @ColumnInfo(name = "owner_type_book") @SerializedName("owner_type") val ownerType: String?,
     @ColumnInfo(name = "requested_book") @SerializedName("requested") val requested: Boolean,
-    @ColumnInfo(name = "distance_book") @SerializedName("distance") val distance: Int
+    @ColumnInfo(name = "distance_book") @SerializedName("distance") val distance: Int,
+    @ColumnInfo(name = "is_mock_book") @SerializedName("is_mock") val isMock: Boolean
+
 
 )

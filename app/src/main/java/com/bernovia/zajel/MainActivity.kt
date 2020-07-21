@@ -58,16 +58,21 @@ class MainActivity : AppCompatActivity() {
                 when (intent.extras!!.getString("type")) {
                     "request_accepted", "borrow_request", "request_rejected" -> {
                         binding.addBookFAB.visibility = View.GONE
-                        replaceFragmentWithNoAnimation(supportFragmentManager,
-                                R.id.main_content_frameLayout, RequestsFragment.newInstance())
+                        replaceFragmentWithNoAnimation(
+                            supportFragmentManager,
+                            R.id.main_content_frameLayout, RequestsFragment.newInstance()
+                        )
                         binding.bottomNavigation.selectedItemId = R.id.navigation_requests
                     }
                     "new_message" -> {
                         if (intent.extras!!.getString("conversation_id") != null) {
-                            FragmentSwitcher.addFragment(supportFragmentManager,
-                                    R.id.added_FrameLayout, MessagesListFragment.newInstance(
-                                    intent.extras!!.getString("conversation_id")!!.toInt()),
-                                    FragmentSwitcher.AnimationType.PUSH)
+                            FragmentSwitcher.addFragment(
+                                supportFragmentManager,
+                                R.id.added_FrameLayout, MessagesListFragment.newInstance(
+                                    intent.extras!!.getString("conversation_id")!!.toInt()
+                                ),
+                                FragmentSwitcher.AnimationType.PUSH
+                            )
 
                         }
                     }
@@ -92,7 +97,8 @@ class MainActivity : AppCompatActivity() {
         metaDataViewModel.insertMetaDataInLocal()
         metaDataViewModel.getMetaData().observe(this, Observer {
             if (it?.confirmed != null) if (!it.confirmed) NavigateUtil.start<ActivateEmailActivity>(
-                    this)
+                this
+            )
         })
         activity = this
 
@@ -101,12 +107,16 @@ class MainActivity : AppCompatActivity() {
         registerTheReceiver(tokenMissMatchReceiver, TOKEN_MISMATCH)
 
         binding.addBookFAB.setOnClickListener {
-            FragmentSwitcher.addFragment(supportFragmentManager, R.id.added_FrameLayout,
-                    AddBookFragment.newInstance(0), FragmentSwitcher.AnimationType.PUSH)
+            FragmentSwitcher.addFragment(
+                supportFragmentManager, R.id.added_FrameLayout,
+                AddBookFragment.newInstance(0), FragmentSwitcher.AnimationType.PUSH
+            )
 
         }
-        replaceFragmentWithNoAnimation(supportFragmentManager, R.id.main_content_frameLayout,
-                BookListFragment.newInstance())
+        replaceFragmentWithNoAnimation(
+            supportFragmentManager, R.id.main_content_frameLayout,
+            BookListFragment.newInstance()
+        )
 
         checkIntent()
 
@@ -117,9 +127,11 @@ class MainActivity : AppCompatActivity() {
                         R.id.navigation_home -> {
                             if (binding.bottomNavigation.selectedItemId != item.itemId) {
                                 binding.addBookFAB.visibility = View.VISIBLE
-                                replaceFragmentWithNoAnimation(supportFragmentManager,
-                                        R.id.main_content_frameLayout,
-                                        BookListFragment.newInstance())
+                                replaceFragmentWithNoAnimation(
+                                    supportFragmentManager,
+                                    R.id.main_content_frameLayout,
+                                    BookListFragment.newInstance()
+                                )
 
                             }
                             fabVisibility()
@@ -128,9 +140,11 @@ class MainActivity : AppCompatActivity() {
                         R.id.navigation_requests -> {
                             if (binding.bottomNavigation.selectedItemId != item.itemId) {
                                 binding.addBookFAB.visibility = View.GONE
-                                replaceFragmentWithNoAnimation(supportFragmentManager,
-                                        R.id.main_content_frameLayout,
-                                        RequestsFragment.newInstance())
+                                replaceFragmentWithNoAnimation(
+                                    supportFragmentManager,
+                                    R.id.main_content_frameLayout,
+                                    RequestsFragment.newInstance()
+                                )
                             }
                             fabVisibility()
                             return true
@@ -139,9 +153,11 @@ class MainActivity : AppCompatActivity() {
                         R.id.navigation_notifications -> {
                             if (binding.bottomNavigation.selectedItemId != item.itemId) {
                                 binding.addBookFAB.visibility = View.GONE
-                                replaceFragmentWithNoAnimation(supportFragmentManager,
-                                        R.id.main_content_frameLayout,
-                                        NotificationsListFragment.newInstance())
+                                replaceFragmentWithNoAnimation(
+                                    supportFragmentManager,
+                                    R.id.main_content_frameLayout,
+                                    NotificationsListFragment.newInstance()
+                                )
                             }
                             fabVisibility()
                             return true
@@ -150,9 +166,11 @@ class MainActivity : AppCompatActivity() {
                         R.id.navigation_profile -> {
                             if (binding.bottomNavigation.selectedItemId != item.itemId) {
                                 binding.addBookFAB.visibility = View.GONE
-                                replaceFragmentWithNoAnimation(supportFragmentManager,
-                                        R.id.main_content_frameLayout,
-                                        ProfileFragment.newInstance())
+                                replaceFragmentWithNoAnimation(
+                                    supportFragmentManager,
+                                    R.id.main_content_frameLayout,
+                                    ProfileFragment.newInstance()
+                                )
                             }
                             fabVisibility()
                             return true

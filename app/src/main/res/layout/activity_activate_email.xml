@@ -85,6 +85,18 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:maxLength="4" />
 
+            <TextView
+                android:id="@+id/resend_TextView"
+                style="@style/text_bold_16_black"
+                android:layout_width="match_parent"
+                android:textColor="@color/colorAccent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/resend_email"
+                android:visibility="visible" />
 
         </LinearLayout>
 

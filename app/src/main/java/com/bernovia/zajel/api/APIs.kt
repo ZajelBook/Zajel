@@ -13,4 +13,6 @@ object APIs {
     const val API_NOTIFICATIONS = "notifications"
     const val API_CONFIRM_EMAIL = "users/confirm"
 
+    const val API_RESEND_EMAIL = "users/re_send"
+
 }

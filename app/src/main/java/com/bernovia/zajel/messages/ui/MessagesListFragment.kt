@@ -52,17 +52,25 @@ class MessagesListFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_messages_list, container, false)
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_messages_list, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         messagesListViewModel.setConversationId(requireArguments().getInt("conversation_id"))
-        messagesListViewModel.refreshPage().observe(viewLifecycleOwner, Observer { it.refreshPage() })
+        messagesListViewModel.refreshPage()
+            .observe(viewLifecycleOwner, Observer { it.refreshPage() })
         sendMessageViewModel.setConversationId(requireArguments().getInt("conversation_id"))
-        binding.backImageButton.setOnClickListener { closeFragment(requireActivity().supportFragmentManager, this) }
+        binding.backImageButton.setOnClickListener {
+            closeFragment(
+                requireActivity().supportFragmentManager,
+                this
+            )
+        }
 
 
         messagesListViewModel.dataSource.observe(viewLifecycleOwner, Observer {
@@ -85,7 +93,7 @@ class MessagesListFragment : Fragment() {
         }
 
 
-        val uri = URI("wss://zajel.mylestone.life/cable")
+        val uri = URI("wss://api.zajelbook.com/cable")
 
         val options = Consumer.Options()
 
@@ -106,15 +114,17 @@ class MessagesListFragment : Fragment() {
 
         subscription.onConnected {}.onReceived {
             val jsonObject = it.asJsonObject
-            val message = Gson().fromJson(jsonObject?.getAsJsonObject("object"), Message::class.java)
+            val message =
+                Gson().fromJson(jsonObject?.getAsJsonObject("object"), Message::class.java)
             messagesListViewModel.insertMessage(message)
         }
         consumer.connect()
         binding.sendImageView.setOnClickListener {
             if (binding.messageEditText.text.toString() != "") {
-                sendMessageViewModel.getDataFromRetrofit(SendMessageRequestBody(binding.messageEditText.text.toString())).observe(viewLifecycleOwner, Observer {
-                    binding.messageEditText.setText("")
-                })
+                sendMessageViewModel.getDataFromRetrofit(SendMessageRequestBody(binding.messageEditText.text.toString()))
+                    .observe(viewLifecycleOwner, Observer {
+                        binding.messageEditText.setText("")
+                    })
             }
 
         }

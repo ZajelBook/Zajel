@@ -20,7 +20,7 @@ import com.bernovia.zajel.splashScreen.models.MetaDataResponseBody
 
 @Database(
     entities = [Book::class, MetaDataResponseBody::class, BookActivity::class, Message::class, Notification::class],
-    version = 25,
+    version = 26,
     exportSchema = false
 )
 

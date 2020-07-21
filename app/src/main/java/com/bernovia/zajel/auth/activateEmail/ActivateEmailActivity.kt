@@ -1,8 +1,9 @@
 package com.bernovia.zajel.auth.activateEmail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bernovia.zajel.AskForLocationActivity
@@ -17,6 +18,8 @@ class ActivateEmailActivity : AppCompatActivity(), TextWatcherAdapter.TextWatche
 
     lateinit var binding: ActivityActivateEmailBinding
     private val activateEmailViewModel: ActivateEmailViewModel by viewModel()
+    private val resendEmailViewModel: ResendEmailViewModel by viewModel()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +35,20 @@ class ActivateEmailActivity : AppCompatActivity(), TextWatcherAdapter.TextWatche
                             MainActivity.activity.finish()
                         finish()
                     })
+
+        }
+
+        binding.resendTextView.setOnClickListener {
+            resendEmailViewModel.getDataFromRetrofit().observe(this, Observer {
+                if (it?.isSuccessful!!) {
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.email_sent),
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                }
+            })
 
         }
 

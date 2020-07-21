@@ -11,6 +11,7 @@ import com.bernovia.zajel.api.APIs.API_CONFIRM_EMAIL
 import com.bernovia.zajel.api.APIs.API_CONVERSATION
 import com.bernovia.zajel.api.APIs.API_EDIT_USER_PROFILE
 import com.bernovia.zajel.api.APIs.API_LOGOUT
+import com.bernovia.zajel.api.APIs.API_RESEND_EMAIL
 import com.bernovia.zajel.auth.activateEmail.ActivateEmailRequestBody
 import com.bernovia.zajel.auth.authResponseModels.AuthResponseBody
 import com.bernovia.zajel.auth.authResponseModels.AuthResponseData
@@ -60,6 +61,9 @@ interface ApiServicesCoRoutines {
     @POST(API_CONVERSATION) fun sendMessageAsync(@Body sendMessageRequestBody: SendMessageRequestBody, @Path("conversation_id") conversationId: Int): Deferred<Response<ActionsResponseBody>>
 
     @DELETE(API_LOGOUT) fun logoutAsync(): Deferred<Response<ActionsResponseBody>>
+
+    @GET(API_RESEND_EMAIL) fun resendEmailAsyn (): Deferred<Response<ActionsResponseBody>>
+
 
 
     @PUT(API_CONFIRM_EMAIL) fun activateEmailAsync(@Body activateEmailRequestBody: ActivateEmailRequestBody): Deferred<Response<ActionsResponseBody>>
