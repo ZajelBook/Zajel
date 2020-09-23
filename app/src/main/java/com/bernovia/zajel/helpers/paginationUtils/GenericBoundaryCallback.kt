@@ -51,7 +51,7 @@ class GenericBoundaryCallback<T>(
         if (isMessaging) {
             messagingCall(offsetCount)
         } else {
-            helper.runIfNotRunning(PagingRequestHelper.RequestType.BEFORE) {
+            helper.runIfNotRunning(PagingRequestHelper.RequestType.AFTER) {
                 getTop(offsetCount, it)
             }
         }

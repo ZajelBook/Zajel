@@ -69,8 +69,8 @@ class SingleChoiceMenuFragment : BottomSheetDialogFragment(), CompoundButton.OnC
                         }
                     }
                     resources.getString(R.string.status) -> {
-                        data!!.add("Available")
-                        data!!.add("Unavailable")
+                        data!!.add(getString(R.string.available))
+                        data!!.add(getString(R.string.unavailable))
                     }
 
                 }

@@ -114,5 +114,8 @@
     <string name="status">Status</string>
     <string name="resend_email">Resend Email</string>
     <string name="email_sent">Email sent successfully</string>
+    <string name="available">Available</string>
+    <string name="unavailable">Unavailable</string>
+    <string name="send">Send</string>
 
 </resources>

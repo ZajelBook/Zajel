@@ -18,9 +18,11 @@ import com.bernovia.zajel.messages.models.Message
 import com.bernovia.zajel.messages.sendMessage.SendMessageRequestBody
 import com.bernovia.zajel.messages.sendMessage.SendMessageViewModel
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.hosopy.actioncable.ActionCable
 import com.hosopy.actioncable.Channel
 import com.hosopy.actioncable.Consumer
+import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.net.URI
 
@@ -113,7 +115,7 @@ class MessagesListFragment : Fragment() {
         val subscription = consumer.subscriptions.create(sendMessageChannel)
 
         subscription.onConnected {}.onReceived {
-            val jsonObject = it.asJsonObject
+            var jsonObject = it.asJsonObject
             val message =
                 Gson().fromJson(jsonObject?.getAsJsonObject("object"), Message::class.java)
             messagesListViewModel.insertMessage(message)

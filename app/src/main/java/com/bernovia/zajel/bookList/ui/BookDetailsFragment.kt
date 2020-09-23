@@ -81,7 +81,7 @@ class BookDetailsFragment : Fragment(), View.OnClickListener {
                     }
 
 
-                    if ((it?.userId != null && it.userId == preferenceManager.userId) || it?.isMock!!) {
+                    if ((it != null && it.userId == preferenceManager.userId) || it?.isMock!!) {
                         binding.borrowBookButton.visibility = View.GONE
                     }
 

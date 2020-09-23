@@ -3,6 +3,7 @@ package   com.bernovia.zajel.messages.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -158,6 +159,8 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
             }
             catch (e: ParseException) {
             }
+
+            Log.e("view", viewType.toString())
 
             when (viewType) {
                 ONE_LINE_WHITE -> {
@@ -360,8 +363,12 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
 
             } else {
                 try {
+//        Log.e("nex",nextObject?.senderId )
+//                                                      Log.e("cur",
+//                                                          currentObject?.senderId.toString()
+//                                                      )
 
-                    if (nextObject!!.senderId != currentObject.senderId) {
+                    if (nextObject?.senderId != currentObject.senderId) {
                         if (validateString(currentObject.content).length < 12 && getLineCount(validateString(currentObject.content)) == 1) {
                             ONE_LINE_PURPLE_TAIL
                         } else {
@@ -379,6 +386,8 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
                     }
                 }
                 catch (e: Exception) {
+                                        Log.e("ex",e.message)
+
                     if (validateString(currentObject.content).length < 12 && getLineCount(validateString(currentObject.content)) == 1) {
                         ONE_LINE_PURPLE_TAIL
                     } else {
