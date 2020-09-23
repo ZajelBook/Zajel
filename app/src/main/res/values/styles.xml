@@ -11,9 +11,7 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:supportsRtl">false</item>
         <item name="android:fontFamily">@font/proxima_nova_regular</item>
-        <item name="android:layoutDirection">ltr</item>
 
     </style>
 

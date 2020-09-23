@@ -7,6 +7,7 @@ import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
+import java.util.*
 
 class AuthInterceptorWithToken : Interceptor {
 
@@ -29,6 +30,7 @@ class AuthInterceptorWithToken : Interceptor {
             .addHeader("Access-Token", validateString(preferenceManager.accessToken))
             .addHeader("Client", validateString(preferenceManager.client))
             .addHeader("Expiry", validateString(preferenceManager.expiry))
+            .addHeader("locale", Locale.getDefault().language)
             .addHeader("Uid", validateString(preferenceManager.uid))
             .addHeader("Token-Type", validateString(preferenceManager.tokenType))
             .addHeader("User-Agent", UAString)

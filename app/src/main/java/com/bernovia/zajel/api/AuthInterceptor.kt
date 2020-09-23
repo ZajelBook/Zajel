@@ -6,6 +6,7 @@ import com.bernovia.zajel.helpers.StringsUtil.validateString
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
+import java.util.*
 
 /**
  * A {@see RequestInterceptor} that adds the headers to requests
@@ -27,7 +28,10 @@ class AuthInterceptor : Interceptor {
             e.printStackTrace()
         }
 
-        val request = chain.request().newBuilder().addHeader("User-Agent", UAString).addHeader("app-version", validateString(pInfo)).build()
+        val request = chain.request().newBuilder()
+            .addHeader("locale", Locale.getDefault().language)
+            .addHeader("User-Agent", UAString)
+            .addHeader("app-version", validateString(pInfo)).build()
 
 
         return chain.proceed(request)
