@@ -105,8 +105,7 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_book, container, false)
         return binding.root
     }
@@ -114,8 +113,7 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
     private fun setData() {
         if (bookId != 0) {
             booksListViewModel.getBookById(bookId).observe(viewLifecycleOwner, Observer {
-                ImageUtil.renderImage(it.image, binding.bookImageView,
-                        R.drawable.newsletter_placeholder, requireContext())
+                ImageUtil.renderImage(it.image, binding.bookImageView, R.drawable.newsletter_placeholder, requireContext())
                 binding.titleEditText.setText(it.title)
                 binding.authorEditText.setText(it.author)
                 binding.publishYearEditText.setText(it.publishedAt)
@@ -123,7 +121,18 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
                 binding.descriptionEditText.setText(it.description)
                 binding.languageEditText.setText(it.language)
                 binding.genreEditText.setText(it.genre)
-                binding.statusEditText.setText(it.status?.capitalize())
+                if (Locale.getDefault().language == "ar") {
+                    when (it.status) {
+                        "Borrowed" -> binding.statusEditText.setText(getString(R.string.borrowed))
+                        "Available" -> binding.statusEditText.setText(getString(R.string.available))
+                        "Unavailable" -> binding.statusEditText.setText(getString(R.string.unavailable))
+
+                    }
+
+                } else {
+                    binding.statusEditText.setText(it.status?.capitalize())
+
+                }
 
             })
             binding.addButton.text = getString(R.string.update)
@@ -269,8 +278,7 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
             var photoFile: File? = null
             try {
                 photoFile = createImageFile(requireContext())
-            }
-            catch (ex: IOException) {
+            } catch (ex: IOException) {
                 // Error occurred while creating the File
             }
             // Continue only if the File was successfully created
@@ -308,8 +316,7 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
                     val bookCover: MultipartBody.Part
                     bookCover = try {
                         MultipartBody.Part.createFormData("image", photoFile!!.name, photoRequesBody)
-                    }
-                    catch (e: java.lang.Exception) {
+                    } catch (e: java.lang.Exception) {
                         MultipartBody.Part.createFormData("image", "img", photoRequesBody)
                     }
                     updateBookViewModel.setBookIdAndImage(bookId, bookCover)
@@ -319,8 +326,7 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
                 val bookCover: MultipartBody.Part
                 bookCover = try {
                     MultipartBody.Part.createFormData("image", photoFile!!.name, photoRequesBody)
-                }
-                catch (e: java.lang.Exception) {
+                } catch (e: java.lang.Exception) {
                     MultipartBody.Part.createFormData("image", "img", photoRequesBody)
                 }
                 addBookViewModel.setImage(bookCover)
@@ -334,8 +340,14 @@ class AddBookFragment : Fragment(), ChoosePhotoDialogFragment.ChoosePhotoClickLi
             val descriptionRequestBody = binding.descriptionEditText.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val languageRequestBody = binding.languageEditText.text.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val genreRequestBody = getGenreIdFromText(binding.genreEditText.text.toString()).toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val statusRequestBody = binding.statusEditText.text.toString().toLowerCase().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            var statusRequestBody = binding.statusEditText.text.toString().toLowerCase().toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
+            when (binding.statusEditText.text.toString().toLowerCase()) {
+                getString(R.string.available) -> statusRequestBody = "available".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+                getString(R.string.unavailable) -> statusRequestBody = "unavailable".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+                getString(R.string.borrowed) -> statusRequestBody = "borrowed".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+            }
 
             val map: HashMap<String, RequestBody> = HashMap()
             map["title"] = titleRequestBody

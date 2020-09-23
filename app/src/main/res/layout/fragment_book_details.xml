@@ -37,9 +37,26 @@
             app:layout_constraintGuide_percent="0.95" />
 
         <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_vertical_page_margin2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layoutDirection="ltr"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_vertical_page_end_margin2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layoutDirection="ltr"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layoutDirection="ltr"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.38" />
 
@@ -60,6 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/colorPrimary"
+            android:layoutDirection="ltr"
             app:layout_constraintBottom_toTopOf="@id/guideline"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -90,6 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="-20dp"
             android:background="@drawable/right_arrow"
+            android:layoutDirection="ltr"
             app:layout_constraintBottom_toBottomOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
@@ -99,16 +118,17 @@
             android:layout_height="@dimen/_170sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_10sdp"
+            android:layoutDirection="ltr"
             app:layout_constraintBottom_toBottomOf="@+id/big_image_RelativeLayout"
-            app:layout_constraintStart_toStartOf="@id/guideline_vertical_page_margin"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertical_page_margin2"
             app:riv_corner_radius="10dip" />
 
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="vertical"
             android:layout_marginBottom="10dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/borrow_book_Button"
             app:layout_constraintEnd_toEndOf="@id/guideline_vertical_page_end_margin"
             app:layout_constraintStart_toStartOf="@id/guideline_vertical_page_margin"
@@ -127,6 +147,7 @@
                     android:layout_marginEnd="5dp"
                     android:layout_toStartOf="@+id/page_count_TextView"
                     android:text="@{bookDetails.title}" />
+
 
                 <TextView
                     android:id="@+id/page_count_TextView"
@@ -153,9 +174,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_toEndOf="@+id/status_TextView"
+                    android:layout_toStartOf="@+id/status_TextView"
                     android:fontFamily="@font/proxima_nova_semi_bold"
-                    android:gravity="center_vertical"
                     android:text="@{bookDetails.author}"
 
                     />
@@ -231,13 +251,12 @@
 
         <Button
             android:id="@+id/borrow_book_Button"
-            android:layout_width="match_parent"
             style="@style/button_style"
+            android:layout_width="match_parent"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="10dp"
             android:text="@string/borrow"
-            app:layout_constraintBottom_toBottomOf="parent"
-             />
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

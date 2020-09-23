@@ -2,6 +2,7 @@ package com.bernovia.zajel.bookList.ui
 
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.bernovia.zajel.helpers.StringsUtil.validateString
 import com.bernovia.zajel.helpers.ZajelUtil.isLoggedIn
 import com.bernovia.zajel.helpers.ZajelUtil.preferenceManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 
 /**
@@ -81,9 +83,10 @@ class BookDetailsFragment : Fragment(), View.OnClickListener {
                     }
 
 
-                    if ((it != null && it.userId == preferenceManager.userId) || it?.isMock!!) {
-                        binding.borrowBookButton.visibility = View.GONE
-                    }
+                    if (it != null)
+                        if ((it.userId == preferenceManager.userId) || it.isMock) {
+                            binding.borrowBookButton.visibility = View.GONE
+                        }
 
                     if (!isLoggedIn()) {
                         binding.borrowBookButton.visibility = View.GONE
@@ -109,6 +112,18 @@ class BookDetailsFragment : Fragment(), View.OnClickListener {
                         })
                 }
             }
+        }
+
+
+        if (Locale.getDefault().language == "ar") {
+            binding.authorNameTextView.gravity = Gravity.END
+            binding.bookNameTextView.gravity = Gravity.END
+
+        } else {
+            binding.authorNameTextView.gravity = Gravity.START
+            binding.bookNameTextView.gravity = Gravity.START
+
+
         }
 
         return binding.root
