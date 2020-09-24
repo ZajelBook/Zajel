@@ -1,5 +1,6 @@
 package com.bernovia.zajel.auth.logIn.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -9,6 +10,7 @@ import androidx.lifecycle.Observer
 import com.bernovia.zajel.AskForLocationActivity
 import com.bernovia.zajel.MainActivity
 import com.bernovia.zajel.R
+import com.bernovia.zajel.WebViewActivity
 import com.bernovia.zajel.auth.logIn.models.LoginRequestBody
 import com.bernovia.zajel.auth.signup.ui.SignUpActivity
 import com.bernovia.zajel.databinding.ActivityLoginBinding
@@ -54,6 +56,11 @@ class LoginActivity : AppCompatActivity(), TextWatcherAdapter.TextWatcherListene
                 finish()
             }
             R.id.forgot_password_TextView -> {
+                val i = Intent(this, WebViewActivity::class.java)
+                i.putExtra(WebViewActivity.URL, getString(R.string.forgot_passowrd_link))
+                i.putExtra(WebViewActivity.PAGE_TITLE,getString(R.string.forgot_password))
+                startActivity(i)
+
             }
 
         }
@@ -72,10 +79,10 @@ class LoginActivity : AppCompatActivity(), TextWatcherAdapter.TextWatcherListene
                 if (it.isSuccessful) {
                     val headers: Headers = it.headers()
                     preferenceManager.userId = it.body()?.data?.id!!
-                    preferenceManager.userName = it.body()?.data?.firstName +" " + it.body()?.data?.lastName
+                    preferenceManager.userName = it.body()?.data?.firstName + " " + it.body()?.data?.lastName
                     setHeaders(headers, preferenceManager)
                     start<AskForLocationActivity>(this)
-                    if(MainActivity.activity!=null){
+                    if (MainActivity.activity != null) {
                         MainActivity.activity.finish()
                     }
                     finish()

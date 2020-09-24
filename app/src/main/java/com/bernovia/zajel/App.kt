@@ -6,7 +6,6 @@ import com.bernovia.zajel.di.AppKoinModules
 import com.bernovia.zajel.helpers.PreferenceManager
 import com.google.firebase.FirebaseApp
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 
@@ -29,7 +28,7 @@ class App : Application() {
     private fun initializeInjector() {
         startKoin {
             // declare used Android context
-            androidLogger()
+            //            androidLogger(Level.ERROR)
             androidContext(this@App)
             modules(AppKoinModules.getModules())
         }

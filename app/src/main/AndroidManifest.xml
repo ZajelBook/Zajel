@@ -16,6 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".WebViewActivity"
+            android:screenOrientation="locked"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".auth.activateEmail.ActivateEmailActivity"
             android:screenOrientation="locked"
             android:theme="@style/AppTheme.NoActionBar" />

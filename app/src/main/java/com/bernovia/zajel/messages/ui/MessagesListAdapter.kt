@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bernovia.zajel.R
 import com.bernovia.zajel.databinding.*
-import com.bernovia.zajel.helpers.DateUtil
 import com.bernovia.zajel.helpers.DateUtil.DATE_FORMAT
 import com.bernovia.zajel.helpers.DateUtil.convertDateToAmPm
 import com.bernovia.zajel.helpers.StringsUtil.getLineCount
@@ -133,8 +132,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
         var previousObject: Message?
         try {
             previousObject = getItem(position - 1)
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             previousObject = null
         }
 
@@ -156,8 +154,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
                 }
 
 
-            }
-            catch (e: ParseException) {
+            } catch (e: ParseException) {
             }
 
             Log.e("view", viewType.toString())
@@ -185,7 +182,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
                         validateString(getItem(position)!!.content))
 
 
-                    showDateBubble(myViewHolderOneLineWhiteTail.binding.dateTextView,position)
+                    showDateBubble(myViewHolderOneLineWhiteTail.binding.dateTextView, position)
 
 
                 }
@@ -301,8 +298,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
             if (position == 0) {
                 textView.visibility = View.VISIBLE
             }
-        }
-        catch (ignore: Exception) {
+        } catch (ignore: Exception) {
 
         }
     }
@@ -323,16 +319,15 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
             var nextObject: Message?
             try {
                 nextObject = getItem(position + 1)
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 nextObject = null
             }
 
-            return if (!currentObject.senderId.equals(preferenceManager.userId)) {
+            return if (currentObject.senderId != preferenceManager.userId) {
 
                 try {
 
-                    if (nextObject!!.senderId.equals(currentObject.senderId)) {
+                    if (nextObject!!.senderId == currentObject.senderId) {
 
                         if (validateString(currentObject.content).length < 12 && getLineCount(validateString(currentObject.content)) == 1) {
                             ONE_LINE_WHITE
@@ -350,8 +345,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
 
 
                     }
-                }
-                catch (e: Exception) {
+                } catch (e: Exception) {
                     if (validateString(currentObject.content).length < 12 && getLineCount(validateString(currentObject.content)) == 1) {
                         ONE_LINE_WHITE_TAIL
                     } else {
@@ -363,10 +357,6 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
 
             } else {
                 try {
-//        Log.e("nex",nextObject?.senderId )
-//                                                      Log.e("cur",
-//                                                          currentObject?.senderId.toString()
-//                                                      )
 
                     if (nextObject?.senderId != currentObject.senderId) {
                         if (validateString(currentObject.content).length < 12 && getLineCount(validateString(currentObject.content)) == 1) {
@@ -384,9 +374,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
 
 
                     }
-                }
-                catch (e: Exception) {
-                                        Log.e("ex",e.message)
+                } catch (e: Exception) {
 
                     if (validateString(currentObject.content).length < 12 && getLineCount(validateString(currentObject.content)) == 1) {
                         ONE_LINE_PURPLE_TAIL
@@ -398,8 +386,7 @@ class MessagesListAdapter : PagedListAdapter<Message, RecyclerView.ViewHolder>(R
                 }
 
             }
-        }
-        catch (e: java.lang.Exception) {
+        } catch (e: java.lang.Exception) {
             return 9
         }
 

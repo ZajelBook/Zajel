@@ -1,5 +1,6 @@
 package com.bernovia.zajel.profile
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bernovia.zajel.AppDatabase
 import com.bernovia.zajel.R
-import com.bernovia.zajel.WebViewFragment
+import com.bernovia.zajel.WebViewActivity
 import com.bernovia.zajel.actions.logout.LogoutViewModel
 import com.bernovia.zajel.auth.logIn.ui.LoginActivity
 import com.bernovia.zajel.bookList.ui.MyBooksFragment
@@ -44,9 +45,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         return binding.root
     }
@@ -66,10 +65,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
             var versionNumber: String? = null
             try {
-                versionNumber = "V " + requireContext().packageManager.getPackageInfo(
-                    requireContext().packageName,
-                    0
-                ).versionName
+                versionNumber = "V " + requireContext().packageManager.getPackageInfo(requireContext().packageName, 0).versionName
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
             }
@@ -92,58 +88,41 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             R.id.name_RelativeLayout -> {
                 if (singleItemClick()) return
 
-                FragmentSwitcher.addFragment(
-                    requireActivity().supportFragmentManager,
-                    R.id.added_FrameLayout,
-                    EditProfileFragment.newInstance(),
-                    FragmentSwitcher.AnimationType.PUSH
-                )
+                FragmentSwitcher.addFragment(requireActivity().supportFragmentManager, R.id.added_FrameLayout, EditProfileFragment.newInstance(), FragmentSwitcher.AnimationType.PUSH)
 
             }
             R.id.my_books_RelativeLayout -> {
                 if (singleItemClick()) return
-                FragmentSwitcher.addFragment(
-                    requireActivity().supportFragmentManager,
-                    R.id.added_FrameLayout,
-                    MyBooksFragment.newInstance(),
-                    FragmentSwitcher.AnimationType.PUSH
-                )
+                FragmentSwitcher.addFragment(requireActivity().supportFragmentManager, R.id.added_FrameLayout, MyBooksFragment.newInstance(), FragmentSwitcher.AnimationType.PUSH)
             }
             R.id.terms_RelativeLayout -> {
                 if (singleItemClick()) return
-                FragmentSwitcher.addFragment(
-                    requireActivity().supportFragmentManager,
-                    R.id.added_FrameLayout,
-                    WebViewFragment.newInstance(
-                        getString(R.string.terms_and_conditions)
-                    ),
-                    FragmentSwitcher.AnimationType.PUSH
-                )
+                val i = Intent(requireContext(), WebViewActivity::class.java)
+                i.putExtra(WebViewActivity.URL, getString(R.string.terms_link))
+                i.putExtra(WebViewActivity.PAGE_TITLE, getString(R.string.terms_and_conditions))
+
+                startActivity(i)
+
             }
             R.id.rate_us_RelativeLayout -> {
                 showAskForRating(requireActivity().supportFragmentManager, requireContext())
             }
             R.id.privacy_policy_RelativeLayout -> {
                 if (singleItemClick()) return
-                FragmentSwitcher.addFragment(
-                    requireActivity().supportFragmentManager,
-                    R.id.added_FrameLayout,
-                    WebViewFragment.newInstance(
-                        getString(R.string.privacy_policy)
-                    ),
-                    FragmentSwitcher.AnimationType.PUSH
-                )
+                val i = Intent(requireContext(), WebViewActivity::class.java)
+                i.putExtra(WebViewActivity.URL, getString(R.string.privacy_link))
+                i.putExtra(WebViewActivity.PAGE_TITLE, getString(R.string.privacy_policy))
+
+                startActivity(i)
             }
             R.id.about_RelativeLayout -> {
                 if (singleItemClick()) return
-                FragmentSwitcher.addFragment(
-                    requireActivity().supportFragmentManager,
-                    R.id.added_FrameLayout,
-                    WebViewFragment.newInstance(
-                        getString(R.string.about)
-                    ),
-                    FragmentSwitcher.AnimationType.PUSH
-                )
+                val i = Intent(requireContext(), WebViewActivity::class.java)
+                i.putExtra(WebViewActivity.URL, getString(R.string.about_link))
+                i.putExtra(WebViewActivity.PAGE_TITLE, getString(R.string.about))
+
+                startActivity(i)
+
             }
             R.id.logout_RelativeLayout -> {
                 if (singleItemClick()) return
