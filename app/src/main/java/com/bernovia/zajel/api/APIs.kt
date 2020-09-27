@@ -12,7 +12,7 @@ object APIs {
     const val API_MY_BOOKS = "my_books"
     const val API_NOTIFICATIONS = "notifications"
     const val API_CONFIRM_EMAIL = "users/confirm"
-
     const val API_RESEND_EMAIL = "users/re_send"
+    const val API_UPDATE_PASSWORD = "auth/password"
 
 }

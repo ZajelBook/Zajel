@@ -12,11 +12,13 @@ import com.bernovia.zajel.api.APIs.API_CONVERSATION
 import com.bernovia.zajel.api.APIs.API_EDIT_USER_PROFILE
 import com.bernovia.zajel.api.APIs.API_LOGOUT
 import com.bernovia.zajel.api.APIs.API_RESEND_EMAIL
+import com.bernovia.zajel.api.APIs.API_UPDATE_PASSWORD
 import com.bernovia.zajel.auth.activateEmail.ActivateEmailRequestBody
 import com.bernovia.zajel.auth.authResponseModels.AuthResponseBody
 import com.bernovia.zajel.auth.authResponseModels.AuthResponseData
 import com.bernovia.zajel.auth.logIn.models.LoginRequestBody
 import com.bernovia.zajel.auth.signup.models.SignUpRequestBody
+import com.bernovia.zajel.auth.updatePassword.UpdatePasswordRequestBody
 import com.bernovia.zajel.editProfile.models.EditProfileRequestBody
 import com.bernovia.zajel.editProfile.models.GetProfileResponseBody
 import com.bernovia.zajel.helpers.UpdateValuesResponseBody
@@ -67,6 +69,8 @@ interface ApiServicesCoRoutines {
 
 
     @PUT(API_CONFIRM_EMAIL) fun activateEmailAsync(@Body activateEmailRequestBody: ActivateEmailRequestBody): Deferred<Response<ActionsResponseBody>>
+
+    @PUT(API_UPDATE_PASSWORD) fun updatePasswordAsync(@Body updatePasswordRequestBody: UpdatePasswordRequestBody): Deferred<Response<ActionsResponseBody>>
 
 
     companion object {

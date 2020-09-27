@@ -14,6 +14,7 @@ import com.bernovia.zajel.R
 import com.bernovia.zajel.WebViewActivity
 import com.bernovia.zajel.actions.logout.LogoutViewModel
 import com.bernovia.zajel.auth.logIn.ui.LoginActivity
+import com.bernovia.zajel.auth.updatePassword.UpdatePasswordFragment
 import com.bernovia.zajel.bookList.ui.MyBooksFragment
 import com.bernovia.zajel.databinding.FragmentProfileBinding
 import com.bernovia.zajel.dialogs.DialogUtil.showAskForRating
@@ -78,6 +79,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             binding.logoutRelativeLayout.setOnClickListener(this)
             binding.aboutRelativeLayout.setOnClickListener(this)
             binding.rateUsRelativeLayout.setOnClickListener(this)
+            binding.updatePasswordRelativeLayout.setOnClickListener(this)
         }
 
 
@@ -95,6 +97,11 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                 if (singleItemClick()) return
                 FragmentSwitcher.addFragment(requireActivity().supportFragmentManager, R.id.added_FrameLayout, MyBooksFragment.newInstance(), FragmentSwitcher.AnimationType.PUSH)
             }
+            R.id.update_password_RelativeLayout -> {
+                if (singleItemClick()) return
+                FragmentSwitcher.addFragment(requireActivity().supportFragmentManager, R.id.added_FrameLayout, UpdatePasswordFragment.newInstance(), FragmentSwitcher.AnimationType.PUSH)
+            }
+
             R.id.terms_RelativeLayout -> {
                 if (singleItemClick()) return
                 val i = Intent(requireContext(), WebViewActivity::class.java)

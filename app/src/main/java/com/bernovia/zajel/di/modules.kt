@@ -27,6 +27,8 @@ import com.bernovia.zajel.auth.logIn.data.LoginRepository
 import com.bernovia.zajel.auth.logIn.ui.LoginViewModel
 import com.bernovia.zajel.auth.signup.data.SignUpRepository
 import com.bernovia.zajel.auth.signup.ui.SignUpViewModel
+import com.bernovia.zajel.auth.updatePassword.UpdatePasswordRepository
+import com.bernovia.zajel.auth.updatePassword.UpdatePasswordViewModel
 import com.bernovia.zajel.bookList.data.BooksRepository
 import com.bernovia.zajel.bookList.ui.BooksListViewModel
 import com.bernovia.zajel.editProfile.data.EditProfileRepository
@@ -120,6 +122,9 @@ val repositoryModule by lazy {
             ActivateEmailRepository(get(named("interceptor_with_token")))
         }
         single {
+            UpdatePasswordRepository(get(named("interceptor_with_token")))
+        }
+        single {
             ResendEmailRepository(get(named("interceptor_with_token")))
         }
 
@@ -210,6 +215,9 @@ val viewModelModule by lazy {
         }
         viewModel {
             ActivateEmailViewModel(get())
+        }
+        viewModel {
+            UpdatePasswordViewModel(get())
         }
         viewModel {
             ResendEmailViewModel(get())

@@ -75,10 +75,10 @@
     <string name="my_books">قائمة كتبي</string>
     <string name="logout">تسجيل الخروج</string>
     <string name="add_book">إضافة كتاب</string>
-    <string name="terms_link">https://zajelbook.com/terms</string>
-    <string name="privacy_link">https://zajelbook.com/policy</string>
-    <string name="about_link">https://zajelbook.com/about</string>
-    <string name="forgot_passowrd_link">https://zajelbook.com/forget_password</string>
+    <string name="terms_link">https://zajelbook.com/terms?locale=ar</string>
+    <string name="privacy_link">https://zajelbook.com/policy?locale=ar</string>
+    <string name="about_link">https://zajelbook.com/about?locale=ar</string>
+    <string name="forgot_passowrd_link">https://zajelbook.com/forget_password?locale=ar</string>
     <string name="terms">شروط الاستخدام</string>
     <string name="update">تعديل</string>
     <string name="update_book">تعديل معلومات الكتاب</string>
@@ -120,4 +120,7 @@
     <string name="unavailable">غير متاح</string>
     <string name="send">أرسل</string>
     <string name="borrowed">معار</string>
+    <string name="new_password">كلمة المرور الجديدة</string>
+    <string name="update_password">تحديث كلمة المرور</string>
+
 </resources>
