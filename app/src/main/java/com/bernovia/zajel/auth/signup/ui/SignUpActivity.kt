@@ -1,15 +1,18 @@
 package com.bernovia.zajel.auth.signup.ui
 
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.style.StyleSpan
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.bernovia.zajel.AskForLocationActivity
-import com.bernovia.zajel.MainActivity
-import com.bernovia.zajel.R
-import com.bernovia.zajel.WebViewFragment
+import com.bernovia.zajel.*
 import com.bernovia.zajel.auth.logIn.ui.LoginActivity
 import com.bernovia.zajel.auth.signup.models.SignUpRequestBody
 import com.bernovia.zajel.databinding.ActivitySignUpBinding
@@ -26,8 +29,11 @@ import com.bernovia.zajel.helpers.ZajelUtil.setHeaders
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.jaychang.st.SimpleText
+import lt.neworld.spanner.Spanner
+import lt.neworld.spanner.Spans.*
 import okhttp3.Headers
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class SignUpActivity : AppCompatActivity(), View.OnClickListener, TextWatcherAdapter.TextWatcherListener {
     private lateinit var binding: ActivitySignUpBinding
@@ -51,21 +57,23 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener, TextWatcherAda
 
         try {
             val text = resources.getString(R.string.by_signing_up_you_agree_on_our_terms_and_conditions)
-            val termsurl = resources.getString(R.string.terms_link)
-            val privacyUrl = resources.getString(R.string.privacy_link)
             val simpleText =
-                SimpleText.from(text).first(getString(R.string.privacy_policy)).textColor(R.color.colorPrimary).background(R.color.white).pressedTextColor(R.color.colorPrimary).bold().onClick(binding.termsTextView) { _, _, _ ->
-                    FragmentSwitcher.addFragment(supportFragmentManager,
-                        R.id.added_FrameLayout,
-                        WebViewFragment.newInstance(getString(R.string.privacy_policy)),
-                        FragmentSwitcher.AnimationType.PUSH)
+                SimpleText.from(text).first(getString(R.string.privacy_policy)).textColor(R.color.colorPrimary).background(R.color.white).pressedTextColor(R.color.colorPrimary).bold()
+                    .onClick(binding.termsTextView) { _, _, _ ->
+                        val i = Intent(this@SignUpActivity, WebViewActivity::class.java)
+                        i.putExtra(WebViewActivity.URL, getString(R.string.privacy_link))
+                        i.putExtra(WebViewActivity.PAGE_TITLE, getString(R.string.privacy_policy))
+
+                        startActivity(i)
                 }
 
-                    .first(getString(R.string.terms)).textColor(R.color.colorPrimary).background(R.color.white).pressedTextColor(R.color.colorPrimary).bold().onClick(binding.termsTextView) { _, _, _ ->
-                        FragmentSwitcher.addFragment(supportFragmentManager,
-                            R.id.added_FrameLayout,
-                            WebViewFragment.newInstance(getString(R.string.terms_and_conditions)),
-                            FragmentSwitcher.AnimationType.PUSH)
+                    .first(getString(R.string.terms)).textColor(R.color.colorPrimary).background(R.color.white).pressedTextColor(R.color.colorPrimary).bold()
+                    .onClick(binding.termsTextView) { _, _, _ ->
+                        val i = Intent(this@SignUpActivity, WebViewActivity::class.java)
+                        i.putExtra(WebViewActivity.URL, getString(R.string.terms_link))
+                        i.putExtra(WebViewActivity.PAGE_TITLE, getString(R.string.terms_and_conditions))
+
+                        startActivity(i)
 
                     }
             binding.termsTextView.text = simpleText
@@ -117,11 +125,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener, TextWatcherAda
         if (!validateEmptyField(binding.lastnameEditText, binding.lastnameTextInputLayout, this, resources.getString(R.string.empty_last_name))) return
         if (!validateEmail(binding.emailEditText, binding.emailTextInputLayout, this)) return
         if (!validatePassword(binding.passwordEditText, binding.passwordTextInputLayout, this)) return
-        if (!validateFieldsDidnotMatch(binding.confirmPasswordEditText,
-                binding.confirmPasswordTextInputLayout,
-                this,
-                binding.passwordEditText,
-                resources.getString(R.string.password_not_match))) return
+        if (!validateFieldsDidnotMatch(binding.confirmPasswordEditText, binding.confirmPasswordTextInputLayout, this, binding.passwordEditText, resources.getString(R.string.password_not_match))) return
         if (!validateEmptyField(binding.phoneNumberEditText, binding.phoneNumberTextInputLayout, this, resources.getString(R.string.empty_phone_number))) return
         if (!validateEmptyField(binding.dateEditText, binding.dateTextInputLayout, this, resources.getString(R.string.empty_date))) return
 
@@ -146,7 +150,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener, TextWatcherAda
                     preferenceManager.userName = it.body()?.data?.firstName + " " + it.body()?.data?.lastName
                     setHeaders(headers, preferenceManager)
                     start<AskForLocationActivity>(this)
-                    if(MainActivity.activity!=null){
+                    if (MainActivity.activity != null) {
                         MainActivity.activity.finish()
                     }
                     finish()
