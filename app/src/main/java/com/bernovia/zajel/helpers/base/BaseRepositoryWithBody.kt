@@ -1,6 +1,5 @@
 package com.bernovia.zajel.helpers.base
 
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,8 +11,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.*
 import retrofit2.Response
 
-abstract class BaseRepositoryWithBody<T, V>(
-    @PublishedApi internal val service: ApiServicesCoRoutines, val showToast: Boolean) {
+abstract class BaseRepositoryWithBody<T, V>(@PublishedApi internal val service: ApiServicesCoRoutines, val showToast: Boolean) {
 
     abstract fun loadData(body: V): LiveData<Any>
 
@@ -30,18 +28,18 @@ abstract class BaseRepositoryWithBody<T, V>(
                     } else {
                         result.value = response
 
+
                         val gson = Gson()
                         val message = gson.fromJson(response.errorBody()!!.charStream(), ResponseErrorBody::class.java)
 
 
                         if (message != null) {
-                            if (showToast) Toast.makeText(App.context, message.errors?.get(0), Toast.LENGTH_SHORT).show()
+                            if (showToast) Toast.makeText(App.context, message.error, Toast.LENGTH_SHORT).show()
 
                         }
 
                     }
-                }
-                catch (e: Throwable) {
+                } catch (e: Throwable) {
                     NetworkUtil.handleApiError(e)
 
                 }

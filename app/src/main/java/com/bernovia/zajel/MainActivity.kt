@@ -21,6 +21,7 @@ import com.bernovia.zajel.helpers.FragmentSwitcher
 import com.bernovia.zajel.helpers.FragmentSwitcher.replaceFragmentWithNoAnimation
 import com.bernovia.zajel.helpers.NavigateUtil
 import com.bernovia.zajel.helpers.ZajelUtil.isLoggedIn
+import com.bernovia.zajel.helpers.ZajelUtil.observeOnce
 import com.bernovia.zajel.messages.ui.MessagesListFragment
 import com.bernovia.zajel.notificationsList.ui.NotificationsListFragment
 import com.bernovia.zajel.profile.ProfileFragment
@@ -95,7 +96,7 @@ class MainActivity : AppCompatActivity() {
 
         fabVisibility()
         metaDataViewModel.insertMetaDataInLocal()
-        metaDataViewModel.getMetaData().observe(this, Observer {
+        metaDataViewModel.getMetaData().observeOnce(this, Observer {
             if (it?.confirmed != null) if (!it.confirmed) NavigateUtil.start<ActivateEmailActivity>(
                 this
             )

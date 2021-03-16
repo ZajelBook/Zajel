@@ -33,7 +33,7 @@ abstract class BaseRepository<T>(@PublishedApi internal val service: ApiServices
                         val message = gson.fromJson(response.errorBody()!!.charStream(), ResponseErrorBody::class.java)
 
                         if (message != null) {
-                            Toast.makeText(App.context, message.errors?.get(0), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(App.context, message.error, Toast.LENGTH_SHORT).show()
 
                         }
 

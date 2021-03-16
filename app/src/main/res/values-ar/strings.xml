@@ -30,9 +30,9 @@
     <string name="sign_up">إنشاء حساب جديد</string>
 
 
-    <string name="by_signing_up_you_agree_on_our_terms_and_conditions">بإنشاء الحساب أنت توافق على شروط الاستخدام و بيان الخصوصوية </string>
+    <string name="by_signing_up_you_agree_on_our_terms_and_conditions">بإنشاء الحساب أنت توافق على شروط الاستخدام و بيان الخصوصية </string>
     <string name="terms_and_conditions">شروط الاستخدام</string>
-    <string name="privacy_policy">بيان الخصوصوية</string>
+    <string name="privacy_policy">بيان الخصوصية</string>
 
     <string name="login">تسجيل الدخول</string>
     <string name="don_t_have_an_account">ليس لديك حساب ؟</string>
@@ -67,7 +67,7 @@
     <string name="accept">قبول</string>
     <string name="reject">رفض</string>
     <string name="message">الرسائل</string>
-    <string name="borrow">استعارة</string>
+    <string name="borrow">طلب</string>
     <string name="session_expired">جلسة غير صالحة</string>
     <string name="your_session_has_been_expired_please_log_in_again">الرجاء تسجيل الدخول مرة أخرى</string>
     <string name="okay">حسناً</string>
@@ -110,7 +110,7 @@
     <string name="login_to_see_profile">سجل دخول لترى حسابك</string>
     <string name="verify_email">أكد حسابك الإلكتروني</string>
     <string name="please_copy_the_4_digits_in_your_email">الرجاء نسخ الخانات الأربع من بريدك الإلكتروني</string>
-    <string name="note_don_t_forget_to_check_your_junk_spam_folder">ملاحظة : لا تنس أن تفقد مجلد البريد الفير مرغوب به</string>
+    <string name="note_don_t_forget_to_check_your_junk_spam_folder">ملاحظة : لا تنس أن تتفقد مجلد البريد الفير مرغوب به</string>
     <string name="verify">تأكيد</string>
     <string name="we_have_sent_an_email_to">لقد أرسلنا بريداً إلكترونياً إلى</string>
     <string name="status">الحالة</string>

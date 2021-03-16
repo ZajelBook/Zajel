@@ -1,11 +1,13 @@
 package com.bernovia.zajel.helpers;
 
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.text.Editable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -54,12 +56,6 @@ public class PinEntryEditText extends AppCompatEditText {
         init(context, attrs);
     }
 
-
-//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-//    public PinEntryEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-//        super(context, attrs, defStyleAttr, defStyleRes);
-//        init(context, attrs);
-//    }
 
     private void init(Context context, AttributeSet attrs) {
         float multi = context.getResources().getDisplayMetrics().density;

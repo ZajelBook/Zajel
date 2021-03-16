@@ -13,7 +13,7 @@ android {
         applicationId "com.bernovia.zajel"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 6
+        versionCode 7
         versionName "1.0.0"
         buildConfigField "String", "BASE_URL", "\"https://api.zajelbook.com/api/\"" // production
 

@@ -38,7 +38,6 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="15dp"
                 app:srcCompat="@drawable/new_email_icon"
                 tools:ignore="ContentDescription" />
 
@@ -74,14 +73,16 @@
                 android:visibility="visible" />
 
 
-            <com.bernovia.zajel.helpers.PinEntryEditText
-                android:id="@+id/et_pin"
+
+            <EditText
+                android:id="@+id/pinEditText"
                 style="@style/text_bold_26_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_60sdp"
                 android:layout_marginEnd="@dimen/_60sdp"
                 android:inputType="number"
+                android:gravity="center"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:maxLength="4" />
 

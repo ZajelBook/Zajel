@@ -51,9 +51,9 @@ class GenericBoundaryCallback<T>(
         if (isMessaging) {
             messagingCall(offsetCount)
         } else {
-            helper.runIfNotRunning(PagingRequestHelper.RequestType.AFTER) {
-                getTop(offsetCount, it)
-            }
+//            helper.runIfNotRunning(PagingRequestHelper.RequestType.AFTER) {
+                getTop(offsetCount)
+//            }
         }
 
 
@@ -75,16 +75,16 @@ class GenericBoundaryCallback<T>(
         }
     }
 
-    private fun getTop(offset: Int, pagingRequest: PagingRequestHelper.Request.Callback) {
+    private fun getTop(offset: Int) {
         if (offset != 1) {
             getPage(offset).subscribeOn(Schedulers.io()).flatMapCompletable {
                 insertAllItems(it)
             }.subscribeBy(onComplete = {
-                pagingRequest.recordSuccess()
+//                pagingRequest.recordSuccess()
                 offsetCount += 1
             }, onError = {
                 networkState.postValue(NetworkState.error(it.message))
-                pagingRequest.recordFailure(it)
+//                pagingRequest.recordFailure(it)
             }).addTo(compositeDisposable)
         }
     }
