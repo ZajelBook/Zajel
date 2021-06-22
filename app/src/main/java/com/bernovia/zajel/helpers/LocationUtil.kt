@@ -33,7 +33,7 @@ object LocationUtil {
     }
 
     private fun openMainActivity(activity: Activity) {
-        val i = Intent(activity.applicationContext, MainActivity::class.java)
+        val i = Intent(activity, MainActivity::class.java)
         if (activity.intent.extras != null) {
             i.putExtra("type", activity.intent.extras!!.getString("type"))
             i.putExtra("conversation_id", activity.intent.extras!!.getString("conversation_id"))
