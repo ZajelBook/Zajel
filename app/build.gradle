@@ -13,7 +13,7 @@ android {
         applicationId "com.bernovia.zajel"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 8
+        versionCode 9
         versionName "1.0.0"
         buildConfigField "String", "BASE_URL", "\"https://api.zajelbook.com/api/\"" // production
 
@@ -43,6 +43,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    packagingOptions {
+        // exclude ARMEABI native so file, ARMEABI has been removed in NDK r17.
+        exclude "lib/armeabi/**"
     }
 }
 
@@ -123,10 +127,14 @@ dependencies {
 
 
     // Room
-    implementation 'androidx.room:room-runtime:2.2.5'
+    implementation 'androidx.room:room-runtime:2.3.0'
+    implementation "androidx.room:room-ktx:2.3.0"
     implementation "androidx.room:room-rxjava2:2.2.5"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    kapt "androidx.room:room-compiler:2.2.5"
+    kapt("org.xerial:sqlite-jdbc:3.34.0")
+    kapt("androidx.room:room-compiler:2.3.0-beta01")
+    kapt "androidx.room:room-compiler:2.3.0"
+
 
     //socket io
     implementation 'com.github.hosopy:actioncable-client-java:0.1.2'
